@@ -25,7 +25,7 @@ export default async function Dashboard() {
     <main className="my-10 container mx-auto">
       <section className="">
         <div className="grid grid-cols-12 gap-4">
-          {data.map((article, index) => {
+          {/*data.map((article, index) => {
             return (
               <ArticleHomeCard key={article.id} style="h-full bg-white col-span-12 md:col-span-6 lg:col-span-4 border-2 border-black overflow-hidden text-black hover:border-[var(--magenta)] hover:text-[var(--magenta)] transition-all duration-300 ease-in-out">
                 <Link href={`/admin/editar/${article?.slug}`} className="block h-full">
@@ -55,7 +55,7 @@ export default async function Dashboard() {
                 </Link>
               </ArticleHomeCard>
             );
-          })}
+          })*/}
         </div>
       </section>
     </main>
