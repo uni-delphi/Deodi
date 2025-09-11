@@ -3,16 +3,16 @@ import Image from "next/image";
 import SignInForm from "@/components/signin-form/signin-form";
 import LogosUnc from "@/components/logos-unc/logos-unc";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import LayoutDefault from "@/components/image-layout/image-layout";
 
 export default async function SignIn() {
-  const session: Session | null = await getServerSession(authOptions);
-  const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
+  // session: Session | null = await getServerSession(authOptions);
+  //const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
 
-  if (session) redirect(redirectUrl);
+  //if (session) redirect(redirectUrl);
   return (
     <main>
       <LayoutDefault>

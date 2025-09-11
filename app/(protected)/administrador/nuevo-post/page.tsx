@@ -1,4 +1,4 @@
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { Session, User, getServerSession } from "next-auth";
 import { getAllCategorias } from "@/lib/actions";
 import { redirect } from "next/navigation";
@@ -11,8 +11,8 @@ import FormCreatePost from "@/components/FormCreatePost";
 
 
 export default async function CreatePost() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) redirect("/");
+ // const session = await getServerSession(authOptions);
+ // if (!session || !session.user) redirect("/");
 
   const categorias = await getAllCategorias();
 
@@ -20,7 +20,7 @@ export default async function CreatePost() {
     <main className="container mx-auto">
       <h2 className="text-xl md:text-2xl my-4">Acá podés crear un nuevo post - Paso 1</h2>
       <section className="">
-        <FormCreatePost user={session.user as User} categorias={categorias} />
+       {/*<FormCreatePost user={session.user as User} categorias={categorias} />*/}
       </section>
     </main>
   );
