@@ -78,10 +78,10 @@ export default function LogInForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="xl:w-[40%] sm:w-[60%] mx-auto">
+              <FormItem className="mx-auto">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="tu@email.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,10 +92,10 @@ export default function LogInForm() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="xl:w-[40%] sm:w-[60%] mx-auto">
+              <FormItem className="mx-auto">
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
-                  <Input placeholder="" type="password" {...field} />
+                  <Input placeholder="......" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

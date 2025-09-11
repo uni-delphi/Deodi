@@ -77,13 +77,13 @@ export async function getAllPostBySlug(slug: string) {
 }
 
 export async function getAllPosts() {
-  try {
+  /*try {
     const response = await Posts.getPosts();
     return response;
   } catch (error: any) {
     console.log(error);
     throw Error("Error getEncuesta", error);
-  }
+  }*/
 }
 
 export async function getAllCategorias() {

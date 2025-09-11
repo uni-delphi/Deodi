@@ -18,27 +18,27 @@ export default async function LogIn() {
   if (session) redirect(redirectUrl);
 
   return (
-    <main>
-      <div className="container mx-auto mt-12 md:mt-16 md:max-w-[70vw] ">
-        <h2 className="font-bold text-2xl mt-10 pb-4 mx-auto">
+    <main className="min-h-screen container mx-auto px-4 md:p-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-1 gap-5 mb-6 p-0 md:p-10">
+        <h2 className="col-span-1 md:col-span-4 font-bold text-2xl mt-10 pb-4 mx-auto">
           ¿Es tu primera vez en la plataforma? ¡Regístrate aquí!
         </h2>
-        <div className="md:flex justify-center my-4 gap-4">
-          <Button className="hidden bg-transparent text-black hover:bg-gray-200">
-            Recuperar contraseña
+        <div className="flex justify-center mt-10 space-x-4 col-span-1 md:col-span-2">
+          <Button 
+            type="button"
+            variant="outline" asChild>
+            <Link
+              href={"/registro"}
+              className=""
+            >
+              Registrarme
+            </Link>
           </Button>
-          <Link
-            href={"/registro"}
-            className="bg-transparent text-black hover:text-blue-600 hover:bg-gray-200 font-bold py-2 px-4 rounded"
-          >
-            Registrarme
-          </Link>
         </div>
-        <hr className="w-full position-absolute" />
-        <div className="mt-10 text-center">
+
+        <div className="col-span-1 md:col-span-2 mt-10">
           <h2 className="font-bold text-2xl my-4 pb-4">Ingresar</h2>
-          {/* <LogInForm /> */}
-          <GoogleLoginButton />
+          <LogInForm /> 
         </div>
       </div>
     </main>

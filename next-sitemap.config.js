@@ -1,7 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 
 module.exports = {
-  siteUrl: 'https://epicarosario.com.ar',
+  siteUrl: 'https://deodi',
   generateRobotsTxt: true,
   changefreq: 'weekly',
   priority: 0.7,

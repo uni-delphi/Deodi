@@ -2,7 +2,7 @@ import { Label } from "@radix-ui/react-label";
 import { link } from "fs";
 import { X } from "lucide-react";
 
-export const SITE_NAME = `Épica Rosario`;
+export const SITE_NAME = `Deodi`;
 export const SITE_DESCRPTION = `Información y mucho más.`;
 export const SITE_LANG = "es";
 export const SITE_URL =
@@ -24,29 +24,29 @@ export const ENABLE_PAGE_TRANSITIONS = false;
 
 export const PAGE_INFO = {
   redes: {
-    facebook: "https://www.facebook.com/epicarosario",
-    instagram: "https://www.instagram.com/epicarosario",
-    twitter: "https://twitter.com/epicarosario",
-    tiktok: "https://www.tiktok.com/@epicarosario",
-    X: "https://x.com/epicarosario",
-    whatsapp: "https://wa.me/5493415555555",
-    telegram: "https://t.me/epicarosario",
+    facebook: "#",
+    instagram: "#",
+    twitter: "#",
+    tiktok: "#",
+    X: "#",
+    whatsapp: "#",
+    telegram: "#",
   },
-  email: "epicarosario@gmail.com",
-  telefono: "3415632839"
+  email: "deodi@ds.com",
+  telefono: ""
 };
 
 export const REDES = [
   {
-    link: "https://www.instagram.com/epicarosario/",
+    link: "deodi",
     label: "Instagram",
   },
   {
-    link: "https://www.facebook.com/épica",
+    link: "deodi",
     label: "Facebook",
   },
   {
-    link: "https://x.com/epicaOK",
+    link: "deodi",
     label: "X",
   }
 ];
