@@ -122,15 +122,15 @@ export default function FormCreatePost({
     };
 
     const response = await createPost(postData);
-    if (response) {
-      form.reset();
-      setUploadedImage(null);
-      toast({
-        title: "Post creado exitosamente",
-        description: "El post ha sido creado correctamente.",
-      });
-      router.push("/admin/editar/" + response.slug);
-    }
+    //if (response) {
+    //  form.reset();
+    //  setUploadedImage(null);
+    //  toast({
+    //    title: "Post creado exitosamente",
+    //    description: "El post ha sido creado correctamente.",
+    //  });
+    //  router.push("/admin/editar/" + response.slug);
+    //}
   };
 
   const handleImageUpload = (url: string) => {

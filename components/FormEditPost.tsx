@@ -161,13 +161,13 @@ export default function FormEditPost({
 
     // Aquí puedes manejar el envío de los datos del formulario
     const response = await updatePost(data.id!, postData);
-    if (response) {
-      toast({
-        title: "Post actualizado",
-        description: "El post se ha actualizado correctamente.",
-      });
-      router.push(`/admin/editar/${response.slug}`);
-    }
+    //if (response) {
+    //  toast({
+    //    title: "Post actualizado",
+    //    description: "El post se ha actualizado correctamente.",
+    //  });
+    //  router.push(`/admin/editar/${response.slug}`);
+    //}
   };
 
   return (

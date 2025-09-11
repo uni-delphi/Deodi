@@ -25,15 +25,15 @@ export default function EditPostClient({ user, data, categorias }: Props) {
 
   const deletePost = async () => {
     try {
-      const response = await deletesPost(data.id);
-      if (response) {
-        toast({
-          title: "Post eliminado",
-          description: `El post "${data.titulo}" ha sido eliminado correctamente.`,
-          variant: "default",
-        });
-        router.push("/admin"); // Redirigir a la página de dashboard o donde sea necesario
-      }
+     //const response = await deletesPost(data.id);
+     //if (response) {
+     //  toast({
+     //    title: "Post eliminado",
+     //    description: `El post "${data.titulo}" ha sido eliminado correctamente.`,
+     //    variant: "default",
+     //  });
+     //  router.push("/admin"); // Redirigir a la página de dashboard o donde sea necesario
+     //}
       // Redirigir o recargar según necesidad
     } catch (err) {
       console.error("Error al eliminar post:", err);

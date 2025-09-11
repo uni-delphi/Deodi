@@ -9,7 +9,6 @@ import { TUser, TLoginUser } from "@/types/user";
 import * as Users from "@/lib/api/users";
 import * as Categoria from "@/lib/api/categories";
 import * as Posts from "@/lib/api/posts";
-import * as Files from "@/lib/api/files";
 
 
 export async function createUser(data: TUser) {
@@ -17,14 +16,14 @@ export async function createUser(data: TUser) {
   try {
     const userData = await Users.getUserByEmail(data.email);
 
-    if (userData) {
-      return true;
-    }
+   //if (userData) {
+   //  return true;
+   //}
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    data.password = hashedPassword;
-    const result = await Users.createUser(data);
-    user = result.id;
+   //const hashedPassword = await bcrypt.hash(data.password, 10);
+   //data.password = hashedPassword;
+   //const result = await Users.createUser(data);
+   //user = result.id;
   } catch (error) {
     console.log("Error creando el usuario:", error);
     throw new Error("Error creando el usuario");
@@ -36,7 +35,7 @@ export async function loginUser(data: TLoginUser) {
   try {
     const result = await Users.logInUser(data);
     console.log("login:", result);
-    eventId = result?.id;
+    //eventId = result?.id;
   } catch (error) {
     console.log("Error login:", error);
     throw new Error("Error login");
@@ -97,64 +96,28 @@ export async function createPost(data: any) {
 }
 
 export async function updatePost(id: string, data: any) {
-  try {
-    const response = await Posts.updatePost(id, data);
-    if (response) {
-      revalidatePath("/admin");
-      revalidatePath("/admin/editar/" + data.slug);
-      return response;
-    }
-  } catch (error) {
-    console.log("Error actualizando el post:", error);
-    throw new Error("Error actualizando el post");
-  }
+  //try {
+  //  const response = await Posts.updatePost(id, data);
+  //  if (response) {
+  //    revalidatePath("/admin");
+  //    revalidatePath("/admin/editar/" + data.slug);
+  //    return response;
+  //  }
+  //} catch (error) {
+  //  console.log("Error actualizando el post:", error);
+  //  throw new Error("Error actualizando el post");
+  //}
 }
 
 export async function deletesPost(id: string) {
-  try {
-    const response = await Posts.deletePost(id);
-    if (response) {
-      revalidatePath("/admin");
-      return response;
-    }
-  } catch (error) {
-    console.log("Error eliminando el post:", error);
-    throw new Error("Error eliminando el post");
-  }
-}
-
-export async function uploadFile(data: any) {
-  try {
-    return await Files.uploadFile(data);
-  } catch (error) {
-    console.log("Error creando el post:", error);
-    throw new Error("Error creando el post");
-  }
-}
-
-export async function getAllPDFFiles(type: string) {
-  try {
-    return await Files.getAllPDFFiles(type);
-  } catch (error: any) {
-    console.log(error);
-    throw Error("Error getAllCategorias", error);
-  }
-}
-export async function getAllPDF() {
-  try {
-    return await Files.getAllPDF();
-  } catch (error: any) {
-    console.log(error);
-    throw Error("Error getAllCategorias", error);
-  }
-}
-
-export async function getPDFFilebyId(id: string) {
-  try {
-    const response = await Files.getPDFFilebyId(id);
-    return response;
-  } catch (error: any) {
-    console.log(error);
-    throw Error("Error getAllEncuestas", error);
-  }
+  //try {
+  //  const response = await Posts.deletePost(id);
+  //  if (response) {
+  //    revalidatePath("/admin");
+  //    return response;
+  //  }
+  //} catch (error) {
+  //  console.log("Error eliminando el post:", error);
+  //  throw new Error("Error eliminando el post");
+  //}
 }
