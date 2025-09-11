@@ -1,7 +1,7 @@
 import React from "react";
 import { Session, getServerSession } from "next-auth";
 import Link from "next/link";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import LayoutDefault from "@/components/image-layout/image-layout";
@@ -11,9 +11,9 @@ import { surveyHasEnded } from "@/utils/date-formatter";
 import NavBar from "@/components/nav-bar/nav-bar";
 
 export default async function Bienvenido() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) redirect("/");
-  const { name } = session.user;
+  //const session = await getServerSession(authOptions);
+  //if (!session || !session.user) redirect("/");
+  //const { name } = session.user;
 
   // return (
   //   <>

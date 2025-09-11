@@ -1,6 +1,6 @@
 import React from "react";
 import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 import LayoutDefault from "@/components/image-layout/image-layout";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,8 @@ import BarChart from "@/components/chart-bar/chart-bar";
 import { surveyHasEnded } from "@/utils/date-formatter";
 
 export default async function Bienvenido() {
-  const session: Session | null = await getServerSession(authOptions);
-  if (!session || !session.user) redirect("/");
+  //const session: Session | null = await getServerSession(authOptions);
+  //if (!session || !session.user) redirect("/");
 
   // const encuestas: any = await getAllEncuestasInfo();
   // const { hasEnded, endDate, isActive } = encuestas[0];

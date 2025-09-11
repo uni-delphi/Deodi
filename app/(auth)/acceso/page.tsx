@@ -8,23 +8,24 @@ import GoogleLoginButton from "@/components/google-login-button/google-login-but
 import LayoutDefault from "@/components/image-layout/image-layout";
 import { getServerSession } from "next-auth/next";
 import { Session } from "next-auth";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 
 export default async function LogIn() {
-  const session: Session | null = await getServerSession(authOptions);
-  const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
-
-  if (session) redirect(redirectUrl);
+  //const session: Session | null = await getServerSession(authOptions);
+  //const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
+//
+  //if (session) redirect(redirectUrl);
 
   return (
-    <main className="min-h-screen container mx-auto px-4 md:p-10">
+    <main className="min-h-screen container">
       <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-1 gap-5 mb-6 p-0 md:p-10">
         <h2 className="col-span-1 md:col-span-4 font-bold text-2xl mt-10 pb-4 mx-auto">
-          ¿Es tu primera vez en la plataforma? ¡Regístrate aquí!
+          ¡Ingresa aquí!
         </h2>
-        <div className="flex justify-center mt-10 space-x-4 col-span-1 md:col-span-2">
-          <Button 
+        <div className="flex flex-col items-start mt-10 space-y-8 col-span-1 md:col-span-2">
+          <h2 className="text-4xl font-bold">Si no tienes una cuenta puedes registrarte</h2>
+          <Button
             type="button"
             variant="outline" asChild>
             <Link
@@ -37,7 +38,6 @@ export default async function LogIn() {
         </div>
 
         <div className="col-span-1 md:col-span-2 mt-10">
-          <h2 className="font-bold text-2xl my-4 pb-4">Ingresar</h2>
           <LogInForm /> 
         </div>
       </div>

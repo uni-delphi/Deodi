@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Nunito } from "next/font/google";
 
 import "./global.scss";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/components/session-provider/session-provider";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { Toaster } from "@/components/ui/toaster";
 import {
   GOOGLE_ANALYTICS_ID,
@@ -20,7 +20,7 @@ import { Header } from "@/components/Header";
 import { Analytics } from "@vercel/analytics/react"
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -43,14 +43,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
+  //const session = await getServerSession(authOptions);
 
   return (
     <html lang={SITE_LANG}>
-      <body className={inter.className}>
-        <SessionProvider session={session}>          
+      <body className={nunito.className}>
+        {children}
+        {/*<SessionProvider session={session}>          
           {children}
-        </SessionProvider>
+        </SessionProvider>*/}
         {/*IS_PROD && GOOGLE_ANALYTICS_ID && (
           <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
         )*/}

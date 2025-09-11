@@ -1,7 +1,7 @@
 import { Metadata } from "next/types";
 import { cache } from "react";
 
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import Link from "next/link";

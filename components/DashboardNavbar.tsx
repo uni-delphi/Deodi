@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -9,22 +9,24 @@ import { redirect } from "next/navigation";
 import AdminDropDown from "./admin-dropdown/admin-dropdown";
 
 async function DashboardNavbar() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) redirect("/");
+  //const session = await getServerSession(authOptions);
+  //if (!session || !session.user) redirect("/");
   return (
-    <div className="col-span-12 relative flex justify-between items-center bg-white border-b-2 border-black">
+    <div className="col-span-12 relative flex justify-between items-center bg-white ">
       <ul className="flex flex-col md:flex-row gap-4 p-4 md:items-end">
         <li>
           <header className="">
             <Button variant="link" asChild>
-              <Link href="/admin">
+              <Link href="/administrador">
                 <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               </Link>
             </Button>
           </header>
         </li>
         <li>
-          <Button variant="link" asChild className="decoration-2">
+          {/**
+           * 
+           * <Button variant="link" asChild className="decoration-2">
             <Link href="/admin/nuevo-post" className="flex items-center gap-2">
               <h3 className="text-xl font-semibold">Crear Noticia</h3>{" "}
               <svg
@@ -46,9 +48,11 @@ async function DashboardNavbar() {
               </svg>
             </Link>
           </Button>
+           */}
         </li>
         <li>
-          <Button variant="link" asChild className="decoration-2">
+          {/**
+           * <Button variant="link" asChild className="decoration-2">
             <Link href="/admin/pdfs/cargar-pdf" className="flex items-center gap-2">
               <h3 className="text-xl font-semibold">Cargar Pdf</h3>{" "}
               <svg
@@ -70,9 +74,11 @@ async function DashboardNavbar() {
               </svg>
             </Link>
           </Button>
+           */}
         </li>
       </ul>
-      {session && <AdminDropDown session={session} title={session.user.name} />}
+
+      {/*session && <AdminDropDown session={session} title={session.user.name} />*/}
     </div>
   );
 }

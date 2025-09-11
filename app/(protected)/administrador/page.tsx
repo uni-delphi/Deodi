@@ -1,5 +1,5 @@
 import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
+//import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 
 import {
@@ -13,51 +13,30 @@ import Link from "next/link";
 
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
+import { ProfileHeader } from "@/components/profile-header/profile-header";
+import { ProfileTabs } from "@/components/profile-tabs/profile-tabs";
 
 const getCachedEncuesta = cache(async () => await getAllPosts());
 
 export default async function Dashboard() {
-  const session = await getServerSession(authOptions);  
-  if (!session || !session.user) redirect("/");
-  const data = await getCachedEncuesta();
-  
+  //const session = await getServerSession(authOptions);  
+  //if (!session || !session.user) redirect("/");
+  //const data = await getCachedEncuesta();
+  console.log('Dashboard');
   return (
-    <main className="my-10 container mx-auto">
-      <section className="">
-        <div className="grid grid-cols-12 gap-4">
-          {/*data.map((article, index) => {
-            return (
-              <ArticleHomeCard key={article.id} style="h-full bg-white col-span-12 md:col-span-6 lg:col-span-4 border-2 border-black overflow-hidden text-black hover:border-[var(--magenta)] hover:text-[var(--magenta)] transition-all duration-300 ease-in-out">
-                <Link href={`/admin/editar/${article?.slug}`} className="block h-full">
-                  <article className="flex flex-col h-full">
-                    <div className="font-serif">
-                      <div className="aspect-square overflow-hidden relative bg-black">
-                        <Image
-                          src={
-                            article.imagen ||
-                            "https://res.cloudinary.com/dxvxzikri/image/upload/c_thumb,w_200,g_face/v1695419795/typy1gob56motmzkatzc.webp"
-                          }
-                          alt="Imagen principal del artículo"
-                          className="w-full h-full object-cover object-center"
-                          width={500}
-                          height={500}
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
+    <main className="flex-1 p-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Header con foto de perfil, nombre y descripción */}
+          <ProfileHeader
+            name="Juan Carlos"
+            lastName="Pérez López"
+            description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
+            avatarUrl="/professional-headshot.png"
+          />
 
-                    <div className="py-2 font-serif py-6 p-5">
-                      <h2 className="text-sm md:text-xl lg:text-xl font-semibold leading-tight text-pretty leading-tight">
-                        {article.titulo}
-                      </h2>
-                    </div>
-                  </article>
-                </Link>
-              </ArticleHomeCard>
-            );
-          })*/}
+          {/* Sección de tabs desplegables */}
+          <ProfileTabs />
         </div>
-      </section>
-    </main>
+      </main>
   );
 }
