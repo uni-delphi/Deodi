@@ -1,4 +1,4 @@
-import { db } from "../prisma";
+const db = {} as any; // Placeholder for the actual database client import
 
 export async function getAllCategorias() {
   return await db.categoria.findMany({
@@ -49,37 +49,6 @@ export async function getResponsesForCSV() {
     },
   });
 
-  return formattedData.map((res) => {
-    // return {
-    //   technology: res.enunciados.tecnologia.title,
-    //   enunciado: res.enunciados.title,
-    //   question: res.question?.text,
-    //   createdAt: res.createdAt,
-    //   checkboxChoises:
-    //     res.responseType === "CHECKBOX"
-    //       ? JSON.stringify(
-    //           res.checkbox?.choices
-    //             .map((item) =>
-    //               item.replace(/"/g, "").replace(/]/g, "").replace(/\[/g, "")
-    //             )
-    //             .join("|")
-    //         )
-    //       : res.singleChoice?.choice,
-    //   respuestas:
-    //     res.responseType === "CHECKBOX"
-    //       ? res.checkbox?.answer
-    //       : res.singleChoice?.answer,
-    //   respondentName: `${res.respondent?.name} ${res.respondent?.lastName}`,
-    //   respondentEmail: res.respondent.email,
-    //   respondentCountry: res.respondent.country,
-    //   respondentState: res.respondent.state,
-    //   respondentEducation: res.respondent.education,
-    //   respondentSector: res.respondent.sector,
-    //   respondentInstitution: res.respondent.institution,
-    //   respondentExpertees: res.respondent.expertees,
-    //   respondentYears: res.respondent.years,
-    // };
-  });
 }
 
 export async function getAllMyResponses(userId: string){
