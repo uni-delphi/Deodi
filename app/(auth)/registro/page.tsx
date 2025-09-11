@@ -21,7 +21,7 @@ export default async function SignIn() {
         </h2>
         <p className="pb-4 mb-4">
           Te pedimos que completes los siguientes datos a fines de poder hacer
-          cruces demográficos de las respuestas.
+          cruces demográficos de las respuestas
         </p>
         <SignInForm />
       </LayoutDefault>
