@@ -9,7 +9,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //const [activeSection, setActiveSection] = useState("perfil")
+  
   return (
     <>
       <main className="min-h-screen bg-[var(--lightgray)]">
