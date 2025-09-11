@@ -14,7 +14,7 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
-import { GoogleAnalytics } from "@next/third-parties/google";
+//import { GoogleAnalytics } from "@next/third-parties/google";
 import { Header } from "@/components/Header";
 
 import { Analytics } from "@vercel/analytics/react"
@@ -51,9 +51,9 @@ export default async function RootLayout({
         <SessionProvider session={session}>          
           {children}
         </SessionProvider>
-        {IS_PROD && GOOGLE_ANALYTICS_ID && (
+        {/*IS_PROD && GOOGLE_ANALYTICS_ID && (
           <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
-        )}
+        )*/}
         <Toaster />
         <Analytics/>
         {/* <SpeedInsights/> */}
