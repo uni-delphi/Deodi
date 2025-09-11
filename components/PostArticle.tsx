@@ -7,7 +7,7 @@ import ArticleDate from "./ArticleDate";
 import { CldImage } from "next-cloudinary";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Post } from "@prisma/client";
+//import { Post } from "@prisma/client";
 
 const redesSociales: string[] = [
   'Whatsapp',
@@ -17,7 +17,7 @@ const redesSociales: string[] = [
   'Telegram',
 ];
 
-export default function PostArticle(article: Post) {
+export default function PostArticle(article: any) {
   const [htmlOutput, setHtmlOutput] = useState("");
 
   const editor = useEditor({

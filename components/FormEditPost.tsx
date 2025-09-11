@@ -35,7 +35,7 @@ import {
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-import { Post as PostDbType } from "@prisma/client";
+//import { Post as PostDbType } from "@prisma/client";
 
 import { CldImage } from "next-cloudinary";
 import { updatePost } from "@/lib/actions";

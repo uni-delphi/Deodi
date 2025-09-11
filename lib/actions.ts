@@ -11,14 +11,6 @@ import * as Categoria from "@/lib/api/categories";
 import * as Posts from "@/lib/api/posts";
 import * as Files from "@/lib/api/files";
 
-import {
-  Post as PostDbType,
-  Prisma,
-} from '@prisma/client';
-
-import {
-  File as FileDbType,
-} from '@prisma/client';
 
 export async function createUser(data: TUser) {
   let user = null;
@@ -95,7 +87,7 @@ export async function getAllCategorias() {
   }
 }
 
-export async function createPost(data: PostDbType) {
+export async function createPost(data: any) {
   try {
     return await Posts.createPost(data);    
   } catch (error) {
@@ -104,7 +96,7 @@ export async function createPost(data: PostDbType) {
   }
 }
 
-export async function updatePost(id: string, data: PostDbType) {
+export async function updatePost(id: string, data: any) {
   try {
     const response = await Posts.updatePost(id, data);
     if (response) {
@@ -131,7 +123,7 @@ export async function deletesPost(id: string) {
   }
 }
 
-export async function uploadFile(data: Prisma.FileUncheckedCreateInput) {
+export async function uploadFile(data: any) {
   try {
     return await Files.uploadFile(data);
   } catch (error) {

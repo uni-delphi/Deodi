@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { uploadFile } from "@/lib/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 import { LoaderCircle } from "lucide-react";
 import {
   Select,
@@ -105,7 +105,7 @@ export default function UploadForm({ user }: { user?: User }) {
       }
 
       const { name, fileType } = value;
-      const postData: Prisma.FileUncheckedCreateInput = {
+      const postData: any = {
         createdById: user?.id!,
         name,
         url: uploadedUrl,

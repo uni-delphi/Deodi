@@ -37,7 +37,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { createPost } from "@/lib/actions";
 
-import { Post as PostDbType } from "@prisma/client";
+//import { Post as PostDbType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import ImageUploadButton from "./CldUploadButton";
 import { redirect } from "next/navigation";
@@ -61,7 +61,7 @@ export default function FormCreatePost({
   categorias,
   user,
 }: {
-  data?: PostDbType;
+  data?: any;
   values?: IQUESTION;
   enunciadoData?: IENUNCIADOPROPS;
   categorias?: any;
@@ -101,7 +101,7 @@ export default function FormCreatePost({
   const onSubmit = async (value: any) => {
     const { titulo, bajada, slug, cuerpo, imagen } = value;
 
-    const postData: PostDbType = {
+    const postData: any = {
       createdById: user?.id!,
       titulo,
       bajada,

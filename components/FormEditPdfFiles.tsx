@@ -23,7 +23,7 @@ import { Button } from "./ui/button";
 import { uploadFile } from "@/lib/actions";
 import { toast } from "./ui/use-toast";
 
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 // import { createResponse, updateCheckboxResponse } from "@/lib/actions";
 
 const formSchema = z.object({
@@ -108,7 +108,7 @@ export default function FormEditPost({
       return;
     }
     const { name } = value;
-    const postData: Prisma.FileUncheckedCreateInput = {
+    const postData: any = {
       createdById: user?.id!,
       name,
       url: uploadedUrl,
