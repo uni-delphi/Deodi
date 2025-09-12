@@ -8,7 +8,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { cache } from "react";
-import ArticleHomeCard from "@/components/ArticleHomeCard";
 import Link from "next/link";
 
 import { CldImage } from "next-cloudinary";

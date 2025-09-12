@@ -15,7 +15,6 @@ import {
   SITE_URL,
 } from "@/lib/constants";
 //import { GoogleAnalytics } from "@next/third-parties/google";
-import { Header } from "@/components/Header";
 
 import { Analytics } from "@vercel/analytics/react"
 // import { SpeedInsights } from "@vercel/speed-insights/next"

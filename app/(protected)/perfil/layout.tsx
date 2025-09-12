@@ -1,5 +1,4 @@
 import AdminDropDown from "@/components/admin-dropdown/admin-dropdown";
-import DashboardNavbar from "@/components/DashboardNavbar";
 import { Sidebar } from "@/components/sidebar/sidebar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
