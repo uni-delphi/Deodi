@@ -55,7 +55,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "h-screen bg-sidebar border-r border-sidebar-border p-6 transition-all duration-1000",
+        "h-screen bg-sidebar border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
