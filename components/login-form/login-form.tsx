@@ -64,7 +64,7 @@ export default function LogInForm() {
     //  });
     //}
 console.log(values);
-    router.push(`/administrador`);
+    router.push(`/perfil`);
   }
 
   return (

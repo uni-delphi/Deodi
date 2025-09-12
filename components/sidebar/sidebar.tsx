@@ -21,8 +21,8 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       icon: User,
       hasDropdown: true,
       subItems: [
-        { id: "cargar-cv", label: "Cargar CV", icon: FileText, href: "/administrador/cargar-cv" },
-        { id: "actualizar-conductual", label: "Cargar Conductual", icon: Brain, href: "/administrador/actualizar-conductual" },
+        { id: "cargar-cv", label: "Cargar CV", icon: FileText, href: "/perfil/cargar-cv" },
+        { id: "actualizar-conductual", label: "Cargar Conductual", icon: Brain, href: "/perfil/actualizar-conductual" },
       ],
     },
     { id: "formacion", label: "Formación", icon: GraduationCap },
@@ -34,7 +34,7 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-6">
           <User className="h-6 w-6 text-sidebar-accent" />
-          <Link href="/administrador" className="hover:text-primary transition-colors">
+          <Link href="/perfil" className="hover:text-primary transition-colors">
             <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">Mi Perfil</h2>
           </Link>
         </div>

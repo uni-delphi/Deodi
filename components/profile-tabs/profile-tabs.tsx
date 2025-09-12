@@ -2,43 +2,94 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Calendar, Award, Star } from "lucide-react"
+import { Briefcase, GraduationCap, Star, Heart } from "lucide-react"
 
 export function ProfileTabs() {
   return (
-    <Tabs defaultValue="informacion" className="w-full">
+    <Tabs defaultValue="experiencia" className="w-full">
       <TabsList className="grid w-full grid-cols-4 mb-6">
-        <TabsTrigger value="informacion">Información</TabsTrigger>
+        <TabsTrigger value="experiencia">Experiencia Laboral</TabsTrigger>
+        <TabsTrigger value="estudios">Estudios</TabsTrigger>
         <TabsTrigger value="habilidades">Habilidades</TabsTrigger>
-        <TabsTrigger value="experiencia">Experiencia</TabsTrigger>
-        <TabsTrigger value="referencias">Referencias</TabsTrigger>
+        <TabsTrigger value="intereses">Intereses</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="informacion" className="space-y-4">
+      <TabsContent value="experiencia" className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              Información Personal
+              <Briefcase className="h-5 w-5" />
+              Experiencia Laboral
             </CardTitle>
+            <CardDescription>Historial profesional y logros destacados</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <CardContent className="space-y-6">
+            <div className="border-l-2 border-border pl-4 space-y-4">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Ubicación</p>
-                <p className="text-foreground">Madrid, España</p>
+                <h3 className="font-semibold text-foreground">Desarrollador Senior</h3>
+                <p className="text-sm text-muted-foreground">Empresa ABC • 2022 - Presente</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Desarrollo de aplicaciones web modernas utilizando React y Node.js. Liderazgo de equipo de 5
+                  desarrolladores y mejora del rendimiento del sistema en un 40%.
+                </p>
               </div>
+
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Teléfono</p>
-                <p className="text-foreground">+34 123 456 789</p>
+                <h3 className="font-semibold text-foreground">Desarrollador Full Stack</h3>
+                <p className="text-sm text-muted-foreground">Startup XYZ • 2020 - 2022</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Construcción de plataforma SaaS desde cero. Implementación de arquitectura escalable y sistemas de
+                  autenticación que soportan más de 10,000 usuarios activos.
+                </p>
               </div>
+
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Email</p>
-                <p className="text-foreground">ejemplo@email.com</p>
+                <h3 className="font-semibold text-foreground">Desarrollador Junior</h3>
+                <p className="text-sm text-muted-foreground">Tech Solutions • 2018 - 2020</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Desarrollo de sitios web corporativos y aplicaciones móviles. Colaboración en proyectos de
+                  transformación digital para clientes del sector financiero.
+                </p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="estudios" className="space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <GraduationCap className="h-5 w-5" />
+              Formación Académica
+            </CardTitle>
+            <CardDescription>Educación formal y certificaciones profesionales</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="border-l-2 border-border pl-4 space-y-4">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">LinkedIn</p>
-                <p className="text-foreground">linkedin.com/in/perfil</p>
+                <h3 className="font-semibold text-foreground">Ingeniería en Sistemas Computacionales</h3>
+                <p className="text-sm text-muted-foreground">Universidad Tecnológica • 2014 - 2018</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Graduado con honores. Especialización en desarrollo de software y arquitectura de sistemas. Proyecto
+                  de tesis enfocado en inteligencia artificial aplicada.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-foreground">Certificación AWS Solutions Architect</h3>
+                <p className="text-sm text-muted-foreground">Amazon Web Services • 2023</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Certificación profesional en diseño de arquitecturas escalables y seguras en la nube.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-foreground">Curso Avanzado de React</h3>
+                <p className="text-sm text-muted-foreground">Platzi • 2022</p>
+                <p className="text-sm mt-2 text-pretty leading-relaxed">
+                  Especialización en desarrollo frontend moderno con React, Next.js y TypeScript.
+                </p>
               </div>
             </div>
           </CardContent>
@@ -56,11 +107,13 @@ export function ProfileTabs() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {["React", "TypeScript", "Next.js", "Node.js", "Python", "SQL", "Git", "Docker"].map((skill) => (
-                <Badge key={skill} variant="secondary" className="px-3 py-1">
-                  {skill}
-                </Badge>
-              ))}
+              {["React", "TypeScript", "Next.js", "Node.js", "Python", "SQL", "Git", "Docker", "AWS", "MongoDB"].map(
+                (skill) => (
+                  <Badge key={skill} variant="secondary" className="px-3 py-1">
+                    {skill}
+                  </Badge>
+                ),
+              )}
             </div>
           </CardContent>
         </Card>
@@ -71,7 +124,14 @@ export function ProfileTabs() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {["Liderazgo", "Comunicación", "Trabajo en equipo", "Resolución de problemas"].map((skill) => (
+              {[
+                "Liderazgo",
+                "Comunicación",
+                "Trabajo en equipo",
+                "Resolución de problemas",
+                "Pensamiento crítico",
+                "Adaptabilidad",
+              ].map((skill) => (
                 <Badge key={skill} variant="outline" className="px-3 py-1">
                   {skill}
                 </Badge>
@@ -81,63 +141,46 @@ export function ProfileTabs() {
         </Card>
       </TabsContent>
 
-      <TabsContent value="experiencia" className="space-y-4">
+      <TabsContent value="intereses" className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Experiencia Laboral
+              <Heart className="h-5 w-5" />
+              Intereses y Pasiones
             </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="border-l-2 border-border pl-4 space-y-4">
-              <div>
-                <h3 className="font-semibold text-foreground">Desarrollador Senior</h3>
-                <p className="text-sm text-muted-foreground">Empresa ABC • 2022 - Presente</p>
-                <p className="text-sm mt-2 text-pretty leading-relaxed">
-                  Desarrollo de aplicaciones web modernas utilizando React y Node.js. Liderazgo de equipo de 5
-                  desarrolladores.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-semibold text-foreground">Desarrollador Full Stack</h3>
-                <p className="text-sm text-muted-foreground">Startup XYZ • 2020 - 2022</p>
-                <p className="text-sm mt-2 text-pretty leading-relaxed">
-                  Construcción de plataforma SaaS desde cero. Implementación de arquitectura escalable y sistemas de
-                  autenticación.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="referencias" className="space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Award className="h-5 w-5" />
-              Referencias Profesionales
-            </CardTitle>
+            <CardDescription>Actividades y temas que me motivan</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4">
               <div className="p-4 border border-border rounded-lg">
-                <h3 className="font-semibold text-foreground">María García</h3>
-                <p className="text-sm text-muted-foreground">CTO en Empresa ABC</p>
-                <p className="text-sm mt-2 text-pretty leading-relaxed">
-                  "Excelente profesional con gran capacidad técnica y de liderazgo. Siempre entrega proyectos de alta
-                  calidad."
+                <h3 className="font-semibold text-foreground mb-2">Tecnología e Innovación</h3>
+                <p className="text-sm text-pretty leading-relaxed">
+                  Apasionado por las nuevas tecnologías, inteligencia artificial y el impacto de la tecnología en la
+                  sociedad. Siempre explorando las últimas tendencias en desarrollo de software.
                 </p>
               </div>
 
               <div className="p-4 border border-border rounded-lg">
-                <h3 className="font-semibold text-foreground">Carlos Rodríguez</h3>
-                <p className="text-sm text-muted-foreground">Product Manager en Startup XYZ</p>
-                <p className="text-sm mt-2 text-pretty leading-relaxed">
-                  "Trabajar con él fue una experiencia increíble. Su atención al detalle y capacidad de resolver
-                  problemas complejos es excepcional."
+                <h3 className="font-semibold text-foreground mb-2">Deportes y Bienestar</h3>
+                <p className="text-sm text-pretty leading-relaxed">
+                  Practico running y ciclismo regularmente. Creo firmemente en mantener un equilibrio entre la vida
+                  profesional y personal para un mejor rendimiento.
+                </p>
+              </div>
+
+              <div className="p-4 border border-border rounded-lg">
+                <h3 className="font-semibold text-foreground mb-2">Lectura y Aprendizaje</h3>
+                <p className="text-sm text-pretty leading-relaxed">
+                  Lector ávido de libros sobre desarrollo personal, tecnología y ciencia ficción. Siempre en busca de
+                  nuevos conocimientos y perspectivas.
+                </p>
+              </div>
+
+              <div className="p-4 border border-border rounded-lg">
+                <h3 className="font-semibold text-foreground mb-2">Contribución Open Source</h3>
+                <p className="text-sm text-pretty leading-relaxed">
+                  Contribuyo activamente a proyectos de código abierto y mantengo varios repositorios en GitHub. Me
+                  gusta compartir conocimiento con la comunidad de desarrolladores.
                 </p>
               </div>
             </div>

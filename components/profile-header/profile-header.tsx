@@ -13,7 +13,7 @@ export function ProfileHeader({ name, lastName, description, avatarUrl }: Profil
   return (
     <div className="text-center mb-8">
       <div className="mb-6">
-        <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-border">
+        <Avatar className="w-32 h-32 mx-auto mb-4">
           <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={`${name} ${lastName}`} />
           <AvatarFallback className="text-2xl font-bold bg-muted text-muted-foreground">{initials}</AvatarFallback>
         </Avatar>

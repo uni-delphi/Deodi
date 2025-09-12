@@ -17,7 +17,7 @@ async function DashboardNavbar() {
         <li>
           <header className="">
             <Button variant="link" asChild>
-              <Link href="/administrador">
+              <Link href="/perfil" className="flex items-center gap-2">
                 <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               </Link>
             </Button>
