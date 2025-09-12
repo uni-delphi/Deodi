@@ -3,6 +3,8 @@
 import { User, GraduationCap, Briefcase, ChevronDown, FileText, Brain } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 interface SidebarProps {
   activeSection?: string
@@ -19,8 +21,8 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       icon: User,
       hasDropdown: true,
       subItems: [
-        { id: "actualizar-cv", label: "Actualizar CV", icon: FileText },
-        { id: "actualizar-conductual", label: "Actualizar Conductual", icon: Brain },
+        { id: "cargar-cv", label: "Cargar CV", icon: FileText, href: "/administrador/cargar-cv" },
+        { id: "actualizar-conductual", label: "Actualizar Conductual", icon: Brain, href: "/administrador/actualizar-conductual" },
       ],
     },
     { id: "formacion", label: "Formación", icon: GraduationCap },
@@ -32,7 +34,9 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-6">
           <User className="h-6 w-6 text-sidebar-accent" />
-          <h2 className="text-lg font-semibold text-sidebar-foreground">Mi Perfil</h2>
+          <Link href="/administrador" className="hover:text-primary transition-colors">
+            <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">Mi Perfil</h2>
+          </Link>
         </div>
       </div>
 
@@ -43,7 +47,8 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
 
           return (
             <div key={item.id}>
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => {
                   if (item.hasDropdown) {
                     setIsPerfilOpen(!isPerfilOpen)
@@ -52,39 +57,66 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
                   }
                 }}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors",
+                  "w-full justify-start gap-3 h-auto px-4 py-3",
                   isActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
                     : "text-sidebar-foreground hover:bg-sidebar-accent/10",
                 )}
               >
                 <Icon className="h-5 w-5" />
-                <span className="font-medium flex-1">{item.label}</span>
+                <span className="font-medium flex-1 text-left">{item.label}</span>
                 {item.hasDropdown && (
-                  <ChevronDown className={cn("h-4 w-4 transition-transform", isPerfilOpen ? "rotate-180" : "")} />
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      item.id === "perfil" && isPerfilOpen ? "rotate-180" : "",
+                    )}
+                  />
                 )}
-              </button>
+              </Button>
 
-              {item.hasDropdown && isPerfilOpen && (
+              {item.hasDropdown && item.id === "perfil" && isPerfilOpen && (
                 <div className="ml-4 mt-1 space-y-1">
                   {item.subItems?.map((subItem) => {
                     const SubIcon = subItem.icon
                     const isSubActive = activeSection === subItem.id
 
+                    if (subItem.href) {
+                      return (
+                        <Link key={subItem.id} href={subItem.href}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn(
+                              "w-full justify-start gap-3 h-auto px-4 py-2",
+                              isSubActive
+                                ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                                : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10",
+                            )}
+                          >
+                            <SubIcon className="h-4 w-4" />
+                            <span>{subItem.label}</span>
+                          </Button>
+                        </Link>
+                      )
+                    }
+
                     return (
-                      <button
+                      <Button
                         key={subItem.id}
+                        variant="ghost"
+                        size="sm"
                         onClick={() => onSectionChange?.(subItem.id)}
                         className={cn(
-                          "w-full flex items-center gap-3 px-4 py-2 rounded-md text-left transition-colors text-sm",
+                          "w-full justify-start gap-3 h-auto px-4 py-2",
                           isSubActive
-                            ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
                             : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10",
                         )}
                       >
                         <SubIcon className="h-4 w-4" />
                         <span>{subItem.label}</span>
-                      </button>
+                      </Button>
                     )
                   })}
                 </div>
