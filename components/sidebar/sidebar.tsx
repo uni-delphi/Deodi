@@ -22,7 +22,7 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       hasDropdown: true,
       subItems: [
         { id: "cargar-cv", label: "Cargar CV", icon: FileText, href: "/administrador/cargar-cv" },
-        { id: "actualizar-conductual", label: "Actualizar Conductual", icon: Brain, href: "/administrador/actualizar-conductual" },
+        { id: "actualizar-conductual", label: "Cargar Conductual", icon: Brain, href: "/administrador/actualizar-conductual" },
       ],
     },
     { id: "formacion", label: "Formación", icon: GraduationCap },
