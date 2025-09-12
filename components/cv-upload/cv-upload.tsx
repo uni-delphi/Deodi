@@ -6,6 +6,7 @@ import { useState, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, FileText, X, CheckCircle } from "lucide-react"
+import { redirect } from "next/navigation"
 
 export function CVUpload() {
   const [dragActive, setDragActive] = useState(false)
@@ -52,6 +53,8 @@ export function CVUpload() {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     setUploading(false)
     setUploaded(true)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    redirect("/perfil/validar-cv")
   }
 
   const removeFile = () => {

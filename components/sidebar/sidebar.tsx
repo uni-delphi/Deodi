@@ -1,18 +1,31 @@
-"use client"
+"use client";
 
-import { User, GraduationCap, Briefcase, ChevronDown, FileText, Brain } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import {
+  User,
+  GraduationCap,
+  Briefcase,
+  ChevronDown,
+  FileText,
+  Brain,
+  Menu,
+  X,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface SidebarProps {
-  activeSection?: string
-  onSectionChange?: (section: string) => void
+  activeSection?: string;
+  onSectionChange?: (section: string) => void;
 }
 
-export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarProps) {
-  const [isPerfilOpen, setIsPerfilOpen] = useState(false)
+export function Sidebar({
+  activeSection = "perfil",
+  onSectionChange,
+}: SidebarProps) {
+  const [isPerfilOpen, setIsPerfilOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems = [
     {
@@ -21,22 +34,50 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
       icon: User,
       hasDropdown: true,
       subItems: [
-        { id: "cargar-cv", label: "Cargar CV", icon: FileText, href: "/perfil/cargar-cv" },
-        { id: "actualizar-conductual", label: "Cargar Conductual", icon: Brain, href: "/perfil/actualizar-conductual" },
+        {
+          id: "cargar-cv",
+          label: "Cargar CV",
+          icon: FileText,
+          href: "/perfil/cargar-cv",
+        },
+        {
+          id: "actualizar-conductual",
+          label: "Cargar Conductual",
+          icon: Brain,
+          href: "/perfil/actualizar-conductual",
+        },
       ],
     },
     { id: "formacion", label: "Formación", icon: GraduationCap },
     { id: "ofertas", label: "Ofertas", icon: Briefcase },
-  ]
+  ];
 
   return (
-    <div className="w-64 h-screen bg-sidebar border-r border-sidebar-border p-6">
+    <div
+      className={cn(
+        "h-screen bg-sidebar border-r border-sidebar-border p-6 transition-all duration-1000",
+        isCollapsed ? "w-20" : "w-64"
+      )}
+    >
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-6">
-          <User className="h-6 w-6 text-sidebar-accent" />
-          <Link href="/perfil" className="hover:text-primary transition-colors">
-            <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">Mi Perfil</h2>
-          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-2 hover:bg-sidebar-accent/10"
+          >
+            {isCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
+          </Button>
+
+          {!isCollapsed && (
+            <>
+              <User className="h-6 w-6 text-sidebar-accent" />
+              <Link href="/perfil" className="hover:text-primary transition-colors">
+                <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">Mi Perfil</h2>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -62,20 +103,25 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
                     ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
                     : "text-sidebar-foreground hover:bg-sidebar-accent/10",
                 )}
+                title={isCollapsed ? item.label : undefined}
               >
                 <Icon className="h-5 w-5" />
-                <span className="font-medium flex-1 text-left">{item.label}</span>
-                {item.hasDropdown && (
-                  <ChevronDown
-                    className={cn(
-                      "h-4 w-4 transition-transform",
-                      item.id === "perfil" && isPerfilOpen ? "rotate-180" : "",
+                {!isCollapsed && (
+                  <>
+                    <span className="font-medium flex-1 text-left">{item.label}</span>
+                    {item.hasDropdown && (
+                      <ChevronDown
+                        className={cn(
+                          "h-4 w-4 transition-transform",
+                          item.id === "perfil" && isPerfilOpen ? "rotate-180" : "",
+                        )}
+                      />
                     )}
-                  />
+                  </>
                 )}
               </Button>
 
-              {item.hasDropdown && item.id === "perfil" && isPerfilOpen && (
+              {item.hasDropdown && item.id === "perfil" && isPerfilOpen && !isCollapsed && (
                 <div className="ml-4 mt-1 space-y-1">
                   {item.subItems?.map((subItem) => {
                     const SubIcon = subItem.icon
@@ -126,5 +172,5 @@ export function Sidebar({ activeSection = "perfil", onSectionChange }: SidebarPr
         })}
       </nav>
     </div>
-  )
+  );
 }
