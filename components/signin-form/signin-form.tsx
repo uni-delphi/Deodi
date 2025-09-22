@@ -186,8 +186,17 @@ export default function SignInForm() {
       institution: values.institution,
       expertees: values.expertees,
       years: values.years,
-      email: values.email,
+      mail: values.email,
       password: values.password,
+      id: "",
+      uid: "",
+      role: "",
+      user: {
+        uid: "",
+        mail: "",
+        name: "",
+        roles: {}
+      }
     })
       .then(() => {
         signIn("credentials", {

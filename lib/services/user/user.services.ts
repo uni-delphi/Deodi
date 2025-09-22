@@ -25,7 +25,6 @@ export async function loginUser(credentials: {
   email: string;
   password: string;
 }): Promise<TUser> {
-  console.log("🚀 ~ loginUser ~ credentials:", credentials);
   return fetchJson<TUser>(`https://apideodi.cloud/app/api/user/login.json`, {
     method: "POST",
     headers: {

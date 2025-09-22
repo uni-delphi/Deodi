@@ -14,7 +14,7 @@ import * as Posts from "@/lib/api/posts";
 export async function createUser(data: TUser) {
   let user = null;
   try {
-    const userData = await Users.getUserByEmail(data.email);
+    const userData = await Users.getUserByEmail(data.mail);
 
    //if (userData) {
    //  return true;
