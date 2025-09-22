@@ -14,14 +14,16 @@ import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import { ProfileHeader } from "@/components/profile-header/profile-header";
 import { ProfileTabs } from "@/components/profile-tabs/profile-tabs";
+import { authOptions } from "@/auth.config";
 
 const getCachedEncuesta = cache(async () => await getAllPosts());
 
 export default async function Dashboard() {
-  //const session = await getServerSession(authOptions);  
-  //if (!session || !session.user) redirect("/");
-  //const data = await getCachedEncuesta();
-  console.log('Dashboard');
+  const session = await getServerSession(authOptions);  
+  if (!session || !session.user) redirect("/");
+  
+  
+  console.log('session en perfil', session);
   return (
     <main className="flex-1 p-8">
         <div className="max-w-4xl mx-auto">

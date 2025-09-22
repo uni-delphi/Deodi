@@ -33,6 +33,7 @@ export async function createUser(data: any) {
 
 export async function logInUser(data: any) {
   //return await db.user.findUnique({ where: { email: data.email } });
+  
 }
 
 export async function updateUser(data: any, email: string) {

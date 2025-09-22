@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 
 import "./global.scss";
 import { getServerSession } from "next-auth";
@@ -17,6 +17,7 @@ import {
 //import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react"
+import { RootProvider } from "@/lib/providers/RootProvider";
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const nunito = Nunito({ subsets: ["latin"] });
@@ -47,7 +48,7 @@ export default async function RootLayout({
   return (
     <html lang={SITE_LANG}>
       <body className={nunito.className}>
-        {children}
+        <RootProvider>{children}</RootProvider>
         {/*<SessionProvider session={session}>          
           {children}
         </SessionProvider>*/}

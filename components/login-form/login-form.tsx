@@ -49,21 +49,22 @@ export default function LogInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    //setIsLoading(true);
-    //const resp = await signIn("credentials", {
-    //  email: values.email,
-    //  password: values.password,
-    //  redirect: false,
-    //});
-//
-    //if (resp?.ok === false) {
-    //  setIsLoading(false);
-    //  return toast({
-    //    variant: "destructive",
-    //    title: "Password o email son incorrectos.",
-    //  });
-    //}
-console.log(values);
+    console.log("🚀 ~ onSubmit ~ values:", values)
+    setIsLoading(true);
+    const resp = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+
+    if (resp?.ok === false) {
+      setIsLoading(false);
+      return toast({
+        variant: "destructive",
+        title: "Password o email son incorrectos.",
+      });
+    }
+    
     router.push(`/perfil`);
   }
 

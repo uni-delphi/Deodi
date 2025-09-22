@@ -50,3 +50,5 @@ export const REDES = [
     label: "X",
   }
 ];
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://deodi.cloud/app/api";

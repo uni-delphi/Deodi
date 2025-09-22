@@ -13,11 +13,10 @@ export default async function RootLayout({
     <>
       <main className="min-h-screen bg-[var(--lightgray)]">
         <div className="grid grid-cols-12 gap-4 min-h-screen">
-          <div className="col-span-12 md:col-span-3 border-black h-full">
-            {/* Sidebar izquierdo */}
+          <div className="col-span-12 md:col-span-2 border-black h-full">
             <Sidebar  />
           </div>
-          <div className="col-span-12 md:col-span-9">{children}</div>
+          <div className="col-span-12 md:col-span-10">{children}</div>
         </div>
       </main>
     </>
