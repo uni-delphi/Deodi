@@ -29,8 +29,8 @@ export default async function Dashboard() {
         <div className="max-w-4xl mx-auto">
           {/* Header con foto de perfil, nombre y descripción */}
           <ProfileHeader
-            name="Juan Carlos"
-            lastName="Pérez López"
+            name={session.user.name || "Renzo"}
+            lastName={session.user.lastName || "Pérez López"}
             description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
             avatarUrl="/professional-headshot.png"
           />

@@ -108,7 +108,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
         session.user.lastName = token.name as string;
         session.user.name = token.name as string;
-        session.user.mail = token.mail as string;
+        session.user.email = token.emailmail as string;
       }
       //console.log("🚀 ~ session ~ session:", session)
       
