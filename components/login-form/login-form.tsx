@@ -49,7 +49,6 @@ export default function LogInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("🚀 ~ onSubmit ~ values:", values)
     setIsLoading(true);
     const resp = await signIn("credentials", {
       email: values.email,

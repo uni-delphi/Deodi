@@ -7,6 +7,13 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { loginUser } from "@/lib/services/user/user.services";
 
+// Interfaz extendida para incluir los datos de Drupal
+export interface DrupalUserSession extends User {
+  sessid: string;
+  sessionName: string;
+  csrfToken: string;
+  role: Record<string, string>;
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,14 +37,31 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
 
         try {
-          const user = await loginUser({
+          const drupalUser  = await loginUser({
             email: credentials.email,
             password: credentials.password,
           });
           //console.log("🚀 ~ authorize ~ user:", user)
 
-          if (!user) return null;
-          return user; // 🔑 NextAuth la guarda en la sesión
+          if (!drupalUser ) return null;
+          const user: DrupalUserSession = {
+            id: drupalUser.user.uid,
+            name: drupalUser.user.name,
+            lastName: drupalUser.user.name,
+            email: drupalUser.user.mail,
+            role: drupalUser.user.roles,
+            sessid: drupalUser.sessid,
+            sessionName: drupalUser.session_name,
+            csrfToken: drupalUser.token,
+            user: {
+              uid: "",
+              mail: "",
+              name: "",
+              roles: {}
+            }
+          };
+
+          return user;
         } catch {
           return null;
         }
@@ -86,26 +110,31 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token,  user }: { token: any; user: any }) {
-      const { uid, mail, name, roles } = user?.user || {};      
+    async jwt({ token, user }) {
+      // Solo cuando haya un user (login)
       if (user) {
-        token.id = uid;
-        token.name = name;
-        token.role = roles;
-        token.email = mail;
-      }      
+        const u = user as DrupalUserSession;
+        token.id = u.id;
+        token.name = u.name ?? "";
+        token.email = u.email;
+        token.role = u.role;
+        token.sessid = u.sessid;
+        token.sessionName = u.sessionName;
+        token.csrfToken = u.csrfToken;
+      }
       return token;
     },
-    async session({ session, token }) {      
-      if (session?.user) {
+    async session({ session, token }) {
+      // Mapeo del token al objeto session
+      if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as string;
-        session.user.lastName = token.name as string;
         session.user.name = token.name as string;
-        session.user.email = token.mail as string;
-      }      
-      console.log("🚀 ~ session ~ session:", session)
-
+        session.user.email = token.email as string;
+        session.user.role = token.role as Record<string, string>;
+        session.sessid = token.sessid as string;
+        session.sessionName = token.sessionName as string;
+        session.csrfToken = token.csrfToken as string;
+      }
       return session;
     },
   },

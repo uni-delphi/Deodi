@@ -22,6 +22,9 @@ export type TUser = {
         [key: string]: string;
       };
     };
+    sessid: string;
+    session_name: string;
+    token: string;
 };
 
 export type TLoginUser = {

@@ -15,6 +15,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+import { signOut } from "next-auth/react";
+
 interface SidebarProps {
   activeSection?: string;
   onSectionChange?: (section: string) => void;
@@ -67,14 +69,23 @@ export function Sidebar({
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="p-2 hover:bg-sidebar-accent/10"
           >
-            {isCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
+            {isCollapsed ? (
+              <Menu className="h-4 w-4" />
+            ) : (
+              <X className="h-4 w-4" />
+            )}
           </Button>
 
           {!isCollapsed && (
             <>
               <User className="h-6 w-6 text-sidebar-accent" />
-              <Link href="/perfil" className="hover:text-primary transition-colors">
-                <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">Mi Perfil</h2>
+              <Link
+                href="/perfil"
+                className="hover:text-primary transition-colors"
+              >
+                <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">
+                  Mi Perfil
+                </h2>
               </Link>
             </>
           )}
@@ -83,8 +94,8 @@ export function Sidebar({
 
       <nav className="space-y-2">
         {menuItems.map((item) => {
-          const Icon = item.icon
-          const isActive = activeSection === item.id
+          const Icon = item.icon;
+          const isActive = activeSection === item.id;
 
           return (
             <div key={item.id}>
@@ -92,28 +103,32 @@ export function Sidebar({
                 variant="ghost"
                 onClick={() => {
                   if (item.hasDropdown) {
-                    setIsPerfilOpen(!isPerfilOpen)
+                    setIsPerfilOpen(!isPerfilOpen);
                   } else {
-                    onSectionChange?.(item.id)
+                    onSectionChange?.(item.id);
                   }
                 }}
                 className={cn(
                   "w-full justify-start gap-3 h-auto px-4 py-3",
                   isActive
                     ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/10",
+                    : "text-sidebar-foreground hover:bg-sidebar-accent/10"
                 )}
                 title={isCollapsed ? item.label : undefined}
               >
                 <Icon className="h-5 w-5" />
                 {!isCollapsed && (
                   <>
-                    <span className="font-medium flex-1 text-left">{item.label}</span>
+                    <span className="font-medium flex-1 text-left">
+                      {item.label}
+                    </span>
                     {item.hasDropdown && (
                       <ChevronDown
                         className={cn(
                           "h-4 w-4 transition-transform",
-                          item.id === "perfil" && isPerfilOpen ? "rotate-180" : "",
+                          item.id === "perfil" && isPerfilOpen
+                            ? "rotate-180"
+                            : ""
                         )}
                       />
                     )}
@@ -121,55 +136,59 @@ export function Sidebar({
                 )}
               </Button>
 
-              {item.hasDropdown && item.id === "perfil" && isPerfilOpen && !isCollapsed && (
-                <div className="ml-4 mt-1 space-y-1">
-                  {item.subItems?.map((subItem) => {
-                    const SubIcon = subItem.icon
-                    const isSubActive = activeSection === subItem.id
+              {item.hasDropdown &&
+                item.id === "perfil" &&
+                isPerfilOpen &&
+                !isCollapsed && (
+                  <div className="ml-4 mt-1 space-y-1">
+                    {item.subItems?.map((subItem) => {
+                      const SubIcon = subItem.icon;
+                      const isSubActive = activeSection === subItem.id;
 
-                    if (subItem.href) {
+                      if (subItem.href) {
+                        return (
+                          <Link key={subItem.id} href={subItem.href}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className={cn(
+                                "w-full justify-start gap-3 h-auto px-4 py-2",
+                                isSubActive
+                                  ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10"
+                              )}
+                            >
+                              <SubIcon className="h-4 w-4" />
+                              <span>{subItem.label}</span>
+                            </Button>
+                          </Link>
+                        );
+                      }
+
                       return (
-                        <Link key={subItem.id} href={subItem.href}>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className={cn(
-                              "w-full justify-start gap-3 h-auto px-4 py-2",
-                              isSubActive
-                                ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                                : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10",
-                            )}
-                          >
-                            <SubIcon className="h-4 w-4" />
-                            <span>{subItem.label}</span>
-                          </Button>
-                        </Link>
-                      )
-                    }
-
-                    return (
-                      <Button
-                        key={subItem.id}
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => onSectionChange?.(subItem.id)}
-                        className={cn(
-                          "w-full justify-start gap-3 h-auto px-4 py-2",
-                          isSubActive
-                            ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                            : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10",
-                        )}
-                      >
-                        <SubIcon className="h-4 w-4" />
-                        <span>{subItem.label}</span>
-                      </Button>
-                    )
-                  })}
-                </div>
-              )}
+                        <Button
+                          key={subItem.id}
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onSectionChange?.(subItem.id)}
+                          className={cn(
+                            "w-full justify-start gap-3 h-auto px-4 py-2",
+                            isSubActive
+                              ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
+                              : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10"
+                          )}
+                        >
+                          <SubIcon className="h-4 w-4" />
+                          <span>{subItem.label}</span>
+                        </Button>
+                      );
+                    })}
+                  </div>
+                )}
             </div>
-          )
+          );
         })}
+        <Button onClick={() => signOut()}>Sign out</Button>
       </nav>
     </div>
   );

@@ -1,8 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useCallback } from "react"
+import { useMutation } from "@tanstack/react-query"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, FileText, X, CheckCircle } from "lucide-react"
@@ -11,8 +10,20 @@ import { redirect } from "next/navigation"
 export function CVUpload() {
   const [dragActive, setDragActive] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-  const [uploading, setUploading] = useState(false)
-  const [uploaded, setUploaded] = useState(false)
+
+  const uploadMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("title", "Título del formulario demo")
+      formData.append("body", "Contenido del cuerpo del formulario demo")
+
+      const res = await fetch("/api/upload-node", { method: "POST", body: formData })
+      if (!res.ok) throw new Error("Error al subir nodo")
+      return res.json()
+    },
+    onSuccess: () => redirect("/perfil/validar-cv"),
+  })
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -33,7 +44,6 @@ export function CVUpload() {
       const droppedFile = e.dataTransfer.files[0]
       if (droppedFile.type === "application/pdf" || droppedFile.name.endsWith(".pdf")) {
         setFile(droppedFile)
-        setUploaded(false)
       }
     }
   }, [])
@@ -41,26 +51,14 @@ export function CVUpload() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
-      setUploaded(false)
     }
   }
 
-  const handleUpload = async () => {
-    if (!file) return
-
-    setUploading(true)
-    // Simular carga de archivo
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setUploading(false)
-    setUploaded(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    redirect("/perfil/validar-cv")
+  const handleUpload = () => {
+    if (file) uploadMutation.mutate(file)
   }
 
-  const removeFile = () => {
-    setFile(null)
-    setUploaded(false)
-  }
+  const removeFile = () => setFile(null)
 
   return (
     <div className="space-y-6">
@@ -77,13 +75,17 @@ export function CVUpload() {
             <Upload className="h-5 w-5" />
             Subir Currículum Vitae
           </CardTitle>
-          <CardDescription>Arrastra y suelta tu archivo PDF aquí o haz clic para seleccionar</CardDescription>
+          <CardDescription>
+            Arrastra y suelta tu archivo PDF aquí o haz clic para seleccionar
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {!file ? (
             <div
               className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary/50"
+                dragActive
+                  ? "border-primary bg-primary/5"
+                  : "border-muted-foreground/25 hover:border-primary/50"
               }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
@@ -99,7 +101,9 @@ export function CVUpload() {
                   <input type="file" accept=".pdf" onChange={handleFileSelect} className="hidden" />
                 </label>
               </Button>
-              <p className="text-sm text-muted-foreground mt-2">Solo archivos PDF (máximo 10MB)</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Solo archivos PDF (máximo 10MB)
+              </p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -108,11 +112,13 @@ export function CVUpload() {
                   <FileText className="h-8 w-8 text-primary" />
                   <div>
                     <p className="font-medium">{file.name}</p>
-                    <p className="text-sm text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <p className="text-sm text-muted-foreground">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {uploaded && <CheckCircle className="h-5 w-5 text-green-500" />}
+                  {uploadMutation.isSuccess && <CheckCircle className="h-5 w-5 text-green-500" />}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -124,20 +130,30 @@ export function CVUpload() {
                 </div>
               </div>
 
-              {!uploaded && (
-                <Button onClick={handleUpload} disabled={uploading} className="w-full">
-                  {uploading ? "Subiendo..." : "Subir CV"}
+              {!uploadMutation.isSuccess && (
+                <Button
+                  onClick={handleUpload}
+                  disabled={uploadMutation.isPending}
+                  className="w-full"
+                >
+                  {uploadMutation.isPending ? "Subiendo..." : "Subir CV"}
                 </Button>
               )}
 
-              {uploaded && (
+              {uploadMutation.isSuccess && (
                 <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
                   <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                  <p className="font-medium text-green-700 dark:text-green-400">CV subido exitosamente</p>
+                  <p className="font-medium text-green-700 dark:text-green-400">
+                    CV subido exitosamente
+                  </p>
                   <p className="text-sm text-green-600 dark:text-green-500">
                     Tu currículum ha sido actualizado correctamente
                   </p>
                 </div>
+              )}
+
+              {uploadMutation.isError && (
+                <p className="text-sm text-red-500">Error al subir el archivo</p>
               )}
             </div>
           )}

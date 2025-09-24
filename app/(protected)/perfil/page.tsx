@@ -21,7 +21,7 @@ const getCachedEncuesta = cache(async () => await getAllPosts());
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);  
   if (!session || !session.user) redirect("/");
-  
+  console.log("sesion data", session)
   return (
     <main className="flex-1 p-8">
         <div className="max-w-4xl mx-auto">

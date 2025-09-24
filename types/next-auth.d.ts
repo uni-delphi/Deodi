@@ -4,6 +4,9 @@ import { JWT, DefaultJWT } from "next-auth/jwt";
 
 declare module "next-auth" {
   interface Session {
+    sessid: string;
+    sessionName: string;
+    csrfToken: string;
     user: {
       /** The user's postal address. */
       id: string;
