@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/auth.config"
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
     headers: {
       "Content-Type": "application/octet-stream",
       "Content-Disposition": `file; filename="${file.name}"`,
-      "X-CSRF-Token": session.token, // guardaste esto al loguear
-      "Cookie": `${session.session_name}=${session.sessid}`, // idem
+      "X-CSRF-Token": session.csrfToken, // guardaste esto al loguear
+      "Cookie": `${session.sessionName}=${session.sessid}`, // idem
     },
     body: buffer,
   })

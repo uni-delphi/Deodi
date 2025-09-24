@@ -1,6 +1,6 @@
 // lib/hooks/useDrupalQuery.ts
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { drupalFetch } from "../drupal-fetch";
+import { drupalFetch } from "../../drupal-fetch";
 
 export function useDrupalQuery<TData = any>(
   key: string[],

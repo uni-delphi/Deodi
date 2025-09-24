@@ -11,7 +11,7 @@ import * as Categoria from "@/lib/api/categories";
 import * as Posts from "@/lib/api/posts";
 
 
-export async function createUser(data: TUser) {
+export async function createUser(p0: { name: string; lastName: string; country: string; state: string; education: string; sector: string; institution: string; expertees: string; years: string; mail: string; password: string; id: string; uid: string; role: string; user: { uid: string; mail: string; name: string; roles: {}; }; }, data: TUser) {
   let user = null;
   try {
     const userData = await Users.getUserByEmail(data.mail);

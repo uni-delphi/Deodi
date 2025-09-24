@@ -1,6 +1,6 @@
 // lib/hooks/useDrupalMutation.ts
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { drupalFetch } from "../drupal-fetch";
+import { drupalFetch } from "../../drupal-fetch";
 
 export function useDrupalMutation<TData = any, TVariables = any>(
   path: string,

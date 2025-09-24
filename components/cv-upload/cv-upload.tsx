@@ -23,6 +23,7 @@ export function CVUpload() {
       return res.json()
     },
     onSuccess: () => redirect("/perfil/validar-cv"),
+    onError: (error) => console.error("Error uploading file:", error),
   })
 
   const handleDrag = useCallback((e: React.DragEvent) => {

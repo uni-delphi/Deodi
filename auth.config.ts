@@ -78,8 +78,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account }: { user: any; account: any }): Promise<any> {
-      
+    async signIn({ user, account }: { user: any; account: any }): Promise<any> {      
       if (account.provider === "google") {
         try {
           const { name, email } = user;

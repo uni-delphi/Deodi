@@ -176,43 +176,43 @@ export default function SignInForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    createUser({
-      name: values.name,
-      lastName: values.lastName,
-      country: values.country,
-      state: values.state,
-      education: values.education,
-      sector: values.otherSector ? values.otherSectorText : values.sector,
-      institution: values.institution,
-      expertees: values.expertees,
-      years: values.years,
-      mail: values.email,
-      password: values.password,
-      id: "",
-      uid: "",
-      role: "",
-      user: {
-        uid: "",
-        mail: "",
-        name: "",
-        roles: {}
-      }
-    })
-      .then(() => {
-        signIn("credentials", {
-          email: values?.email,
-          password: values?.password,
-          callbackUrl: "/bienvenido",
-        });
-      })
-      .catch((error: any) => {
-        setIsLoading(false);
-        console.log("error creando el usuario", error);
-        toast({
-          variant: "destructive",
-          title: "Error creando el usuario",
-        });
-      });
+   //createUser({
+    //  name: values.name,
+    //  lastName: values.lastName,
+    //  country: values.country,
+    //  state: values.state,
+    //  education: values.education,
+    //  sector: values.otherSector ? values.otherSectorText : values.sector,
+    //  institution: values.institution,
+    //  expertees: values.expertees,
+    //  years: values.years,
+    //  mail: values.email,
+    //  password: values.password,
+    //  id: "",
+    //  uid: "",
+    //  role: "",
+    //  user: {
+    //    uid: "",
+    //    mail: "",
+    //    name: "",
+    //    roles: {}
+    //  }
+   //})
+   //  .then(() => {
+    //    signIn("credentials", {
+    //      email: values?.email,
+    //      password: values?.password,
+    //      callbackUrl: "/bienvenido",
+    //    });
+   //  })
+   //  .catch((error: any) => {
+   //    setIsLoading(false);
+   //    console.log("error creando el usuario", error);
+   //    toast({
+   //      variant: "destructive",
+   //      title: "Error creando el usuario",
+   //    });
+   //  });
   }
 
   return (
