@@ -14,7 +14,7 @@ export default function HomePage() {
               las herramientas que necesitas para impulsar tu carrera.
             </p>
             <Button asChild size="lg" className="px-8 py-3 shadow-lg shadow-blue-400 hover:shadow-gray-600 transition-all duration-300">
-              <Link href="/acceso" className="bg-purple-500 transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black">Ingresar al Portal</Link>
+              <Link href="/acceso" className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black">Ingresar al Portal</Link>
             </Button>
           </div>
         </div>

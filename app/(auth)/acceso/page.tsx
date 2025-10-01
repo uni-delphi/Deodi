@@ -33,7 +33,7 @@ export default async function LogIn() {
           >
             <Link
               href={"/registro"}
-              className="bg-purple-500 transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
+              className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
             >
               Registrarme
             </Link>
