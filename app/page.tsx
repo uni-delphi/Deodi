@@ -13,8 +13,8 @@ export default function HomePage() {
               Gestiona tu perfil profesional, actualiza tu CV y mantén tu información conductual al día. Accede a todas
               las herramientas que necesitas para impulsar tu carrera.
             </p>
-            <Button asChild size="lg" className="px-8 py-3">
-              <Link href="/acceso">Ingresar al Portal</Link>
+            <Button asChild size="lg" className="px-8 py-3 shadow-lg shadow-blue-400 hover:shadow-gray-600 transition-all duration-300">
+              <Link href="/acceso" className="bg-purple-500 transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black">Ingresar al Portal</Link>
             </Button>
           </div>
         </div>
@@ -27,7 +27,7 @@ export default function HomePage() {
             className="w-full h-full object-cover object-left"
           />
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   )
 }

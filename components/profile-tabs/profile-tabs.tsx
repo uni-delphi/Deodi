@@ -8,17 +8,17 @@ export function ProfileTabs() {
   return (
     <Tabs defaultValue="experiencia" className="w-full">
       <TabsList className="grid w-full grid-cols-4 mb-6">
-        <TabsTrigger value="experiencia">Experiencia Laboral</TabsTrigger>
-        <TabsTrigger value="estudios">Estudios</TabsTrigger>
-        <TabsTrigger value="habilidades">Habilidades</TabsTrigger>
-        <TabsTrigger value="intereses">Intereses</TabsTrigger>
+        <TabsTrigger className="focus:bg-black hover:shadow-lg hover:shadow-blue-200 transition-shadow duration-500" value="experiencia">Experiencia Laboral</TabsTrigger>
+        <TabsTrigger className="hover:shadow-lg hover:shadow-blue-200 transition-shadow duration-500" value="estudios">Estudios</TabsTrigger>
+        <TabsTrigger className="hover:shadow-lg hover:shadow-blue-200 transition-shadow duration-500" value="habilidades">Habilidades</TabsTrigger>
+        <TabsTrigger className="hover:shadow-lg hover:shadow-blue-200 transition-shadow duration-500" value="intereses">Intereses</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="experiencia" className="space-y-4">
+      <TabsContent value="experiencia" className="space-y-4 bg-gray-50">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Briefcase className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 py-4 text-2xl">
+              <Briefcase className="h-6 w-6" />
               Experiencia Laboral
             </CardTitle>
             <CardDescription>Historial profesional y logros destacados</CardDescription>
@@ -56,11 +56,11 @@ export function ProfileTabs() {
         </Card>
       </TabsContent>
 
-      <TabsContent value="estudios" className="space-y-4">
+      <TabsContent value="estudios" className="space-y-4 bg-gray-50">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <GraduationCap className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 py-4 text-2xl">
+              <GraduationCap className="h-6 w-6" />
               Formación Académica
             </CardTitle>
             <CardDescription>Educación formal y certificaciones profesionales</CardDescription>
@@ -96,11 +96,11 @@ export function ProfileTabs() {
         </Card>
       </TabsContent>
 
-      <TabsContent value="habilidades" className="space-y-4">
+      <TabsContent value="habilidades" className="space-y-4 bg-gray-50">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Star className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 py-4 text-2xl">
+              <Star className="h-6 w-6" />
               Habilidades Técnicas
             </CardTitle>
             <CardDescription>Tecnologías y herramientas que domino</CardDescription>
@@ -109,16 +109,13 @@ export function ProfileTabs() {
             <div className="flex flex-wrap gap-2">
               {["React", "TypeScript", "Next.js", "Node.js", "Python", "SQL", "Git", "Docker", "AWS", "MongoDB"].map(
                 (skill) => (
-                  <Badge key={skill} variant="secondary" className="px-3 py-1">
+                  <Badge key={skill} variant="secondary" className="px-3 py-1 border-b-black border-b-2 shadow-xl shadow-gray-300 ">
                     {skill}
                   </Badge>
                 ),
               )}
             </div>
           </CardContent>
-        </Card>
-
-        <Card>
           <CardHeader>
             <CardTitle>Habilidades Blandas</CardTitle>
           </CardHeader>
@@ -141,11 +138,11 @@ export function ProfileTabs() {
         </Card>
       </TabsContent>
 
-      <TabsContent value="intereses" className="space-y-4">
+      <TabsContent value="intereses" className="space-y-4 bg-gray-50">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 py-4 text-2xl">
+              <Heart className="h-6 w-6" />
               Intereses y Pasiones
             </CardTitle>
             <CardDescription>Actividades y temas que me motivan</CardDescription>
