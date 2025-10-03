@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const drupalUser  = await loginUser({
-            email: credentials.email,
+            username: credentials.email,
             password: credentials.password,
           });
           //console.log("🚀 ~ authorize ~ user:", user)

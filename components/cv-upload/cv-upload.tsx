@@ -6,11 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Upload, FileText, X, CheckCircle } from "lucide-react"
 import { redirect } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast";
 
 export function CVUpload() {
   const [dragActive, setDragActive] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-
+  const { toast } = useToast();
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
       const formData = new FormData()
@@ -19,7 +20,14 @@ export function CVUpload() {
       formData.append("body", "Contenido del cuerpo del formulario demo")
 
       const res = await fetch("/api/upload-node", { method: "POST", body: formData })
-      if (!res.ok) throw new Error("Error al subir nodo")
+      //if (!res.ok) throw new Error("Error al subir nodo")
+      if (!res.ok) {
+        const text = await res.text();
+        return toast({
+          title: "Error",
+          description: "Error subiendo el CV. " + text,
+        })
+      }
       return res.json()
     },
     onSuccess: () => redirect("/perfil/validar-cv"),
