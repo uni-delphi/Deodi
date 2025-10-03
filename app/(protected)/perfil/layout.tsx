@@ -8,13 +8,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+  
   return (
     <>
       <main className="min-h-screen bg-[var(--lightgray)]">
-        <div className="flex md:grid md:grid-cols-12 gap-4 min-h-screen">
-          <div className="h-full col-span-12 md:col-span-2 border-black fixed">
-            <Sidebar />
+        <div className="grid grid-cols-12 gap-4 min-h-screen">
+          <div className="col-span-12 md:col-span-2 border-black h-full">
+            <Sidebar  />
           </div>
           <div className="col-span-12 md:col-span-10">{children}</div>
         </div>

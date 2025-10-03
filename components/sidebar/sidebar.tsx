@@ -59,7 +59,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "w-full h-full bg-sidebar shadow-lg shadow-blue-300 bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out absolute z-10 ",
+        "w-full h-full bg-sidebar bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out absolute z-10 ",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
