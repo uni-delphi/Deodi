@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -54,8 +54,9 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },        
-        textColor: "#707070",        
+        },
+        textColor: "#707070",
+        purpleDeodi: "#402277",
       },
       borderRadius: {
         lg: "var(--radius)",

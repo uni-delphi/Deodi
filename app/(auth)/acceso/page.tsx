@@ -14,23 +14,26 @@ import { redirect } from "next/navigation";
 export default async function LogIn() {
   //const session: Session | null = await getServerSession(authOptions);
   //const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
-//
+  //
   //if (session) redirect(redirectUrl);
 
   return (
     <main className="min-h-screen container">
       <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-1 gap-5 mb-6 p-0 md:p-10">
-        <h2 className="col-span-1 md:col-span-4 font-bold text-2xl mt-10 pb-4 mx-auto">
+        <h1 className="col-span-1 md:col-span-4 font-bold text-4xl mt-10 pb-4 mx-auto">
           ¡Ingresa aquí!
-        </h2>
+        </h1>
         <div className="flex flex-col items-start mt-10 space-y-8 col-span-1 md:col-span-2">
-          <h2 className="text-4xl font-bold">Si no tienes una cuenta puedes registrarte</h2>
+          <h2 className="text-2xl font-bold">Si no tienes una cuenta puedes registrarte</h2>
           <Button
             type="button"
-            variant="outline" asChild>
+            size="lg"
+            className="px-8 py-3 shadow-lg shadow-blue-400 hover:shadow-gray-600 transition-all duration-300"
+            asChild
+          >
             <Link
               href={"/registro"}
-              className=""
+              className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
             >
               Registrarme
             </Link>
@@ -38,7 +41,7 @@ export default async function LogIn() {
         </div>
 
         <div className="col-span-1 md:col-span-2 mt-10">
-          <LogInForm /> 
+          <LogInForm />
         </div>
       </div>
     </main>

@@ -26,7 +26,7 @@ export function Sidebar({
   activeSection = "perfil",
   onSectionChange,
 }: SidebarProps) {
-  const [isPerfilOpen, setIsPerfilOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems = [
@@ -54,10 +54,12 @@ export function Sidebar({
     { id: "ofertas", label: "Ofertas", icon: Briefcase },
   ];
 
+  console.log(isProfileOpen)
+
   return (
     <div
       className={cn(
-        "h-screen bg-sidebar border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out",
+        "w-full h-full bg-sidebar shadow-lg shadow-blue-300 bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out absolute z-10 ",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
@@ -103,7 +105,7 @@ export function Sidebar({
                 variant="ghost"
                 onClick={() => {
                   if (item.hasDropdown) {
-                    setIsPerfilOpen(!isPerfilOpen);
+                    setIsProfileOpen(!isProfileOpen);
                   } else {
                     onSectionChange?.(item.id);
                   }
@@ -126,7 +128,7 @@ export function Sidebar({
                       <ChevronDown
                         className={cn(
                           "h-4 w-4 transition-transform",
-                          item.id === "perfil" && isPerfilOpen
+                          item.id === "perfil" && isProfileOpen
                             ? "rotate-180"
                             : ""
                         )}
@@ -138,7 +140,7 @@ export function Sidebar({
 
               {item.hasDropdown &&
                 item.id === "perfil" &&
-                isPerfilOpen &&
+                isProfileOpen &&
                 !isCollapsed && (
                   <div className="ml-4 mt-1 space-y-1">
                     {item.subItems?.map((subItem) => {
@@ -188,7 +190,9 @@ export function Sidebar({
             </div>
           );
         })}
-        <Button onClick={() => signOut()}>Sign out</Button>
+        {!isCollapsed && (
+          <Button onClick={() => signOut()}>Cerrar sesión</Button>
+        )}
       </nav>
     </div>
   );
