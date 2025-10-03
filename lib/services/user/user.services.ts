@@ -22,17 +22,18 @@ export async function createUser(data: {
 }
 
 export async function loginUser(credentials: {
-  email: string;
+  username: string;
   password: string;
 }): Promise<TUser> {
+  
   return fetchJson<TUser>(`https://apideodi.cloud/app/api/user/login.json`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username: "persona",
-      password: "123456",
+      username: "persona@persona.com",//credentials.email,
+      password: "123456",//credentials.password,
     }),
   });
 }
