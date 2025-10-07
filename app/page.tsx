@@ -9,7 +9,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <HeroSection />
       <FeaturesSection />
-      <EnterpriseSection />
+      {/*<EnterpriseSection />*/}
       <TripticoSection />
       <Footer />
     </div >
