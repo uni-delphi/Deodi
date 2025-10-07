@@ -61,7 +61,6 @@ export async function POST(req: Request) {
       });
       
       const fileData = await fileRes.json();
-      console.log("🚀 ~ POST ~ fileData:", fileData)
       
       if (!fileRes.ok) {
         const text = await fileRes.text();
@@ -116,9 +115,11 @@ export async function POST(req: Request) {
         const text = await putRes.text();
         return NextResponse.json({ error: "Error asignando archivo al nodo", details: text }, { status: 500 });
       }
+      const dada = await putRes.text();
+      
+      return NextResponse.json({ isSuccess: true, nid, fid });
     }
-
-    return NextResponse.json({ success: true, nid, fid });
+    
   } catch (error) {
     return NextResponse.json({ error: "Error inesperado", details: error }, { status: 500 });
   }

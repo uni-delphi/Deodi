@@ -54,8 +54,6 @@ export function Sidebar({
     { id: "ofertas", label: "Ofertas", icon: Briefcase },
   ];
 
-  console.log(isProfileOpen)
-
   return (
     <div
       className={cn(

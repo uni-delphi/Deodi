@@ -2,16 +2,19 @@
 
 import { useState, useCallback } from "react"
 import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, FileText, X, CheckCircle } from "lucide-react"
-import { redirect } from "next/navigation"
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast"
 
 export function CVUpload() {
   const [dragActive, setDragActive] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-  const { toast } = useToast();
+  const { toast } = useToast()
+  const router = useRouter()
+
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
       const formData = new FormData()
@@ -20,18 +23,27 @@ export function CVUpload() {
       formData.append("body", "Contenido del cuerpo del formulario demo")
 
       const res = await fetch("/api/upload-node", { method: "POST", body: formData })
-      //if (!res.ok) throw new Error("Error al subir nodo")
+
       if (!res.ok) {
-        const text = await res.text();
-        return toast({
-          title: "Error",
-          description: "Error subiendo el CV. " + text,
-        })
+        const text = await res.text()
+        throw new Error("Error subiendo el CV. " + text)
       }
+
       return res.json()
     },
-    onSuccess: () => redirect("/perfil/validar-cv"),
-    onError: (error) => console.error("Error uploading file:", error),
+    onSuccess: () => {
+      toast({
+        title: "Éxito",
+        description: "Tu CV fue subido correctamente.",
+      })
+      router.push("/perfil/validar-cv")
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+      })
+    },
   })
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -53,13 +65,26 @@ export function CVUpload() {
       const droppedFile = e.dataTransfer.files[0]
       if (droppedFile.type === "application/pdf" || droppedFile.name.endsWith(".pdf")) {
         setFile(droppedFile)
+      } else {
+        toast({
+          title: "Archivo inválido",
+          description: "Solo se permiten archivos PDF.",
+        })
       }
     }
-  }, [])
+  }, [toast])
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
+      const selectedFile = e.target.files[0]
+      if (selectedFile.type === "application/pdf" || selectedFile.name.endsWith(".pdf")) {
+        setFile(selectedFile)
+      } else {
+        toast({
+          title: "Archivo inválido",
+          description: "Solo se permiten archivos PDF.",
+        })
+      }
     }
   }
 
@@ -88,6 +113,7 @@ export function CVUpload() {
             Arrastra y suelta tu archivo PDF aquí o haz clic para seleccionar
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           {!file ? (
             <div
@@ -142,7 +168,7 @@ export function CVUpload() {
               {!uploadMutation.isSuccess && (
                 <Button
                   onClick={handleUpload}
-                  disabled={uploadMutation.isPending}
+                  disabled={!file || uploadMutation.isPending}
                   className="w-full"
                 >
                   {uploadMutation.isPending ? "Subiendo..." : "Subir CV"}

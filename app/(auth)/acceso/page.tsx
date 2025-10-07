@@ -18,7 +18,7 @@ export default async function LogIn() {
   //if (session) redirect(redirectUrl);
 
   return (
-    <main className="min-h-screen container">
+    <section className="min-h-screen container">
       <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-1 gap-5 mb-6 p-0 md:p-10">
         <h1 className="col-span-1 md:col-span-4 font-bold text-4xl mt-10 pb-4 mx-auto">
           ¡Ingresa aquí!
@@ -44,6 +44,6 @@ export default async function LogIn() {
           <LogInForm />
         </div>
       </div>
-    </main>
+    </section>
   );
 }

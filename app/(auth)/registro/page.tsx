@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth/next";
 import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import LayoutDefault from "@/components/image-layout/image-layout";
+import { RegisterForm } from "@/components/register-form";
 
 export default async function SignIn() {
   // session: Session | null = await getServerSession(authOptions);
@@ -14,17 +15,17 @@ export default async function SignIn() {
 
   //if (session) redirect(redirectUrl);
   return (
-    <main>
+    <section className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
       <LayoutDefault>
         <h2 className="font-bold text-2xl my-4 pb-4">
           ¿Primera vez en la plataforma?
         </h2>
         <p className="pb-4 mb-4">
-          Te pedimos que completes los siguientes datos a fines de poder hacer
-          cruces demográficos de las respuestas
+          Te pedimos que completes los siguientes datos a fines de poder acceder a la plataforma.
         </p>
-        <SignInForm />
+        {/*<SignInForm />*/}
+        <RegisterForm />
       </LayoutDefault>
-    </main>
+    </section>
   );
 }
