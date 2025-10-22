@@ -36,7 +36,7 @@ export function TripticoSection() {
                 carreras según tu perfil vocacional.
               </p>
             </div>
-            <Button variant="outline" className="w-full bg-purpleDeodi text-white hover:bg-purpleDeodi/90">Hablar con el bot</Button>
+            <Button variant="outline" className="w-full bg-purpleDeodi text-white hover:bg-white hover:text-black hover:border-black hover:border-2">Hablar con el bot</Button>
           </Card>
 
           {/* Card 3 */}

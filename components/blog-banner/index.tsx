@@ -18,11 +18,11 @@ export default function BlogBanner() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-10">
         <div className="flex flex-col items-center text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight text-balance">
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 leading-tight text-balance">
             Conocé nuestro blog asistido por Deodi
           </h2>
 
-          <p className="text-sm md:text-base text-slate-200 mb-4 leading-relaxed text-pretty max-w-2xl">
+          <p className="text-sm md:text-lg text-slate-200 mb-4 px-8 leading-relaxed text-pretty max-w-2xl">
             Encontrarás notas claras y útiles sobre el mundo del trabajo y sugerencias concretas sobre qué estudiar para
             potenciar tu empleabilidad.
           </p>
@@ -30,7 +30,7 @@ export default function BlogBanner() {
           <Link href="https://actualidad.deodi.com.ar" target="_blank" rel="noopener noreferrer">
             <Button
               size="default"
-              className="bg-purpleDeodi hover:bg-purpleDeodi/20 text-white font-semibold px-6 py-5 group transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-purpleDeodi text-white font-semibold px-6 py-5 group transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-white hover:text-black hover:border-black hover:border-2"
             >
               Explorar el blog
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
