@@ -13,6 +13,7 @@ export interface DrupalUserSession extends User {
   sessionName: string;
   csrfToken: string;
   role: Record<string, string>;
+  field_user_perfildeodi: string;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -53,12 +54,14 @@ export const authOptions: NextAuthOptions = {
             sessid: drupalUser.sessid,
             sessionName: drupalUser.session_name,
             csrfToken: drupalUser.token,
-            user: {
-              uid: "",
-              mail: "",
-              name: "",
-              roles: {}
-            }
+            field_user_perfildeodi: drupalUser.user.field_user_perfildeodi,
+            //user: {
+            //  uid: "",
+            //  mail: "",
+            //  name: "",
+            //  field_user_perfildeodi: "",
+            //  roles: {}
+            //}
           };
 
           return user;
@@ -120,6 +123,7 @@ export const authOptions: NextAuthOptions = {
         token.sessid = u.sessid;
         token.sessionName = u.sessionName;
         token.csrfToken = u.csrfToken;
+        token.field_user_perfildeodi = u.field_user_perfildeodi;
       }
       return token;
     },
@@ -130,6 +134,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name as string;
         session.user.email = token.email as string;
         session.user.role = token.role as Record<string, string>;
+        session.user.field_user_perfildeodi = token.field_user_perfildeodi as string;
         session.sessid = token.sessid as string;
         session.sessionName = token.sessionName as string;
         session.csrfToken = token.csrfToken as string;

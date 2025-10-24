@@ -14,6 +14,7 @@ declare module "next-auth" {
       name: string;
       lastName: string;
       email: string;
+      field_user_perfildeodi: any;
     } & DefaultSession;
   }
 
@@ -21,14 +22,16 @@ declare module "next-auth" {
     id: string;
     lastName: string;
     role: any;
-    user: {
-      uid: string;
-      mail: string;
-      name: string;
-      roles: {
-        [key: string]: string;
-      };
-    };
+    field_user_perfildeodi: string;
+    //user: {
+    //  uid: string;
+    //  mail: string;
+    //  name: string;
+    //  field_user_perfildeodi: string;
+    //  roles: {
+    //    [key: string]: string;
+    //  };
+    //};
   }
 }
 
@@ -39,5 +42,6 @@ declare module "next-auth/jwt" {
     mail: string;
     name: string;
     lastName: string;
+    field_user_perfildeodi: string;
   }
 }
