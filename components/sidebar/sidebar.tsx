@@ -27,7 +27,7 @@ export function Sidebar({
   onSectionChange,
 }: SidebarProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const menuItems = [
     {
