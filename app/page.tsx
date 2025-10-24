@@ -4,16 +4,20 @@ import { EnterpriseSection } from "@/components/enterprise-section"
 import { TripticoSection } from "@/components/triptico-section"
 import { Footer } from "@/components/footer"
 import BlogBanner from "@/components/blog-banner"
+import { Header } from "@/components/header/header"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <HeroSection />
-      <FeaturesSection />
-      {/*<EnterpriseSection />*/}
-      <BlogBanner />
-      <TripticoSection />
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
+        <HeroSection />
+        <FeaturesSection />
+        {/*<EnterpriseSection />*/}
+        <BlogBanner />
+        <TripticoSection />
+      </main >
       <Footer />
-    </div >
+    </>
   )
 }

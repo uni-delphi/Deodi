@@ -1,29 +1,27 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export function Header() {
   return (
-    <header className="bg-background border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo/Mensaje */}
-          <div className="flex items-center space-x-4">
-            <div className="text-sm text-muted-foreground">Bienvenido a tu plataforma profesional</div>
-          </div>
-
-          {/* Título central */}
-          <div className="flex-1 text-center">
-            <h1 className="text-2xl font-bold text-foreground">Portal de Gestión Profesional</h1>
-          </div>
-
-          {/* CTA Login */}
-          <div className="flex items-center space-x-4">
+    <header className="fixed top-2 left-0 right-0 z-50 bg-white mx-4 md:mx-12 border-2 rounded-full border-purpleDeodi">
+      <nav className="container mx-auto px-4 py-2">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-lg flex items-center justify-center">
+              <Image src="/deodi-logo.webp" alt="logo" height={50} width={50} />
+            </div>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" asChild>
+              <Link href="/acceso">Ingresar</Link>
+            </Button>
             <Button asChild>
-              <Link href="/login">Ingresar</Link>
+              <Link href="/register">Registrar</Link>
             </Button>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
   )
 }
