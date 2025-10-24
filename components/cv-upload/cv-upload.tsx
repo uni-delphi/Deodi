@@ -23,12 +23,12 @@ export function CVUpload() {
       formData.append("body", "Contenido del cuerpo del formulario demo")
 
       const res = await fetch("/api/upload-node", { method: "POST", body: formData })
-
+      
       if (!res.ok) {
         const text = await res.text()
         throw new Error("Error subiendo el CV. " + text)
       }
-
+      
       return res.json()
     },
     onSuccess: () => {

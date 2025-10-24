@@ -115,7 +115,8 @@ export async function POST(req: Request) {
         const text = await putRes.text();
         return NextResponse.json({ error: "Error asignando archivo al nodo", details: text }, { status: 500 });
       }
-      const dada = await putRes.text();
+      const dada = await putRes.json();
+      console.log("🚀 ~ POST ~ dada:", dada)
       
       return NextResponse.json({ isSuccess: true, nid, fid });
     }

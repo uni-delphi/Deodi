@@ -15,6 +15,7 @@ export type TUser = {
   validatedPassword?: string;
   role: string;
   user: {
+      field_user_perfildeodi: string;
       uid: string;
       mail: string;
       name: string;
