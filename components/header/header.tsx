@@ -14,7 +14,7 @@ export function Header() {
           </Link>
           <div className="flex items-center gap-3">
             <Button variant="outline" asChild>
-              <Link href="/acceso">Ingresar</Link>
+              <Link className="border-2 border-purpleDeodi" href="/acceso">Ingresar</Link>
             </Button>
             <Button asChild>
               <Link href="/register">Registrar</Link>

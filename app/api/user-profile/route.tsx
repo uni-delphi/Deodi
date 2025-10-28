@@ -1,46 +1,9 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth.config";
+import { revalidatePath } from "next/cache";
 
-export async function GET(req: Request) {
-  // 1️⃣ Obtener sesión de NextAuth
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
-  
-  const userId = session.user.field_user_perfildeodi.und[0].target_id;
-  const fileRes = await fetch(
-    `${process.env.BASE_URL}/api/node/${userId}.json`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": session.csrfToken,
-        Cookie: `${session.sessionName}=${session.sessid}`,
-      },
-    }
-  );
-  const fileData = await fileRes.json();
-  if (!fileRes.ok) {
-    return NextResponse.json(
-      { error: "Error al obtener el archivo" },
-      { status: fileRes.status }
-    );
-  }
-  return NextResponse.json(fileData);
-}
-
-async function getUserProfile(userId: string) {
-  // Simular una consulta a la base de datos
-  const userProfiles = [
-    { id: "1", name: "Juan Pérez", email: "juan@example.com" },
-    { id: "2", name: "María López", email: "maria@example.com" },
-  ];
-  return userProfiles.find((profile) => profile.id === userId) || null;
-}
-
-export async function PUT(req: Request) {
+export async function handler(req: Request) {
   // 1️⃣ Obtener sesión de NextAuth
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -48,31 +11,56 @@ export async function PUT(req: Request) {
   }
 
   const userId = session.user.field_user_perfildeodi.und[0].target_id;
-  // 2️⃣ Obtener datos del perfil del usuario
-  const fileRes = await fetch(
-    `${process.env.BASE_URL}/api/node/${userId}.json`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": session.csrfToken,
-        Cookie: `${session.sessionName}=${session.sessid}`,
-      },
-      body: JSON.stringify(await req.json()),
+
+  try {
+    if (req.method === "GET") {
+      // GET → obtener perfil
+      const fileRes = await fetch(`${process.env.BASE_URL}/api/node/${userId}.json`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": session.csrfToken,
+          Cookie: `${session.sessionName}=${session.sessid}`,
+        },
+      });
+
+      if (!fileRes.ok) {
+        return NextResponse.json({ error: "Error al obtener el archivo" }, { status: fileRes.status });
+      }
+
+      const fileData = await fileRes.json();
+      return NextResponse.json(fileData);
     }
-  );
 
-  const fileData = await fileRes.json();
-  if (!fileRes.ok) {
-    return NextResponse.json(
-      { error: "Error al obtener el archivo" },
-      { status: fileRes.status }
-    );
+    if (req.method === "PUT") {
+      // PUT → actualizar perfil
+      const body = await req.json();
+
+      const fileRes = await fetch(`${process.env.BASE_URL}/api/node/${userId}.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": session.csrfToken,
+          Cookie: `${session.sessionName}=${session.sessid}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!fileRes.ok) {
+        return NextResponse.json({ error: "Error al actualizar el archivo" }, { status: fileRes.status });
+      }
+
+      const fileData = await fileRes.json();
+      return NextResponse.json(fileData);
+    }
+
+    // Otros métodos HTTP
+    return NextResponse.json({ error: "Método no permitido" }, { status: 405 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || "Error del servidor" }, { status: 500 });
   }
-  return NextResponse.json(fileData);
 }
 
-async function updateUserProfile(userId: string, data: any) {
-  // Simular una actualización en la base de datos
-  return { id: userId, ...data };
-}
+// Exportar como GET y PUT para App Router (opcional)
+export const GET = handler;
+export const PUT = handler;

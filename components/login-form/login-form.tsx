@@ -105,6 +105,7 @@ export default function LogInForm() {
             <Button
               type="submit"
               disabled={isLoading}
+              //variant="outline"
               className="bg-blue-600 text-white hover:bg-gray-200 hover:text-blue-600 "
             >
               {isLoading ? (

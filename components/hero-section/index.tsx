@@ -42,7 +42,7 @@ export function HeroSection() {
             <Button
               size="lg"
               variant="outline"
-              className="text-lg px-8 py-6 bg-transparent"
+              className="text-lg px-8 py-6 bg-transparent border-2 border-purpleDeodi"
             >
               Ver demo
             </Button>

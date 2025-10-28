@@ -40,12 +40,12 @@ export function FeaturesSection() {
             return (
               <Card
                 key={index}
-                className="p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card border-2"
+                className="p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card border-2 border-purpleDeodi"
               >
                 <div className="w-14 h-14 rounded-xl bg-purpleDeodi/10 flex items-center justify-center mb-6">
                   <Icon className="w-7 h-7 text-purpleDeodi" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                <h3 className="text-2xl font-bold mb-4 text-purpleDeodi">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </Card>
             )

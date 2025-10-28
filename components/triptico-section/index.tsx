@@ -8,7 +8,7 @@ export function TripticoSection() {
       <div className="container mx-auto max-w-6xl">
         <div className="grid md:grid-cols-3 gap-8">
           {/* Card 1 */}
-          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-card border-2">
+          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-card border-2 border-purpleDeodi">
             <div className="w-16 h-16 rounded-full bg-purpleDeodi/10 flex items-center justify-center mx-auto">
               <HelpCircle className="w-8 h-8 text-purpleDeodi" />
             </div>
@@ -19,13 +19,13 @@ export function TripticoSection() {
                 académico ideal.
               </p>
             </div>
-            <Button variant="outline" className="w-full bg-transparent">
+            <Button variant="outline" className="w-full bg-transparent border-2 border-purpleDeodi">
               Solicitar orientación
             </Button>
           </Card>
 
           {/* Card 2 */}
-          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purpleDeodi/5 to-purpleDeodi/10 border-2 border-primary/20">
+          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purpleDeodi/5 to-purpleDeodi/10 border-2 border-purpleDeodi">
             <div className="w-16 h-16 rounded-full bg-purpleDeodi flex items-center justify-center mx-auto">
               <Bot className="w-8 h-8 text-white" />
             </div>
@@ -40,7 +40,7 @@ export function TripticoSection() {
           </Card>
 
           {/* Card 3 */}
-          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-card border-2">
+          <Card className="p-8 text-center space-y-6 hover:shadow-xl transition-all duration-300 bg-card border-2 border-purpleDeodi">
             <div className="w-16 h-16 rounded-full bg-purpleDeodi/10 flex items-center justify-center mx-auto">
               <GraduationCap className="w-8 h-8 text-purpleDeodi" />
             </div>
@@ -50,7 +50,7 @@ export function TripticoSection() {
                 Accede al servicio oficial de orientación vocacional de la Universidad Nacional de Córdoba.
               </p>
             </div>
-            <Button variant="outline" className="w-full bg-transparent">
+            <Button variant="outline" className="w-full bg-transparent border-2 border-purpleDeodi">
               Más información
             </Button>
           </Card>
