@@ -152,7 +152,7 @@ export default function ValidarCVPage() {
         </div>
 
         {/* Información Personal */}
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
@@ -252,7 +252,7 @@ export default function ValidarCVPage() {
         </Card>
 
         {/* Experiencia Laboral */}
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -340,7 +340,7 @@ export default function ValidarCVPage() {
         </Card>
 
         {/* Educación */}
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
@@ -373,7 +373,7 @@ export default function ValidarCVPage() {
         </Card>
 
         {/* Habilidades */}
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
@@ -393,7 +393,7 @@ export default function ValidarCVPage() {
         </Card>
 
         {/* Idiomas */}
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />

@@ -8,15 +8,19 @@ export async function GET(req: Request) {
   if (!session) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-  //console.log("🚀 ~ session in api user-profile:", session.user.field_user_perfildeodi.und[0].target_id);
-  const fileRes = await fetch(`${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": session.csrfToken,
-      Cookie: `${session.sessionName}=${session.sessid}`,
-    },
-  });
+  
+  const userId = session.user.field_user_perfildeodi.und[0].target_id;
+  const fileRes = await fetch(
+    `${process.env.BASE_URL}/api/node/${userId}.json`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": session.csrfToken,
+        Cookie: `${session.sessionName}=${session.sessid}`,
+      },
+    }
+  );
   const fileData = await fileRes.json();
   if (!fileRes.ok) {
     return NextResponse.json(
@@ -43,26 +47,29 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
+  const userId = session.user.field_user_perfildeodi.und[0].target_id;
   // 2️⃣ Obtener datos del perfil del usuario
-  const userProfile = await getUserProfile(session.user.id);
-  if (!userProfile) {
+  const fileRes = await fetch(
+    `${process.env.BASE_URL}/api/node/${userId}.json`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": session.csrfToken,
+        Cookie: `${session.sessionName}=${session.sessid}`,
+      },
+      body: JSON.stringify(await req.json()),
+    }
+  );
+
+  const fileData = await fileRes.json();
+  if (!fileRes.ok) {
     return NextResponse.json(
-      { error: "Perfil no encontrado" },
-      { status: 404 }
+      { error: "Error al obtener el archivo" },
+      { status: fileRes.status }
     );
   }
-
-  // 3️⃣ Actualizar datos del perfil
-  const updatedProfile = await updateUserProfile(userProfile.id, req.body);
-  if (!updatedProfile) {
-    return NextResponse.json(
-      { error: "Error al actualizar el perfil" },
-      { status: 500 }
-    );
-  }
-
-  // 4️⃣ Devolver datos del perfil actualizado
-  return NextResponse.json(updatedProfile);
+  return NextResponse.json(fileData);
 }
 
 async function updateUserProfile(userId: string, data: any) {

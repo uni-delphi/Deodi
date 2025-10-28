@@ -36,6 +36,8 @@ export function ProfileTabs() {
 
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
+      console.log("🚀 ~ ProfileTabs ~ payload:", payload)
+      
       const res = await fetch("/api/user/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -142,19 +144,19 @@ export function ProfileTabs() {
 
   return (
     <Tabs defaultValue="experiencia" className="w-full">
-      <TabsList className="grid w-full grid-cols-4 mb-6">
-        <TabsTrigger value="experiencia">Experiencia</TabsTrigger>
-        <TabsTrigger value="estudios">Estudios</TabsTrigger>
-        <TabsTrigger value="competencias">Competencias</TabsTrigger>
-        <TabsTrigger value="intereses">Intereses</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-4 mb-6 gap-4">
+        <TabsTrigger className="border-[.5px] border-purpleDeodi/10" value="experiencia">Experiencia</TabsTrigger>
+        <TabsTrigger className="border-[.5px] border-purpleDeodi/10" value="estudios">Estudios</TabsTrigger>
+        <TabsTrigger className="border-[.5px] border-purpleDeodi/10" value="competencias">Competencias</TabsTrigger>
+        <TabsTrigger className="border-[.5px] border-purpleDeodi/10" value="intereses">Intereses</TabsTrigger>
       </TabsList>
 
       {/* === EXPERIENCIA === */}
       <TabsContent value="experiencia">
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              <span className="flex items-center gap-2 text-2xl">
+              <span className="flex items-center gap-2 text-2xl text-purpleDeodi">
                 <Briefcase className="h-6 w-6" /> Experiencia Laboral
               </span>
               {editingTab === "experiencia" ? (
@@ -266,10 +268,10 @@ export function ProfileTabs() {
 
       {/* === ESTUDIOS === */}
       <TabsContent value="estudios">
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              <span className="flex items-center gap-2 text-2xl">
+              <span className="flex items-center gap-2 text-2xl text-purpleDeodi">
                 <GraduationCap className="h-6 w-6" /> Formación Académica
               </span>
               {editingTab === "estudios" ? (
@@ -378,10 +380,12 @@ export function ProfileTabs() {
 
       {/* === COMPETENCIAS === */}
       <TabsContent value="competencias">
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <Star className="h-6 w-6" /> Competencias
+            <CardTitle className="flex items-center gap-2 text-2xl text-purpleDeodi">
+              <span className="flex items-center gap-2 text-2xl text-purpleDeodi">
+                <Star className="h-6 w-6 " /> Competencias
+              </span>
             </CardTitle>
             <CardDescription>
               Habilidades personales y profesionales
@@ -389,7 +393,11 @@ export function ProfileTabs() {
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {competencias.map((c, i) => (
-              <Badge key={i} variant="outline">
+              <Badge
+                key={i}
+                variant="outline"
+                className="bg-purpleDeodi text-white px-4 py-2"
+              >
                 {c}
               </Badge>
             ))}
@@ -399,16 +407,22 @@ export function ProfileTabs() {
 
       {/* === INTERESES === */}
       <TabsContent value="intereses">
-        <Card>
+        <Card className="border-[.5px] border-purpleDeodi/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <Heart className="h-6 w-6" /> Intereses
+            <CardTitle className="flex items-center gap-2 text-2xl text-purpleDeodi">
+              <span className="flex items-center gap-2 text-2xl text-purpleDeodi">
+                <Heart className="h-6 w-6" /> Intereses
+              </span>
             </CardTitle>
             <CardDescription>Temas o áreas de interés personal</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {intereses.map((i, idx) => (
-              <Badge key={idx} variant="outline">
+              <Badge
+                key={idx}
+                variant="outline"
+                className="bg-purpleDeodi text-white px-4 py-2"
+              >
                 {i}
               </Badge>
             ))}
