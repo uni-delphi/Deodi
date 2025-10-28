@@ -8,10 +8,9 @@ import { Sidebar } from "@/components/sidebar/sidebar";
 export default async function ActualizarConductualPage() {
   const session = await getServerSession(authOptions);
     if (!session || !session.user) redirect("/acceso");
-    console.log("sesion data", session)
 
   return (
-    <main className="flex-1 p-8">
+    <section className="flex-1 p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
@@ -23,6 +22,6 @@ export default async function ActualizarConductualPage() {
         </div>
         <ConductualUpload />
       </div>
-    </main>
+    </section>
   );
 }
