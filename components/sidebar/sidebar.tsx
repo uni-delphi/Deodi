@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
+import Image from "next/image";
 import { signOut } from "next-auth/react";
 
 interface SidebarProps {
@@ -50,97 +50,47 @@ export function Sidebar({
         },
       ],
     },
-    { id: "formacion", label: "Formación", icon: GraduationCap },
-    { id: "ofertas", label: "Ofertas", icon: Briefcase },
+    { id: "formacion", label: "Formación", icon: GraduationCap, hasDropdown: false, },
+    { id: "ofertas", label: "Ofertas", icon: Briefcase, hasDropdown: false, },
   ];
+
+  const handleMouseEnter = () => {
+    setIsCollapsed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsCollapsed(true);
+  };
+
 
   return (
     <div
       className={cn(
-        "w-full h-full bg-sidebar  bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out absolute z-10 ",
+        "w-full h-full bg-sidebar fixed  bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out z-10 ",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
-      <div className="mb-8">
+      <div className="mb-8 ">
         <div className="flex items-center gap-2 mb-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 hover:bg-sidebar-accent/10"
-          >
-            {isCollapsed ? (
-              <Menu className="h-4 w-4" />
-            ) : (
-              <X className="h-4 w-4" />
-            )}
-          </Button>
-
-          {!isCollapsed && (
-            <>
-              <User className="h-6 w-6 text-sidebar-accent" />
-              <Link
-                href="/perfil"
-                className="hover:text-primary transition-colors"
-              >
-                <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">
-                  Mi Perfil
-                </h2>
-              </Link>
-            </>
-          )}
+          <Image src="/deodi-logo.webp" alt="logo" height={50} width={50} />
         </div>
       </div>
 
-      <nav className="space-y-2">
+      <nav>
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
-
           return (
-            <div key={item.id}>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (item.hasDropdown) {
-                    setIsProfileOpen(!isProfileOpen);
-                  } else {
-                    onSectionChange?.(item.id);
-                  }
-                }}
-                className={cn(
-                  "w-full justify-start gap-3 h-auto px-4 py-3",
-                  isActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/10"
-                )}
-                title={isCollapsed ? item.label : undefined}
-              >
-                <Icon className="h-5 w-5" />
-                {!isCollapsed && (
-                  <>
-                    <span className="font-medium flex-1 text-left">
-                      {item.label}
-                    </span>
-                    {item.hasDropdown && (
-                      <ChevronDown
-                        className={cn(
-                          "h-4 w-4 transition-transform",
-                          item.id === "perfil" && isProfileOpen
-                            ? "rotate-180"
-                            : ""
-                        )}
-                      />
-                    )}
-                  </>
-                )}
-              </Button>
-
-              {item.hasDropdown &&
-                item.id === "perfil" &&
-                isProfileOpen &&
+            <>
+              <div key={item.id} className="my-12">
+                <Icon className="h-5 w-5"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                />
+              </div>
+              {item.hasDropdown === true &&
                 !isCollapsed && (
-                  <div className="ml-4 mt-1 space-y-1">
+                  <div className="ml-4 mt-1 space-y-1 flex flex-col">
                     {item.subItems?.map((subItem) => {
                       const SubIcon = subItem.icon;
                       const isSubActive = activeSection === subItem.id;
@@ -185,12 +135,12 @@ export function Sidebar({
                     })}
                   </div>
                 )}
-            </div>
+            </>
           );
         })}
-        {!isCollapsed && (
+        {/* {!isCollapsed && (
           <Button onClick={() => signOut()}>Cerrar sesión</Button>
-        )}
+        )} */}
       </nav>
     </div>
   );
