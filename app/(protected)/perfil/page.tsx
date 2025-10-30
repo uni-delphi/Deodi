@@ -17,7 +17,7 @@ export default async function Dashboard() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) redirect("/acceso");
   //console.log("🚀 ~ Dashboard ~ session:", session)
-  
+
   return (
     <section className="flex-1 p-8">
       <div className="">
