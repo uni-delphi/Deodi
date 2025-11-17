@@ -27,11 +27,12 @@ export function ProfileTabs() {
 
   // Cargar datos del backend
   useEffect(() => {
-    if (data?.body?.und?.[0]?.value) {
+    /* if (data?.body?.und?.[0]?.value) {
       const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setEditedData(cleaned);
-    }
+      const cleaned = parsed.map(cleanKeys); 
+      setEditedData(parsed);
+  } */
+    console.log(data)
   }, [data]);
 
   const mutation = useMutation({

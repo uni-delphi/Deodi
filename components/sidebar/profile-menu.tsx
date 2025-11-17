@@ -33,7 +33,7 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
     return (
         <div className="relative">
             <div className={cn(
-                "flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 mx-auto",
+                "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 mx-auto",
                 "bg-blue-500 hover:bg-blue-600 cursor-pointer"
             )}>
                 <User className="w-5 h-5 text-white" />
@@ -42,7 +42,7 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             {/* Popup flotante a la derecha */}
             {isOpen && (
                 <div className={cn(
-                    "absolute left-full bottom-0 ml-3 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20",
+                    "absolute left-full bottom-0 ml-1 bg-white rounded-lg shadow-lg border border-gray-200 z-20",
                     "min-w-48 animate-in fade-in-0 zoom-in-95"
                 )}>
                     {menuItems.map((item) => {
@@ -52,9 +52,10 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
                                 key={item.id}
                                 onClick={item.action}
                                 className={cn(
-                                    "flex items-center w-full px-4 py-3 text-sm transition-colors duration-150",
+                                    "flex items-center w-full px-4 py-3 text-sm duration-500 rounded-xl transition-all",
                                     "hover:bg-gray-50 focus:outline-none focus:bg-gray-50",
-                                    "text-gray-700 hover:text-gray-900"
+                                    "text-gray-700 hover:text-gray-900",
+                                    `${item.icon === LogOut && "hover:bg-red-500 hover:text-white"}`
                                 )}
                             >
                                 <div className="w-5 h-5 mr-3 flex items-center justify-center">

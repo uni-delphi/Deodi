@@ -31,7 +31,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col",
+        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col items-center",
       )}
     >
       <div className="mb-8">

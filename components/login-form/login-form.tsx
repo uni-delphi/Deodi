@@ -63,7 +63,7 @@ export default function LogInForm() {
         title: "Password o email son incorrectos.",
       });
     }
-    
+
     router.push(`/perfil`);
   }
 
@@ -105,7 +105,7 @@ export default function LogInForm() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-blue-600 text-white hover:bg-gray-200 hover:text-blue-600 "
+              className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
             >
               {isLoading ? (
                 <>
@@ -116,7 +116,7 @@ export default function LogInForm() {
                 "Ingresar"
               )}
             </Button>
-            <GoogleLoginButton />
+            {/* <GoogleLoginButton /> */}
           </div>
         </form>
       </Form>
