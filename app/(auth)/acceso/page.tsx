@@ -18,28 +18,42 @@ export default async function LogIn() {
   //if (session) redirect(redirectUrl);
 
   return (
-    <section className="min-h-screen container">
-      <div className="flex flex-col item-center p-0 md:p-10 max-w-[960px] m-auto">
-        <h1 className="col-span-1 md:col-span-4 font-bold text-4xl mt-10 pb-4 mx-auto">
-          ¡Ingresa aquí!
-        </h1>
-        <div className="col-span-1 md:col-span-2 mt-10">
-          <LogInForm />
+    <section className="min-h-screen relative flex items-center justify-center p-4" id="acces-body">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      <div className="relative z-10 w-full max-w-md mx-auto">
+        <div className="p-8 space-y-6">
+          <div className="text-center space-y-2">
+            <h1 className="font-bold text-3xl text-white">
+              ¡Ingresa aquí!
+            </h1>
+            <p className="text-white text-sm">
+              Accede a tu cuenta para continuar
+            </p>
+          </div>
+          <div className="space-y-4">
+            <LogInForm />
+          </div>
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-white flex-grow"></div>
+            <span className="mx-4 text-white text-sm">o</span>
+            <div className="border-t border-white flex-grow"></div>
+          </div>
+          <div className="text-center space-y-4">
+            <h2 className="text-lg font-semibold text-white">
+              ¿No tienes una cuenta?
+            </h2>
+            <Button
+              type="button"
+              size="lg"
+              className="w-full bg-purpleDeodi hover:bg-purpleDeodi/90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              asChild
+            >
+              <Link href={"/registro"}>
+                Registrarme
+              </Link>
+            </Button>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold">Si no tienes una cuenta puedes registrarte</h2>
-        <Button
-          type="button"
-          size="lg"
-          className="px-8 py-3 shadow-lg transition-all duration-300"
-          asChild
-        >
-          <Link
-            href={"/registro"}
-            className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
-          >
-            Registrarme
-          </Link>
-        </Button>
       </div>
     </section>
   );

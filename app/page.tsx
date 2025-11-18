@@ -14,8 +14,9 @@ export default function HomePage() {
         <HeroSection />
         <FeaturesSection />
         {/*<EnterpriseSection />*/}
-        <BlogBanner />
+        <BlogBanner title="Conocé nuestro blog asistido por Deodi" subtitle="Encontrarás notas claras y útiles sobre el mundo del trabajo y sugerencias concretas sobre qué estudiar para potenciar tu empleabilidad." image="/students-studying-together.jpg" textButton="Explorar el blog" link="https://actualidad.deodi.com.ar/" />
         <TripticoSection />
+        <BlogBanner title="Conocé el modelo de Campus Norte UNC" subtitle="En nuestra oferta educativa encontrarás módulos que podrás combinar para formar cursos y trayectos más largos, como diplomaturas. Conocé toda nuestra oferta académica" image="/students-studying-together.jpg" textButton="Explorar nuestra web" link="https://campusnorte.unc.edu.ar/oferta-academica/" />
       </main >
       <Footer />
     </>
