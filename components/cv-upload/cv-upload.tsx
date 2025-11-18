@@ -17,12 +17,14 @@ export function CVUpload() {
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
+      //console.log("🚀 ~ CVUpload ~ file:", file)
+      
       const formData = new FormData()
-      formData.append("file", file)
-      formData.append("title", "Título del formulario demo")
-      formData.append("body", "Contenido del cuerpo del formulario demo")
+      formData.append("field_perfildeodi_cv", file);
+      formData.append("field_perfildeodi_ejecutar_ia", "1");
 
-      const res = await fetch("/api/upload-node", { method: "POST", body: formData })
+      const res = await fetch("/api/upload-cv", { method: "POST", body: formData });
+      //console.log("🚀 ~ CVUpload ~ res:", res)
       
       if (!res.ok) {
         const text = await res.text()
