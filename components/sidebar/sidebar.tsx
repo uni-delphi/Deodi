@@ -47,34 +47,43 @@ export function Sidebar({
           />
         </div>
       </div>
-      <nav className="flex-1">
+      <nav className="flex-1 w-full">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
 
           return (
-            <button
-              key={item.id}
-              onClick={() => onSectionChange?.(item.id)}
-              className={cn(
-                "flex items-center w-full p-3 my-2 rounded-lg transition-colors duration-200 group"
-              )}
-            >
-              <div className={cn(
-                "flex items-center justify-center transition-all duration-200 |w-full"
-              )}>
-                <Icon className={cn(
-                  "h-5 w-5 transition-transform duration-200 scale-110"
-                )} />
-              </div>
-            </button>
+            <div key={item.id} className="relative group">
+              <button
+                onClick={() => onSectionChange?.(item.id)}
+                className={cn(
+                  "flex items-center w-full my-6 rounded-lg p-1 transition-colors duration-200 group",
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:border duration-300 transition-all"
+                )}
+              >
+                <div className={cn(
+                  "flex items-center justify-center transition-all duration-200 w-full"
+                )}>
+                  <Icon className={cn(
+                    "h-6 w-6 transition-transform  duration-200",
+                    isActive ? "scale-110" : "group-hover:scale-110"
+                  )} />
+                </div>
+              </button>
+
+              <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 bg-gray-900 text-white text-xs font-medium py-1 px-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
+                {item.label}
+              </span>
+            </div>
           );
         })}
       </nav>
       <div
         onMouseEnter={handleProfileMouseEnter}
         onMouseLeave={handleProfileMouseLeave}
-        className="border-t border-gray-200 pt-4 mt-auto"
+        className="border-t border-gray-200 pt-4 mt-auto w-full"
       >
         <ProfileMenu isOpen={isProfileHovered} />
       </div>
