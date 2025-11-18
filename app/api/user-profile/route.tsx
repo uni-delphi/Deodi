@@ -8,7 +8,8 @@ export async function GET(req: Request) {
   if (!session) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-  //console.log("🚀 ~ session in api user-profile:", session.user.field_user_perfildeodi.und[0].target_id);
+  
+  
   const fileRes = await fetch(`${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`, {
     method: "GET",
     headers: {
