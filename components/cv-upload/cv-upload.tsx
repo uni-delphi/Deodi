@@ -22,8 +22,11 @@ export function CVUpload() {
       const formData = new FormData()
       formData.append("field_perfildeodi_cv", file);
       formData.append("field_perfildeodi_ejecutar_ia", "1");
+      formData.append("title", file.name);
+      formData.append("body", file.name);
 
-      const res = await fetch("/api/upload-cv", { method: "POST", body: formData });
+      //const res = await fetch("/api/upload-cv", { method: "POST", body: formData });
+      const res = await fetch("/api/upload-node", { method: "POST", body: formData });
       //console.log("🚀 ~ CVUpload ~ res:", res)
       
       if (!res.ok) {
@@ -38,7 +41,7 @@ export function CVUpload() {
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
       })
-      router.push("/perfil/validar-cv")
+      //router.push("/perfil/validar-cv")
     },
     onError: (error: Error) => {
       toast({

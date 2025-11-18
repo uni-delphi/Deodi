@@ -3,6 +3,8 @@
 import { User, FileText, Brain, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
+import { redirect, usePathname } from 'next/navigation'
+
 
 interface ProfileMenuProps {
     isOpen?: boolean;
@@ -14,7 +16,7 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             id: "cv",
             label: "Cargar CV",
             icon: FileText,
-            action: () => console.log("Cargar CV clicked")
+            action: () => redirect('/perfil/cargar-cv')
         },
         {
             id: "conductual",

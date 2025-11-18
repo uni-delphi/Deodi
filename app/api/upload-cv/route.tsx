@@ -3,52 +3,171 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth.config";
 
 export async function POST(req: Request) {
+  // 1️⃣ Obtener sesión de NextAuth
   const session = await getServerSession(authOptions);
-  //console.log("asd", req)
   if (!session) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
+
   const formData = await req.formData();
-  const file = formData.get("field_perfildeodi_cv") as File;
-  const ejecutarIA = formData.get("field_perfildeodi_ejecutar_ia") ?? "0";
-  
-  if (!file) {
+  const file = formData.get("field_perfildeodi_cv") as File | null;
+  const ejecutarIA = formData.get("field_perfildeodi_ejecutar_ia") as
+    | string
+    | null;
+  const title = formData.get("title") as string;
+  //console.log("🚀 ~ POST ~ title:", title)
+  const bodyValue = formData.get("body") as string;
+  //console.log("🚀 ~ POST ~ bodyValue:", bodyValue)
+
+  if (!title || !bodyValue) {
     return NextResponse.json(
-      { error: "No se envió ningún archivo" },
+      { error: "Faltan campos obligatorios" },
       { status: 400 }
     );
   }
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
 
-  const drupalForm = new FormData();
-  drupalForm.append("field_perfildeodi_cv", new Blob([buffer]), file.name);
-  drupalForm.append("field_perfildeodi_ejecutar_ia", ejecutarIA); // <-- ahora sí
+  let fid: string | null = null;
 
-  const drupalRes = await fetch(
-    `${process.env.DRUPAL_URL}/app/perfildeodi/analizar?nid=${session.user.field_user_perfildeodi.und[0].target_id}`,
-    {
+  try {
+    // 2️⃣ Obtener CSRF Token desde Drupal
+    //const csrfRes = await fetch(`https://apideodi.cloud/app/services/session/token`, {
+    //  method: "GET",
+    //  headers: {
+    //    "Content-Type": "text/plain",
+    //    "Cookie": `${session.sessionName}=${session.sessid}`
+    //  },
+    //});
+
+    //const csrfToken = await csrfRes.text();
+    //if (!csrfRes.ok) {
+    //  const text = await csrfRes.text();
+    //  return NextResponse.json({ error: "Error obteniendo CSRF token", details: text }, { status: 500 });
+    //}
+
+    //console.log("csrfToken", csrfToken)
+    //console.log("token", session.csrfToken)
+
+    // 3️⃣ Subir archivo si existe
+    if (file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString("base64");
+
+      const fileRes = await fetch(`${process.env.BASE_URL}/api/file.json`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": session.csrfToken,
+          Cookie: `${session.sessionName}=${session.sessid}`,
+        },
+        body: JSON.stringify({
+          file: {
+            file: base64,
+            filename: file.name,
+            filepath: `public://${file.name}`,
+          },
+        }),
+      });
+
+      const fileData = await fileRes.json();
+      console.log("🚀 ~ POST ~ fileData:", fileData);
+
+      if (!fileRes.ok) {
+        const text = await fileRes.text();
+        return NextResponse.json(
+          { error: "Error subiendo archivo", details: text },
+          { status: 500 }
+        );
+      }
+
+      fid = fileData.fid;
+    }
+
+    // 4️⃣ Crear nodo
+    /*const nodeRes = await fetch(`${process.env.BASE_URL}/api/node.json`, {
       method: "POST",
       headers: {
-        //"Content-Disposition": `file; filename="${file.name}"`,
-        "X-CSRF-Token": session.csrfToken, // guardaste esto al loguear
-        Cookie: `${session.sessionName}=${session.sessid}`, // idem
+        "Content-Type": "application/json",
+        "X-CSRF-Token": session.csrfToken,
+        Cookie: `${session.sessionName}=${session.sessid}`,
       },
-      body: drupalForm,
+      body: JSON.stringify({
+        type: "formulariodemo",
+        title,
+        body: {
+          und: [{ value: bodyValue, summary: "", format: "filtered_html" }],
+        },
+      }),
+    });
+
+    if (!nodeRes.ok) {
+      const text = await nodeRes.text();
+      return NextResponse.json({ error: "Error creando nodo", details: text }, { status: 500 });
     }
-  );
 
-  if (!drupalRes.ok) {
-    const text = await drupalRes.text();
+    const nodeData = await nodeRes.json();
+    console.log("🚀 ~ POST ~ nodeData:", nodeData);
+    const nid = nodeData.nid;*/
 
+    // 5️⃣ Asignar archivo al nodo si existe
+    if (fid) {
+      const putRes = await fetch(`${process.env.BASE_URL}/api/node/13.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": session.csrfToken,
+          Cookie: `${session.sessionName}=${session.sessid}`,
+        },
+        body: JSON.stringify({
+          field_perfildeodi_cv: {
+            und: [
+              {
+                fid,
+                alt: file?.name ?? "",
+                title: file?.name ?? "",
+              },
+            ],
+          },
+          field_perfildeodi_ejecutar_ia: {
+            und: [
+              {
+                value: ejecutarIA ?? "0",
+              },
+            ],
+          },
+        }),
+      });
+
+      if (!putRes.ok) {
+        const text = await putRes.text();
+        return NextResponse.json(
+          { error: "Error asignando archivo al nodo", details: text },
+          { status: 500 }
+        );
+      }
+      console.log("🚀 ~ POST ~ putRes:", putRes);
+      const dada = await putRes.json();
+      const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${session.user.field_user_perfildeodi.und[0].target_id}`, {
+        method: "POST",
+        headers: {  
+          "Content-Type": "application/json",
+          "X-CSRF-Token": session.csrfToken,
+          Cookie: `${session.sessionName}=${session.sessid}`,
+        },
+      });
+
+      if (!aiAnalyzeRes.ok) {
+        const text = await aiAnalyzeRes.text();
+        return NextResponse.json( 
+          { error: "Error iniciando análisis IA", details: text },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ isSuccess: true, fid, dada });
+    }
+  } catch (error) {
     return NextResponse.json(
-      { error: "Error subiendo a Drupal", details: text },
+      { error: "Error inesperado", details: error },
       { status: 500 }
     );
   }
-
-  const data = await drupalRes.json();
-  console.log("🚀 ~ POST ~ data:", data)
-  
-  return NextResponse.json(data);
 }
