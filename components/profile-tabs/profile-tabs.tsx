@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Briefcase, GraduationCap, Star, Heart, Trash2 } from "lucide-react";
+import { Briefcase, GraduationCap, Star, Heart, Trash2, Pencil } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
@@ -27,12 +27,11 @@ export function ProfileTabs() {
 
   // Cargar datos del backend
   useEffect(() => {
-    /* if (data?.body?.und?.[0]?.value) {
+    if (data?.body?.und?.[0]?.value) {
       const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys); 
-      setEditedData(parsed);
-  } */
-    console.log(data)
+      const cleaned = parsed.map(cleanKeys);
+      setEditedData(cleaned);
+    }
   }, [data]);
 
   const mutation = useMutation({
@@ -168,6 +167,7 @@ export function ProfileTabs() {
               ) : (
                 <Button onClick={() => handleEdit("experiencia")}>
                   Editar
+                  <Pencil className="mx-2 p-1" />
                 </Button>
               )}
             </CardTitle>
@@ -281,7 +281,7 @@ export function ProfileTabs() {
                   </Button>
                 </div>
               ) : (
-                <Button onClick={() => handleEdit("estudios")}>Editar</Button>
+                <Button onClick={() => handleEdit("estudios")}>Editar <Pencil className="mx-2 p-1" /></Button>
               )}
             </CardTitle>
             <CardDescription>
