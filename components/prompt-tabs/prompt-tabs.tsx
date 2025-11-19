@@ -55,7 +55,7 @@ export function PromptTabs() {
       </TabsList>
 
       {/* 2/3 derecha - Contenido */}
-      <div className="w-2/3 border border-gray-200 rounded-lg p-6 bg-white">
+      <div className="w-2/3 border border-gray-200 rounded-lg p-6 bg-white shadow">
         {tabsData.map((tab) => (
           <TabsContent key={tab.id} value={tab.id} className="mt-0">
             <PromptPanel
