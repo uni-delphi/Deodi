@@ -25,6 +25,12 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             action: () => console.log("Cargar Conductual clicked")
         },
         {
+            id: "prompts",
+            label: "Cargar Prompts",
+            icon: Brain,
+            action: () => redirect('/perfil/chat')
+        },
+        {
             id: "logout",
             label: "Cerrar sesión",
             icon: LogOut,
@@ -36,9 +42,9 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
         <div className="relative">
             <div className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 mx-auto",
-                "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                "bg-purpleDeodi hover:opacity-80 cursor-pointer"
             )}>
-                <User className="w-5 h-5 text-white" />
+                <User className="w-5 h-5 text-white " />
             </div>
 
             {/* Popup flotante a la derecha */}

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Image from "next/image";
 import { ProfileMenu } from "./profile-menu";
+import Link from "next/link";
 
 interface SidebarProps {
   activeSection?: string;
@@ -35,7 +36,7 @@ export function Sidebar({
       )}
     >
       <div className="mb-8">
-        <div className={cn(
+        <Link href="/perfil" className={cn(
           "flex items-center gap-2 mb-6"
         )}>
           <Image
@@ -45,7 +46,7 @@ export function Sidebar({
             width={40}
             className="object-contain"
           />
-        </div>
+        </Link>
       </div>
       <nav className="flex-1 w-full">
         {menuItems.map((item) => {
@@ -60,7 +61,7 @@ export function Sidebar({
                   "flex items-center w-full my-6 rounded-lg p-1 transition-colors duration-200 group",
                   isActive
                     ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:border duration-300 transition-all"
+                    : "border border-white text-gray-600 hover:bg-gray-50 hover:text-purpleDeodi hover:border-gray-200 duration-300 transition-all"
                 )}
               >
                 <div className={cn(
@@ -73,7 +74,7 @@ export function Sidebar({
                 </div>
               </button>
 
-              <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 bg-gray-900 text-white text-xs font-medium py-1 px-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
+              <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 bg-white text-gray-900 text-xs font-medium py-1 px-3 border border-gray-200 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
                 {item.label}
               </span>
             </div>
