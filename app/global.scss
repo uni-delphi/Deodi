@@ -118,6 +118,14 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+#acces-body {
+  background-image: url("../public//Gemini_Generated_Image_x9i5etx9i5etx9i5.png");
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;  
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

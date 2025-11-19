@@ -94,7 +94,7 @@ export function Nav({ items = [], data = {} }: { items: any[]; data: any }) {
 
         <div className="flex col-start-5 col-span-1 justify-end md:justify-end items-center gap-4 md:gap-8">
           {/* md:hidden */}
-          
+
           <button
             onClick={toggle}
             className="cursor-pointer relative z-50 transition duration-500 ease-in-out"

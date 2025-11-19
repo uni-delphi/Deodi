@@ -63,7 +63,7 @@ export default function LogInForm() {
         title: "Password o email son incorrectos.",
       });
     }
-    
+
     router.push(`/perfil`);
   }
 
@@ -78,7 +78,7 @@ export default function LogInForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="mx-auto">
+              <FormItem className="mx-auto text-white">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="tu@email.com" {...field} />
@@ -92,7 +92,7 @@ export default function LogInForm() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="mx-auto">
+              <FormItem className="mx-auto text-white">
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
                   <Input placeholder="......" type="password" {...field} />
@@ -105,7 +105,7 @@ export default function LogInForm() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-blue-600 text-white hover:bg-gray-200 hover:text-blue-600 "
+              className="bg-purpleDeodi transition-all duration-300 text-white hover:border-solid hover:border-white hover:border-2"
             >
               {isLoading ? (
                 <>
@@ -116,7 +116,7 @@ export default function LogInForm() {
                 "Ingresar"
               )}
             </Button>
-            <GoogleLoginButton />
+            {/* <GoogleLoginButton /> */}
           </div>
         </form>
       </Form>
