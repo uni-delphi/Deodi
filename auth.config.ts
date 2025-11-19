@@ -36,7 +36,6 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials: any, req): Promise<User | null> {
         if (!credentials?.email || !credentials?.password) return null;
-
         try {
           const drupalUser  = await loginUser({
             username: credentials.email,

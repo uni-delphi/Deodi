@@ -1,21 +1,14 @@
 "use client";
 
 import {
-  User,
   GraduationCap,
   Briefcase,
-  ChevronDown,
-  FileText,
-  Brain,
-  Menu,
-  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { ProfileMenu } from "./profile-menu";
 import Link from "next/link";
-
-import { signOut } from "next-auth/react";
 
 interface SidebarProps {
   activeSection?: string;
@@ -26,172 +19,75 @@ export function Sidebar({
   activeSection = "perfil",
   onSectionChange,
 }: SidebarProps) {
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const menuItems = [
-    {
-      id: "perfil",
-      label: "Perfil",
-      icon: User,
-      hasDropdown: true,
-      subItems: [
-        {
-          id: "cargar-cv",
-          label: "Cargar CV",
-          icon: FileText,
-          href: "/perfil/cargar-cv",
-        },
-        {
-          id: "actualizar-conductual",
-          label: "Cargar Conductual",
-          icon: Brain,
-          href: "/perfil/actualizar-conductual",
-        },
-      ],
-    },
-    { id: "formacion", label: "Formación", icon: GraduationCap },
-    { id: "ofertas", label: "Ofertas", icon: Briefcase },
+    { id: "formacion", label: "Formación", icon: GraduationCap, hasDropdown: false },
+    { id: "ofertas", label: "Ofertas", icon: Briefcase, hasDropdown: false },
   ];
+
+  const handleProfileMouseEnter = () => setIsProfileHovered(true);
+  const handleProfileMouseLeave = () => setIsProfileHovered(false);
 
   return (
     <div
       className={cn(
-        "w-full h-full bg-sidebar  bg-white border-r border-sidebar-border p-6 transition-all duration-300 ease-in-out absolute z-10 ",
-        isCollapsed ? "w-20" : "w-64"
+        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col items-center",
       )}
     >
       <div className="mb-8">
-        <div className="flex items-center gap-2 mb-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 hover:bg-sidebar-accent/10"
-          >
-            {isCollapsed ? (
-              <Menu className="h-4 w-4" />
-            ) : (
-              <X className="h-4 w-4" />
-            )}
-          </Button>
-
-          {!isCollapsed && (
-            <>
-              <User className="h-6 w-6 text-sidebar-accent" />
-              <Link
-                href="/perfil"
-                className="hover:text-primary transition-colors"
-              >
-                <h2 className="text-lg font-semibold text-sidebar-foreground cursor-pointer">
-                  Mi Perfil
-                </h2>
-              </Link>
-            </>
-          )}
-        </div>
+        <Link href="/perfil" className={cn(
+          "flex items-center gap-2 mb-6"
+        )}>
+          <Image
+            src="/deodi-logo.webp"
+            alt="logo"
+            height={40}
+            width={40}
+            className="object-contain"
+          />
+        </Link>
       </div>
-
-      <nav className="space-y-2">
+      <nav className="flex-1 w-full">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
 
           return (
-            <div key={item.id}>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (item.hasDropdown) {
-                    setIsProfileOpen(!isProfileOpen);
-                  } else {
-                    onSectionChange?.(item.id);
-                  }
-                }}
+            <div key={item.id} className="relative group">
+              <button
+                onClick={() => onSectionChange?.(item.id)}
                 className={cn(
-                  "w-full justify-start gap-3 h-auto px-4 py-3",
+                  "flex items-center w-full my-6 rounded-lg p-1 transition-colors duration-200 group",
                   isActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/10"
+                    ? "bg-blue-50 text-blue-600"
+                    : "border border-white text-gray-600 hover:bg-gray-50 hover:text-purpleDeodi hover:border-gray-200 duration-300 transition-all"
                 )}
-                title={isCollapsed ? item.label : undefined}
               >
-                <Icon className="h-5 w-5" />
-                {!isCollapsed && (
-                  <>
-                    <span className="font-medium flex-1 text-left">
-                      {item.label}
-                    </span>
-                    {item.hasDropdown && (
-                      <ChevronDown
-                        className={cn(
-                          "h-4 w-4 transition-transform",
-                          item.id === "perfil" && isProfileOpen
-                            ? "rotate-180"
-                            : ""
-                        )}
-                      />
-                    )}
-                  </>
-                )}
-              </Button>
+                <div className={cn(
+                  "flex items-center justify-center transition-all duration-200 w-full"
+                )}>
+                  <Icon className={cn(
+                    "h-6 w-6 transition-transform  duration-200",
+                    isActive ? "scale-110" : "group-hover:scale-110"
+                  )} />
+                </div>
+              </button>
 
-              {item.hasDropdown &&
-                item.id === "perfil" &&
-                isProfileOpen &&
-                !isCollapsed && (
-                  <div className="ml-4 mt-1 space-y-1">
-                    {item.subItems?.map((subItem) => {
-                      const SubIcon = subItem.icon;
-                      const isSubActive = activeSection === subItem.id;
-
-                      if (subItem.href) {
-                        return (
-                          <Link key={subItem.id} href={subItem.href}>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className={cn(
-                                "w-full justify-start gap-3 h-auto px-4 py-2",
-                                isSubActive
-                                  ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10"
-                              )}
-                            >
-                              <SubIcon className="h-4 w-4" />
-                              <span>{subItem.label}</span>
-                            </Button>
-                          </Link>
-                        );
-                      }
-
-                      return (
-                        <Button
-                          key={subItem.id}
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onSectionChange?.(subItem.id)}
-                          className={cn(
-                            "w-full justify-start gap-3 h-auto px-4 py-2",
-                            isSubActive
-                              ? "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent"
-                              : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10"
-                          )}
-                        >
-                          <SubIcon className="h-4 w-4" />
-                          <span>{subItem.label}</span>
-                        </Button>
-                      );
-                    })}
-                  </div>
-                )}
+              <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 bg-white text-gray-900 text-xs font-medium py-1 px-3 border border-gray-200 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
+                {item.label}
+              </span>
             </div>
           );
         })}
-        {!isCollapsed && (
-          <Button onClick={() => signOut()}>Cerrar sesión</Button>
-        )}
       </nav>
+      <div
+        onMouseEnter={handleProfileMouseEnter}
+        onMouseLeave={handleProfileMouseLeave}
+        className="border-t border-gray-200 pt-4 mt-auto w-full"
+      >
+        <ProfileMenu isOpen={isProfileHovered} />
+      </div>
     </div>
   );
 }

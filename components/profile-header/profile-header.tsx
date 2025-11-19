@@ -11,9 +11,9 @@ export function ProfileHeader({ name, lastName, description, avatarUrl }: Profil
   const initials = `${name.charAt(0)}${lastName.charAt(0)}`
 
   return (
-    <div className="text-center mb-8">
+    <div className="mb-8">
       <div className="mb-6">
-        <Avatar className="w-32 h-32 mx-auto mb-4">
+        <Avatar className="w-32 h-32 mb-4">
           <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={`${name} ${lastName}`} />
           <AvatarFallback className="text-2xl font-bold bg-muted text-muted-foreground">{initials}</AvatarFallback>
         </Avatar>
@@ -23,7 +23,7 @@ export function ProfileHeader({ name, lastName, description, avatarUrl }: Profil
         {name} {lastName}
       </h1>
 
-      <p className="text-lg text-muted-foreground max-w-md mx-auto text-pretty leading-relaxed">{description}</p>
+      <p className="text-lg text-muted-foreground max-w-md text-pretty leading-relaxed">{description}</p>
     </div>
   )
 }
