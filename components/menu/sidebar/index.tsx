@@ -30,11 +30,9 @@ export function Sidebar({
   const handleProfileMouseLeave = () => setIsProfileHovered(false);
 
   return (
-    <div
-      className={cn(
-        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col items-center",
-      )}
-    >
+    <div className={cn(
+      "hidden lg:flex w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex-col items-center",
+    )}>
       <div className="mb-8">
         <Link href="/perfil" className={cn(
           "flex items-center gap-2 mb-6"
