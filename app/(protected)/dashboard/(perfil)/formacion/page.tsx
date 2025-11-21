@@ -28,7 +28,7 @@ import { useState, useEffect } from "react";
 function FormacionPage() {
   const { toast } = useToast();
   const { data, isLoading } = useUserProfile();
-
+  const queryClient = useQueryClient();
   const [editedData, setEditedData] = useState<any[]>([]);
   const [editingTab, setEditingTab] = useState<string | null>(null);
 
@@ -43,18 +43,18 @@ function FormacionPage() {
 
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
-      const res = await fetch("/api/user/profile", {
+      const res = await fetch("/api/user-profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Error al guardar perfil");
+      if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
     onSuccess: () => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      //queryClient.invalidateQueries(["userProfile"]);
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
   });
@@ -91,9 +91,9 @@ function FormacionPage() {
     setEditedData((prev) => prev.filter((item) => item.nid !== nid));
   };
 
-  const updateField = (index: number, key: string, value: string) => {
+  const updateField = (nid: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item))
+      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item))
     );
   };
 
@@ -124,8 +124,11 @@ function FormacionPage() {
         <CardContent className="space-y-6">
           {editedData
             .filter((d) => d.empresa === "Nulo")
-            .map((edu, i) => (
-              <div key={edu.nid} className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative">
+            .map((edu) => (
+              <div
+                key={edu.nid}
+                className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative"
+              >
                 {editingTab === "estudios" && (
                   <Button
                     size="icon"
@@ -148,11 +151,16 @@ function FormacionPage() {
                         className="mt-1"
                         value={edu.titulo_obtenido}
                         onChange={(e) =>
-                          updateField(i, "titulo_obtenido", e.target.value)
+                          updateField(
+                            edu.nid,
+                            "titulo_obtenido",
+                            e.target.value
+                          )
                         }
                         placeholder="Título"
                       />
                     </div>
+
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">
                         Institución
@@ -162,7 +170,7 @@ function FormacionPage() {
                         value={edu.institucion_educacion}
                         onChange={(e) =>
                           updateField(
-                            i,
+                            edu.nid,
                             "institucion_educacion",
                             e.target.value
                           )
@@ -170,6 +178,7 @@ function FormacionPage() {
                         placeholder="Institución"
                       />
                     </div>
+
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">
                         Año
@@ -178,7 +187,7 @@ function FormacionPage() {
                         className="mt-1"
                         value={edu.formacion_ano}
                         onChange={(e) =>
-                          updateField(i, "formacion_ano", e.target.value)
+                          updateField(edu.nid, "formacion_ano", e.target.value)
                         }
                         placeholder="Año"
                       />
