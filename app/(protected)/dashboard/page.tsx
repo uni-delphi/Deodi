@@ -22,15 +22,15 @@ export default async function Dashboard() {
     <section className="flex-1 p-8">
       <div className="">
         {/* Header con foto de perfil, nombre y descripción */}
-        <ProfileHeader
+        {/*<ProfileHeader
           name={session?.user.name.split("@")[0] || "Renzo"}
           lastName={session?.user.lastName || "Pérez López"}
           description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
           avatarUrl="/professional-headshot.png"
-        />
+        />*/}
 
         {/* Sección de tabs desplegables */}
-        <ProfileTabs />
+        {/*<ProfileTabs />*/}
       </div>
     </section>
   );
