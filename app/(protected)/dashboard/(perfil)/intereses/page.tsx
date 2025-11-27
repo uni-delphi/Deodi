@@ -7,104 +7,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  Briefcase,
-  GraduationCap,
-  Star,
-  Heart,
-  Trash2,
-  Pencil,
-  X,
-} from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
 import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
 import { cleanKeys } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Heart, X, Pencil, Check } from "lucide-react";
 
 function InteresesPage() {
   const { toast } = useToast();
-  const { data, isLoading } = useUserProfile();
-
-  const [editedData, setEditedData] = useState<any[]>([]);
-  const [editingTab, setEditingTab] = useState<string | null>(null);
-
-  // Cargar datos del backend
-  useEffect(() => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setEditedData(cleaned);
-    }
-  }, [data]);
-
-  const mutation = useMutation({
-    mutationFn: async (payload: any) => {
-      const res = await fetch("/api/user/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Error al guardar perfil");
-      return res.json();
-    },
-    onSuccess: () => {
-      toast({ title: "Perfil actualizado correctamente" });
-      setEditingTab(null);
-      //queryClient.invalidateQueries(["userProfile"]);
-    },
-    onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
-  });
-
-  // === Handlers ===
-  const handleEdit = (tab: string) => setEditingTab(tab);
-
-  const handleCancel = () => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setEditedData(cleaned);
-    }
-    setEditingTab(null);
-  };
-
-  const handleSave = () => mutation.mutate(editedData);
-
-  const handleAdd = (type: string) => {
-    const newItem: any = {
-      nid: Date.now(),
-      empresa: type === "experiencia" ? "" : "Nulo",
-      empresa_anos: "",
-      responsabilidades_empresa: "",
-      titulo_obtenido: "",
-      institucion_educacion: "",
-      formacion_ano: "",
-      _nuevo: true, // para saber que fue agregado localmente
-    };
-    setEditedData((prev) => [...prev, newItem]);
-  };
-
-  const handleDelete = (nid: number) => {
-    setEditedData((prev) => prev.filter((item) => item.nid !== nid));
-  };
-
-  const updateField = (index: number, key: string, value: string) => {
-    setEditedData((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item))
-    );
-  };
-
-  // === Datos estáticos ===
-  const competencias = [
-    "Comunicación efectiva",
-    "Liderazgo",
-    "Trabajo en equipo",
-    "Resolución de problemas",
-  ];
+  const { data } = useUserProfile();
 
   const intereses = [
     "Desarrollo sostenible",
@@ -113,21 +39,153 @@ function InteresesPage() {
     "Gestión pública",
   ];
 
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [open, setOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Cargar intereses desde backend
+  useEffect(() => {
+    if (data?.body?.und?.[0]?.value) {
+      const parsed = JSON.parse(data.body.und[0].value);
+      const cleaned = parsed.map(cleanKeys);
+
+      setSelectedInterests(cleaned[0]?.intereses || []);
+    }
+  }, [data]);
+
+  // Mutación para guardar
+  const mutation = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch("/api/user/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Error al guardar");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Intereses guardados" });
+      setIsEditing(false);
+    },
+    onError: () => {
+      toast({ title: "Error al guardar", variant: "destructive" });
+    },
+  });
+
+  const toggleInterest = (interest: string) => {
+    if (!isEditing) return;
+
+    setSelectedInterests((prev) =>
+      prev.includes(interest)
+        ? prev.filter((i) => i !== interest)
+        : [...prev, interest]
+    );
+  };
+
+  const removeInterest = (interest: string) => {
+    if (!isEditing) return;
+    setSelectedInterests((prev) => prev.filter((i) => i !== interest));
+  };
+
+  const handleSave = () => {
+    mutation.mutate({
+      intereses: selectedInterests,
+    });
+  };
+
+  const handleCancel = () => {
+    if (data?.body?.und?.[0]?.value) {
+      const parsed = JSON.parse(data.body.und[0].value);
+      const cleaned = parsed.map(cleanKeys);
+      setSelectedInterests(cleaned[0]?.intereses || []);
+    }
+    setIsEditing(false);
+  };
+
   return (
     <div className="p-8">
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <Heart className="h-6 w-6" /> Intereses
-          </CardTitle>
-          <CardDescription>Temas o áreas de interés personal</CardDescription>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle className="flex items-center gap-2 text-2xl">
+              <Heart className="h-6 w-6" /> Intereses
+            </CardTitle>
+            <CardDescription>Seleccioná tus temas de interés</CardDescription>
+          </div>
+
+          <div className="flex items-center">
+            {/* Botón Guardar: solo visible en edición */}
+            {isEditing && (
+              <Button onClick={handleSave} className="w-fit">
+                Guardar
+              </Button>
+            )}
+            {/* Botón Editar / Cancelar */}
+            <Button
+              variant={isEditing ? "outline" :"default"}
+              onClick={() => (isEditing ? handleCancel() : setIsEditing(true))}
+              className="flex items-center"
+            >
+              {isEditing ? "Cancelar" : "Editar"}
+              {isEditing ? "" : <Pencil className="mx-2 p-1" />}
+            </Button>
+          </div>
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-2">
-          {intereses.map((i, idx) => (
-            <Badge key={idx} variant="outline" className="py-2 px-3 border border-purpleDeodi text-purpleDeodi cursor-pointer hover:bg-purpleDeodi hover:text-white">
-              {i} <X className="inline-block ml-1 h-4 w-4" />
-            </Badge>
-          ))}
+
+        <CardContent className="flex flex-col gap-6">
+          {/* Multi Select (solo si está editando) */}
+          {isEditing && (
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-between">
+                  {selectedInterests.length > 0
+                    ? `Seleccionaste ${selectedInterests.length}`
+                    : "Elegir intereses"}
+                </Button>
+              </PopoverTrigger>
+
+              <PopoverContent className="w-[300px] p-0 bg-white">
+                <Command>
+                  <CommandList>
+                    <CommandGroup>
+                      {intereses.map((item) => (
+                        <CommandItem
+                          key={item}
+                          onSelect={() => toggleInterest(item)}
+                        >
+                          <Checkbox
+                            checked={selectedInterests.includes(item)}
+                            className="mr-2"
+                          />
+                          {item}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          )}
+
+          {/* Badges (activos en ambos modos, pero con X solo si isEditing) */}
+          <div className="flex flex-wrap gap-2">
+            {selectedInterests.map((interest) => (
+              <Badge
+                key={interest}
+                variant="outline"
+                className="py-2 px-3 border border-purpleDeodi text-purpleDeodi flex items-center gap-1"
+              >
+                {interest}
+                {isEditing && (
+                  <X
+                    className="h-4 w-4 ml-1 cursor-pointer hover:text-red-500"
+                    onClick={() => removeInterest(interest)}
+                  />
+                )}
+              </Badge>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>

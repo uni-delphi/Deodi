@@ -19,12 +19,6 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             action: () => redirect('/dashboard/cargar-cv')
         },
         {
-            id: "conductual",
-            label: "Cargar Conductual",
-            icon: Brain,
-            action: () => console.log("Cargar Conductual clicked")
-        },
-        {
             id: "prompts",
             label: "Cargar Prompts",
             icon: Brain,
