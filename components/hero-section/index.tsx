@@ -19,13 +19,12 @@ export function HeroSection() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-balance">
-            Descubre tu <span className="text-purpleDeodi">vocación</span> y alcanza
+            Con <span className="text-purpleDeodi">Deodi</span>, diseñá tu carrera y descubrí tu vocación
             tu máximo potencial
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-            Plataforma inteligente de orientación vocacional que te ayuda a
-            elegir la carrera correcta y guiarte en tus estudios universitarios
+            Deodi es una plataforma asistido por IA y diseñada por Campus Norte UNC que te ayudará a elegir la formación que necesitas para mejorar tu talento para la empleabilidad.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
@@ -44,7 +43,7 @@ export function HeroSection() {
               variant="outline"
               className="text-lg px-8 py-6 bg-transparent"
             >
-              Ver demo
+              Conocé más
             </Button>
           </div>
 
