@@ -19,11 +19,11 @@ export function ProfileHeader({ name, lastName, description, avatarUrl }: Profil
         </Avatar>
       </div>
 
-      <h1 className="text-3xl font-bold text-foreground mb-2 text-balance">
+      <h1 className="text-3xl font-semibold text-purpleDeodi mb-2 text-pretty">
         {name} {lastName}
       </h1>
 
-      <p className="text-lg text-muted-foreground max-w-md text-pretty leading-relaxed">{description}</p>
+      <p className="text-muted-foreground max-w-md text-pretty leading-relaxed">{description}</p>
     </div>
   )
 }

@@ -16,19 +16,13 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             id: "cv",
             label: "Cargar CV",
             icon: FileText,
-            action: () => redirect('/perfil/cargar-cv')
-        },
-        {
-            id: "conductual",
-            label: "Cargar Conductual",
-            icon: Brain,
-            action: () => console.log("Cargar Conductual clicked")
+            action: () => redirect('/dashboard/cargar-cv')
         },
         {
             id: "prompts",
             label: "Cargar Prompts",
             icon: Brain,
-            action: () => redirect('/perfil/chat')
+            action: () => redirect('/dashboard/chat')
         },
         {
             id: "logout",

@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { v2 as cloudinary } from 'cloudinary';
 
 export async function POST(request: Request) {

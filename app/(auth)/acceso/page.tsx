@@ -8,14 +8,14 @@ import GoogleLoginButton from "@/components/google-login-button/google-login-but
 import LayoutDefault from "@/components/image-layout/image-layout";
 import { getServerSession } from "next-auth/next";
 import { Session } from "next-auth";
-//import { authOptions } from "@/auth.config";
+import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 
 export default async function LogIn() {
-  //const session: Session | null = await getServerSession(authOptions);
+  const session: Session | null = await getServerSession(authOptions);
   //const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
-  //
-  //if (session) redirect(redirectUrl);
+  
+  if (session) redirect("/dashboard/experiencia");
 
   return (
     <section className="min-h-screen relative flex items-center justify-center p-4" id="acces-body">

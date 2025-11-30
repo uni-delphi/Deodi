@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   return NextResponse.json(fileData);
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: Request) {  
   try {
     // 1️⃣ Obtener sesión de NextAuth
     const session = await getServerSession(authOptions);
@@ -39,14 +39,14 @@ export async function PUT(req: Request) {
     }
 
     // 2️⃣ Obtener datos del request
-    const formData = await req.formData();
+    /*const formData = await req.formData();
     console.log("🚀 ~ PUT ~ formData:", formData)
     if (!formData) {
       return NextResponse.json(
         { error: "Faltan campos obligatorios" },
         { status: 400 }
       );
-    }
+    }*/
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const updateProfileRes = await fetch(`${process.env.BASE_URL}/api/node/13.json`, {
         method: "PUT",
@@ -59,7 +59,7 @@ export async function PUT(req: Request) {
           body: {
             und: [
               {
-                value: "Actualización de perfil con nuevo CV",
+                value: JSON.stringify(await req.json()),
               },
             ],
           },

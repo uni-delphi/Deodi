@@ -36,7 +36,7 @@ export function Sidebar({
       )}
     >
       <div className="mb-8">
-        <Link href="/perfil" className={cn(
+        <Link href="/dashboard/experiencia" className={cn(
           "flex items-center gap-2 mb-6"
         )}>
           <Image
