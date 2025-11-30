@@ -23,7 +23,6 @@ export default async function SignIn() {
         <p className="pb-4 mb-4">
           Te pedimos que completes los siguientes datos a fines de poder acceder a la plataforma.
         </p>
-        {/*<SignInForm />*/}
         <RegisterForm />
       </LayoutDefault>
     </section>
