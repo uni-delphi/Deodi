@@ -64,7 +64,7 @@ export default function LogInForm() {
       });
     }
 
-    router.push(`/perfil`);
+    router.push(`/dashboard/experiencia`);
   }
 
   return (

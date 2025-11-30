@@ -32,8 +32,8 @@ export async function loginUser(credentials: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username: "persona@persona.com",//credentials.email,
-      password: "123456",//credentials.password,
+      username: credentials.username,
+      password: credentials.password,
     }),
   });
 }

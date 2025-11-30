@@ -15,7 +15,7 @@ export default async function SignIn() {
 
   //if (session) redirect(redirectUrl);
   return (
-    <section className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
+    <section className="flex min-h-screen items-center justify-center">
       <LayoutDefault>
         <h2 className="font-bold text-2xl my-4 pb-4">
           ¿Primera vez en la plataforma?
@@ -23,7 +23,6 @@ export default async function SignIn() {
         <p className="pb-4 mb-4">
           Te pedimos que completes los siguientes datos a fines de poder acceder a la plataforma.
         </p>
-        {/*<SignInForm />*/}
         <RegisterForm />
       </LayoutDefault>
     </section>
