@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { blogBanner } from "./blog-banner"
 
 
-export default function BlogBanner({ title = "Conocé nuestro blog asistido por Deodi", subtitle = "Encontrarás notas claras y útiles sobre el mundo del trabajo y sugerencias concretas sobre qué estudiar para potenciar tu empleabilidad.", image = "/students-studying-together.jpg", textButton = "Explorar el blog" }: blogBanner) {
+export default function BlogBanner({ title, subtitle, image, textButton, link }: blogBanner) {
 
   return (
     <section className="relative h-[30vh] min-h-[300px] flex items-center overflow-hidden">
@@ -29,10 +29,10 @@ export default function BlogBanner({ title = "Conocé nuestro blog asistido por 
             {subtitle}
           </p>
 
-          <Link href="https://actualidad.deodi.com.ar" target="_blank" rel="noopener noreferrer">
+          <Link href={link} target="_blank" rel="noopener noreferrer">
             <Button
               size="default"
-              className="bg-purpleDeodi text-white font-semibold px-6 py-5 group transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-white hover:text-black hover:border-black hover:border-2"
+              className="bg-purpleDeodi text-white font-semibold px-6 py-5 border group transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-white hover:text-black hover:border-black hover:border"
             >
               {textButton}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
