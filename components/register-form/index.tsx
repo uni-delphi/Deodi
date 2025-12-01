@@ -135,6 +135,7 @@ export function RegisterForm() {
                 type="date"
                 value={formData.birthDate}
                 onChange={handleChange}
+                className="text-white"
                 required
               />
             </div>
@@ -209,7 +210,7 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="hover:bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg" disabled={isLoading}>
             {isLoading ? "Registrando..." : "Registrar"}
           </Button>
         </form>
