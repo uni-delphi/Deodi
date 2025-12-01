@@ -101,20 +101,13 @@ export function CVUpload() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-semibold text-foreground mb-2">Cargar CV</h2>
-        <p className="text-muted-foreground">
-          Sube tu currículum vitae en formato PDF para mantener tu perfil actualizado.
-        </p>
-      </div>
-
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
             Subir Currículum Vitae
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="opacity-90">
             Arrastra y suelta tu archivo PDF aquí o haz clic para seleccionar
           </CardDescription>
         </CardHeader>
@@ -122,7 +115,7 @@ export function CVUpload() {
         <CardContent>
           {!file ? (
             <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors ${
                 dragActive
                   ? "border-primary bg-primary/5"
                   : "border-muted-foreground/25 hover:border-primary/50"
@@ -133,15 +126,15 @@ export function CVUpload() {
               onDrop={handleDrop}
             >
               <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-lg font-medium mb-2">Arrastra tu CV aquí</p>
-              <p className="text-muted-foreground mb-4">o</p>
-              <Button variant="outline" asChild>
+              <p className="text-lg font-medium mb-2 opacity-90">Arrastra tu CV aquí</p>
+              <p className="text-muted-foreground mb-4 opacity-90">o</p>
+              <Button variant="default" className="border border-white bg-purpleDeodi text-white hover:border-purpleDeodi hover:text-purpleDeodi" asChild>
                 <label className="cursor-pointer">
-                  Seleccionar archivo
+                  <span>Seleccionar archivo</span>
                   <input type="file" accept=".pdf" onChange={handleFileSelect} className="hidden" />
                 </label>
               </Button>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-muted-foreground opacity-90 mt-2">
                 Solo archivos PDF (máximo 10MB)
               </p>
             </div>

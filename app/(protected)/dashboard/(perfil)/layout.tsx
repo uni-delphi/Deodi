@@ -21,7 +21,7 @@ export default async function RootLayout({
     <>
       <main className="min-h-screen bg-[var(--lightgray)]">
         <div className="grid grid-cols-12 gap-4 min-h-screen">
-          <div className="col-span-12 md:col-span-4 border-black h-full p-4">
+          <div className="col-span-12 md:col-span-4  h-full px-4 py-8">
             <ProfileHeader
               name={session?.user.name.split("@")[0] || "Renzo"}
               lastName={session?.user.lastName || "Pérez López"}
