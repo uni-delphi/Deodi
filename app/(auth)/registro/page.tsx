@@ -15,7 +15,8 @@ export default async function SignIn() {
 
   //if (session) redirect(redirectUrl);
   return (
-    <section className="flex min-h-screen items-center justify-center">
+    <section className="min-h-screen relative flex items-center justify-center p-4" id="acces-body">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
       <LayoutDefault>
         <h2 className="font-bold text-2xl my-4 pb-4">
           ¿Primera vez en la plataforma?

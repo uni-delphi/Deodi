@@ -16,7 +16,7 @@ export function Header() {
             <Button variant="outline" asChild>
               <Link href="/acceso">Ingresar</Link>
             </Button>
-            <Button className="px-2 border-b-2 rounded-none border-color-purpleDeodi duration-150 transition-all hover:rounded-lg hover:border-2 hover:transition-all hover:duration-150 hover:px-4" asChild>
+            <Button className="px-2 border-b-2 rounded-none border-color-purpleDeodi" asChild>
               <Link href="/register">Registrar</Link>
             </Button>
           </div>
