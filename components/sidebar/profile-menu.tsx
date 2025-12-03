@@ -22,7 +22,7 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
             id: "prompts",
             label: "Cargar Prompts",
             icon: Brain,
-            action: () => redirect('/dashboard/chat')
+            action: () => redirect('/dashboard/1')
         },
         {
             id: "logout",

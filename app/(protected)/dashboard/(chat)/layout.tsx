@@ -22,58 +22,53 @@ export default async function RootLayout({
       <div className="min-h-screen bg-[var(--lightgray)]">
         <div className="grid grid-cols-12 gap-4 min-h-screen">
           <div className="col-span-12 md:col-span-4  h-full px-4 py-8">
-            <ProfileHeader
-              name={session?.user.name.split("@")[0] || "Renzo"}
-              lastName={session?.user.lastName || "Pérez López"}
-              description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
-              avatarUrl="/professional-headshot.png"
-            />
+            
             <div className="w-full">
               <ul className="flex space-x-2">
-                <li value="experiencia">
+                <li value="1">
                   <Button
                     variant={"outline"}
                     className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                     size="sm"
                     asChild
                   >
-                    <Link href={"./experiencia"}>Experiencia</Link>
+                    <Link href={"./1"}>1</Link>
                   </Button>
                 </li>
-                <li value="estudios">
+                <li value="2">
                   <Button
                     variant={"outline"}
                     className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                     size="sm"
                     asChild
                   >
-                    <Link href={"./formacion"}>Formación</Link>
+                    <Link href={"./2"}>2</Link>
                   </Button>
                 </li>
-                <li value="competencias">
+                <li value="3">
                   <Button
                     variant={"outline"}
                     className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                     size="sm"
                     asChild
                   >
-                    <Link href={"./competencias"}>Competencias</Link>
+                    <Link href={"./3"}>3</Link>
                   </Button>
                 </li>
-                <li value="intereses">
+                <li value="4">
                   <Button
                     variant={"outline"}
                     className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                     size="sm"
                     asChild
                   >
-                    <Link href={"./intereses"}>Intereses</Link>
+                    <Link href={"./4"}>4</Link>
                   </Button>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-8 bg-red h-full">
+          <div className="col-span-12 md:col-span-8 bg-red h-full p-8 ">
             {children}
           </div>
         </div>

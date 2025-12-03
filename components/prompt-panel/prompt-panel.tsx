@@ -32,10 +32,10 @@ export function PromptPanel({ prompt, description, onSubmit }: PromptPanelProps)
       {/* Botón de submit */}
       <Button
         onClick={onSubmit}
-        className="w-full"
+        className="w-full bg-purpleDeodi hover:bg-purpleDeodi/90 text-white font-semibold"
         size="lg"
       >
-        Enviar Prompt
+        Copiar Prompt
       </Button>
     </div>
   )

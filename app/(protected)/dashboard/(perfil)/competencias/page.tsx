@@ -107,7 +107,7 @@ function CompetenciasPage() {
             <Star className="h-6 w-6" /> Competencias
           </CardTitle>
           <CardDescription>
-            Habilidades personales y profesionales
+            Competencias técnicas y profesionales
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
