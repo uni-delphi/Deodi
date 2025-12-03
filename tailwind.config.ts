@@ -18,7 +18,7 @@ const config = {
       },
     },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
+      sans: ['Nunito', 'sans-serif'],
     },
     extend: {
       colors: {
