@@ -12,16 +12,14 @@ export function PromptPanel({ prompt, description, onSubmit }: PromptPanelProps)
   return (
     <div className="space-y-4">
       {/* Textarea con prompt no editable */}
-      <div>
+      <div className='select-none'>
         <label className="mb-2 block text-sm font-medium text-foreground">
           Prompt
         </label>
-        <textarea
-          value={prompt}
-          readOnly
-          className="w-full rounded-lg border border-input bg-muted px-4 py-3 text-foreground resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-          rows={6}
-        />
+        <div
+          className="min-h-[10rem] rounded-lg border border-input bg-muted select-none px-4 py-3 opacity-70 excerpt resize-none focus:outline-none focus:ring-2 focus:ring-ring"
+          
+        >{prompt}</div>
       </div>
 
       {/* Párrafo descriptivo */}
