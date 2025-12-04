@@ -7,7 +7,7 @@ import { blogBanner } from "./blog-banner"
 export default function BlogBanner({ title, subtitle, image, textButton, link }: blogBanner) {
 
   return (
-    <section className="relative h-[30vh] min-h-[300px] flex items-center overflow-hidden">
+    <section className="relative min-h-[300px] flex items-center overflow-hidden p-24">
 
       <div className="absolute inset-0 z-0">
         <img
@@ -32,7 +32,7 @@ export default function BlogBanner({ title, subtitle, image, textButton, link }:
           <Link href={link} target="_blank" rel="noopener noreferrer">
             <Button
               size="default"
-              className="bg-purpleDeodi text-white font-semibold px-6 py-5 border group transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-white hover:text-black hover:border-black hover:border"
+              className="bg-purpleDeodi text-white font-semibold px-6 py-5group transition-all duration-300 shadow-lg hover:bg-white hover:text-black "
             >
               {textButton}
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

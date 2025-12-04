@@ -27,7 +27,7 @@ export function FeaturesSection({ features, title, description }: FeaturesSectio
             return (
               <Card
                 key={index}
-                className="p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card border-2"
+                className="p-8 bg-card border border-gray-300 shadow"
               >
                 <div className="w-14 h-14 rounded-xl bg-purpleDeodi/10 flex items-center justify-center mb-6">
                   <Icon className="w-7 h-7 text-purpleDeodi" />
