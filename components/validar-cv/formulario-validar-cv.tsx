@@ -1,48 +1,54 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { CheckCircle, Edit3, Save, X, Plus } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CheckCircle, Edit3, Save, X, Plus } from "lucide-react";
 
 interface CVData {
   personalInfo: {
-    nombre: string
-    apellido: string
-    email: string
-    telefono: string
-    direccion: string
-    linkedin: string
-  }
+    nombre: string;
+    apellido: string;
+    email: string;
+    telefono: string;
+    direccion: string;
+    linkedin: string;
+  };
   experiencia: Array<{
-    id: string
-    empresa: string
-    cargo: string
-    fechaInicio: string
-    fechaFin: string
-    descripcion: string
-  }>
+    id: string;
+    empresa: string;
+    cargo: string;
+    fechaInicio: string;
+    fechaFin: string;
+    descripcion: string;
+  }>;
   educacion: Array<{
-    id: string
-    institucion: string
-    titulo: string
-    fechaInicio: string
-    fechaFin: string
-  }>
-  habilidades: string[]
+    id: string;
+    institucion: string;
+    titulo: string;
+    fechaInicio: string;
+    fechaFin: string;
+  }>;
+  habilidades: string[];
   idiomas: Array<{
-    idioma: string
-    nivel: string
-  }>
+    idioma: string;
+    nivel: string;
+  }>;
 }
 
 export default function ValidarCVPage() {
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
   const [cvData, setCvData] = useState<CVData>({
     personalInfo: {
       nombre: "Juan Carlos",
@@ -59,7 +65,8 @@ export default function ValidarCVPage() {
         cargo: "Desarrollador Senior",
         fechaInicio: "2020-03",
         fechaFin: "2024-01",
-        descripcion: "Desarrollo de aplicaciones web con React y Node.js. Liderazgo de equipo de 5 desarrolladores.",
+        descripcion:
+          "Desarrollo de aplicaciones web con React y Node.js. Liderazgo de equipo de 5 desarrolladores.",
       },
       {
         id: "2",
@@ -67,7 +74,8 @@ export default function ValidarCVPage() {
         cargo: "Desarrollador Full Stack",
         fechaInicio: "2018-06",
         fechaFin: "2020-02",
-        descripcion: "Desarrollo completo de plataforma e-commerce con tecnologías modernas.",
+        descripcion:
+          "Desarrollo completo de plataforma e-commerce con tecnologías modernas.",
       },
     ],
     educacion: [
@@ -79,18 +87,25 @@ export default function ValidarCVPage() {
         fechaFin: "2018",
       },
     ],
-    habilidades: ["React", "Node.js", "TypeScript", "Python", "PostgreSQL", "AWS"],
+    habilidades: [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "Python",
+      "PostgreSQL",
+      "AWS",
+    ],
     idiomas: [
       { idioma: "Español", nivel: "Nativo" },
       { idioma: "Inglés", nivel: "Avanzado" },
     ],
-  })
+  });
 
   const handleSave = () => {
-    setIsEditing(false)
+    setIsEditing(false);
     // Aquí iría la lógica para guardar los cambios
-    console.log("CV actualizado:", cvData)
-  }
+    console.log("CV actualizado:", cvData);
+  };
 
   const addExperiencia = () => {
     const newExp = {
@@ -100,26 +115,28 @@ export default function ValidarCVPage() {
       fechaInicio: "",
       fechaFin: "",
       descripcion: "",
-    }
+    };
     setCvData((prev) => ({
       ...prev,
       experiencia: [...prev.experiencia, newExp],
-    }))
-  }
+    }));
+  };
 
   const removeExperiencia = (id: string) => {
     setCvData((prev) => ({
       ...prev,
       experiencia: prev.experiencia.filter((exp) => exp.id !== id),
-    }))
-  }
+    }));
+  };
 
   const updateExperiencia = (id: string, field: string, value: string) => {
     setCvData((prev) => ({
       ...prev,
-      experiencia: prev.experiencia.map((exp) => (exp.id === id ? { ...exp, [field]: value } : exp)),
-    }))
-  }
+      experiencia: prev.experiencia.map((exp) =>
+        exp.id === id ? { ...exp, [field]: value } : exp
+      ),
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -128,7 +145,9 @@ export default function ValidarCVPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Validar CV</h1>
-            <p className="text-gray-600 mt-1">Revisa y edita la información extraída de tu CV</p>
+            <p className="text-gray-600 mt-1">
+              Revisa y edita la información extraída de tu CV
+            </p>
           </div>
           <div className="flex gap-2">
             {isEditing ? (
@@ -155,7 +174,7 @@ export default function ValidarCVPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-purpleDeodi" />
               Información Personal
             </CardTitle>
             <CardDescription>Datos de contacto y personales</CardDescription>
@@ -167,13 +186,13 @@ export default function ValidarCVPage() {
                 <Input
                   id="nombre"
                   value={cvData.personalInfo.nombre}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, nombre: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, nombre: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
               <div>
@@ -181,13 +200,13 @@ export default function ValidarCVPage() {
                 <Input
                   id="apellido"
                   value={cvData.personalInfo.apellido}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, apellido: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, apellido: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
               <div>
@@ -196,13 +215,13 @@ export default function ValidarCVPage() {
                   id="email"
                   type="email"
                   value={cvData.personalInfo.email}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, email: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, email: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
               <div>
@@ -210,13 +229,13 @@ export default function ValidarCVPage() {
                 <Input
                   id="telefono"
                   value={cvData.personalInfo.telefono}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, telefono: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, telefono: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
               <div>
@@ -224,13 +243,13 @@ export default function ValidarCVPage() {
                 <Input
                   id="direccion"
                   value={cvData.personalInfo.direccion}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, direccion: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, direccion: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
               <div>
@@ -238,13 +257,13 @@ export default function ValidarCVPage() {
                 <Input
                   id="linkedin"
                   value={cvData.personalInfo.linkedin}
-                  onChange={(e) =>
-                    setCvData((prev) => ({
-                      ...prev,
-                      personalInfo: { ...prev.personalInfo, linkedin: e.target.value },
-                    }))
-                  }
-                  disabled={!isEditing}
+                  //onChange={(e) =>
+                  //  setCvData((prev) => ({
+                  //    ...prev,
+                  //    personalInfo: { ...prev.personalInfo, linkedin: e.target.value },
+                  //  }))
+                  //}
+                  disabled={true}
                 />
               </div>
             </div>
@@ -257,13 +276,18 @@ export default function ValidarCVPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <CheckCircle className="h-5 w-5 text-purpleDeodi" />
                   Experiencia Laboral
                 </CardTitle>
                 <CardDescription>Historial profesional</CardDescription>
               </div>
               {isEditing && (
-                <Button onClick={addExperiencia} size="sm" variant="outline" className="gap-2 bg-transparent">
+                <Button
+                  onClick={addExperiencia}
+                  size="sm"
+                  variant="outline"
+                  className="gap-2 bg-transparent"
+                >
                   <Plus className="h-4 w-4" />
                   Agregar
                 </Button>
@@ -293,7 +317,9 @@ export default function ValidarCVPage() {
                       <Label>Empresa</Label>
                       <Input
                         value={exp.empresa}
-                        onChange={(e) => updateExperiencia(exp.id, "empresa", e.target.value)}
+                        onChange={(e) =>
+                          updateExperiencia(exp.id, "empresa", e.target.value)
+                        }
                         disabled={!isEditing}
                       />
                     </div>
@@ -301,7 +327,9 @@ export default function ValidarCVPage() {
                       <Label>Cargo</Label>
                       <Input
                         value={exp.cargo}
-                        onChange={(e) => updateExperiencia(exp.id, "cargo", e.target.value)}
+                        onChange={(e) =>
+                          updateExperiencia(exp.id, "cargo", e.target.value)
+                        }
                         disabled={!isEditing}
                       />
                     </div>
@@ -310,7 +338,13 @@ export default function ValidarCVPage() {
                       <Input
                         type="month"
                         value={exp.fechaInicio}
-                        onChange={(e) => updateExperiencia(exp.id, "fechaInicio", e.target.value)}
+                        onChange={(e) =>
+                          updateExperiencia(
+                            exp.id,
+                            "fechaInicio",
+                            e.target.value
+                          )
+                        }
                         disabled={!isEditing}
                       />
                     </div>
@@ -319,7 +353,9 @@ export default function ValidarCVPage() {
                       <Input
                         type="month"
                         value={exp.fechaFin}
-                        onChange={(e) => updateExperiencia(exp.id, "fechaFin", e.target.value)}
+                        onChange={(e) =>
+                          updateExperiencia(exp.id, "fechaFin", e.target.value)
+                        }
                         disabled={!isEditing}
                       />
                     </div>
@@ -328,7 +364,9 @@ export default function ValidarCVPage() {
                     <Label>Descripción</Label>
                     <Textarea
                       value={exp.descripcion}
-                      onChange={(e) => updateExperiencia(exp.id, "descripcion", e.target.value)}
+                      onChange={(e) =>
+                        updateExperiencia(exp.id, "descripcion", e.target.value)
+                      }
                       disabled={!isEditing}
                       rows={3}
                     />
@@ -343,14 +381,19 @@ export default function ValidarCVPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              Educación
+              <CheckCircle className="h-5 w-5 text-purpleDeodi" />
+              Formación Académica
             </CardTitle>
-            <CardDescription>Formación académica</CardDescription>
+            <CardDescription>
+              Educación formal y certificaciones
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {cvData.educacion.map((edu) => (
-              <div key={edu.id} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div
+                key={edu.id}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
                 <div>
                   <Label>Institución</Label>
                   <Input value={edu.institucion} disabled={!isEditing} />
@@ -372,14 +415,16 @@ export default function ValidarCVPage() {
           </CardContent>
         </Card>
 
-        {/* Habilidades */}
-        <Card>
+        {/* Competencias */}
+        <Card className="hidden">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              Habilidades
+              <CheckCircle className="h-5 w-5 text-purpleDeodi" />
+              Competencias
             </CardTitle>
-            <CardDescription>Competencias técnicas y profesionales</CardDescription>
+            <CardDescription>
+              Competencias técnicas y profesionales
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
@@ -392,19 +437,22 @@ export default function ValidarCVPage() {
           </CardContent>
         </Card>
 
-        {/* Idiomas */}
+        {/* Intereses */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
-              Idiomas
+              <CheckCircle className="h-5 w-5 text-purpleDeodi" />
+              Intereses
             </CardTitle>
-            <CardDescription>Competencias lingüísticas</CardDescription>
+            <CardDescription>Seleccioná tus temas de interés</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {cvData.idiomas.map((idioma, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
                   <span className="font-medium">{idioma.idioma}</span>
                   <Badge variant="outline">{idioma.nivel}</Badge>
                 </div>
@@ -414,5 +462,5 @@ export default function ValidarCVPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
