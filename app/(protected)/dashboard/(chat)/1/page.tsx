@@ -20,7 +20,6 @@ const tabsData = {
 function page() {
   const handleSubmit = (tabId: string) => {
     console.log(`Submitted from ${tabId}`);
-    // Aquí puedes agregar la lógica de submit
   };
 
   return (
