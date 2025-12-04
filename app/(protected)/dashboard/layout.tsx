@@ -1,8 +1,10 @@
+"use client"
+
 import AdminDropDown from "@/components/admin-dropdown/admin-dropdown";
 import { Menu } from "@/components/menu";
 import { useState } from "react";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
