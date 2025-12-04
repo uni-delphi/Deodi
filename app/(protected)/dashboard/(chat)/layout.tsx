@@ -22,7 +22,7 @@ export default async function RootLayout({
     <>
       <div className="min-h-screen bg-[var(--lightgray)]">
         <div className="grid grid-cols-12 gap-4 min-h-screen">
-          <div className="col-span-12 md:col-span-4  h-full px-4 py-8">
+          <div className="col-span-12 lg:col-span-4 h-full px-4 pt-8 lg:py-8">
             <div className="w-full">
               <ButtonGroup orientation="horizontal" aria-label="Prompts controls" className="[--radius:9999rem]">
                 <Button
@@ -31,7 +31,7 @@ export default async function RootLayout({
                   size="sm"
                   asChild
                 >
-                  <Link href={"./1"}>1</Link>
+                  <Link href={"./nuevo-cv"}>Curriculum</Link>
                 </Button>
                 <Button
                   variant={"outline"}
@@ -39,7 +39,7 @@ export default async function RootLayout({
                   size="sm"
                   asChild
                 >
-                  <Link href={"./2"}>2</Link>
+                  <Link href={"./carta-de-recomendacion"}>Carta</Link>
                 </Button>
 
                 <Button
@@ -48,20 +48,12 @@ export default async function RootLayout({
                   size="sm"
                   asChild
                 >
-                  <Link href={"./3"}>3</Link>
-                </Button>
-                <Button
-                  variant={"outline"}
-                  className="border border-gray-300 shadow"
-                  size="sm"
-                  asChild
-                >
-                  <Link href={"./4"}>4</Link>
-                </Button>
+                  <Link href={"./exploracion-de-carreras"}>Carreras</Link>
+                </Button>                
               </ButtonGroup>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-8 bg-red h-full p-8 ">
+          <div className="col-span-12 lg:col-span-8 bg-red h-full p-8">
             {children}
           </div>
         </div>

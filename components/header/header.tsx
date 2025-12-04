@@ -17,7 +17,7 @@ export function Header() {
               <Link href="/acceso">Ingresar</Link>
             </Button>
             <Button className="px-2 border-b-2 rounded-none border-color-purpleDeodi" asChild>
-              <Link href="/register">Registrar</Link>
+              <Link href="/registro">Registrar</Link>
             </Button>
           </div>
         </div>
