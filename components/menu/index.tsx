@@ -2,7 +2,7 @@
 
 import { useIsMobile } from "@/app/hooks/use-is-mobile";
 import { Sidebar } from "../sidebar/sidebar";
-import { MobileMenu } from "../mobile-menu/mob";
+import { MobileMenu } from "../mobile-menu";
 
 interface MenuProps {
     activeSection?: string;
