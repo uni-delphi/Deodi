@@ -33,10 +33,76 @@ function InteresesPage() {
   const { data } = useUserProfile();
 
   const intereses = [
-    "Desarrollo sostenible",
-    "Tecnología educativa",
-    "Innovación social",
-    "Gestión pública",
+    "Creatividad → Diseño gráfico",
+    "Creatividad → Ilustración digital",
+    "Creatividad → Fotografía artística",
+    "Tecnología → Programación web",
+    "Tecnología → Inteligencia artificial aplicada",
+    "Tecnología → Automatización de procesos",
+    "Comunicación → Redacción institucional",
+    "Comunicación → Storytelling digital",
+    "Comunicación → Gestión de redes sociales",
+    "Innovación → Modelos de negocio disruptivos",
+    "Innovación → Emprendimiento social",
+    "Innovación → Economía circular",
+    "Educación → Formación de adultos",
+    "Educación → Educación digital/online",
+    "Educación → Diseño de experiencias de aprendizaje",
+    "Cultura → Patrimonio local",
+    "Cultura → Diversidad e inclusión cultural",
+    "Cultura → Producción de eventos culturales",
+    "Medioambiente → Gestión de residuos",
+    "Medioambiente → Energías renovables",
+    "Medioambiente → Conservación de ecosistemas",
+    "Salud y bienestar → Mindfulness y bienestar laboral",
+    "Salud y bienestar → Nutrición consciente",
+    "Salud y bienestar → Ergonomía y ambiente de trabajo",
+    "Relaciones interpersonales → Coaching y mentoring",
+    "Relaciones interpersonales → Trabajo en equipo",
+    "Relaciones interpersonales → Resolución de conflictos",
+    "Ciudadanía y comunidad → Desarrollo comunitario",
+    "Ciudadanía y comunidad → Voluntariado corporativo",
+    "Ciudadanía y comunidad → Cooperación institucional",
+    "Empleabilidad → Desarrollo de carrera profesional",
+    "Empleabilidad → Marca personal",
+    "Empleabilidad → Movilidad internacional",
+    "Economía y finanzas → Microemprendimientos",
+    "Economía y finanzas → Inversión responsable",
+    "Economía y finanzas → Comercio internacional",
+    "Datos y análisis → Big data aplicado",
+    "Datos y análisis → Visualización de datos",
+    "Datos y análisis → Inteligencia de negocio (BI)",
+    "Marketing → Marketing digital",
+    "Marketing → Branding personal",
+    "Marketing → Investigación de mercado",
+    "Gestión y liderazgo → Gestión de proyectos",
+    "Gestión y liderazgo → Liderazgo inclusivo",
+    "Gestión y liderazgo → Cambio organizacional",
+    "Sostenibilidad → Responsabilidad social empresarial (RSE)",
+    "Sostenibilidad → Certificaciones sostenibles",
+    "Sostenibilidad → Economía verde",
+    "Patrimonio profesional → Formación permanente",
+    "Patrimonio profesional → Transferencia de conocimiento",
+    "Patrimonio profesional → Validación de experiencias previas",
+    "Cultura digital → Metodologías ágiles",
+    "Cultura digital → Trabajo remoto/híbrido",
+    "Cultura digital → Ciberseguridad personal",
+    "Idiomas y comunicación global → Inglés para negocios",
+    "Idiomas y comunicación global → Portugués latino-americano",
+    "Idiomas y comunicación global → Comunicación intercultural",
+    "Arte y diseño → Diseño de interiores",
+    "Arte y diseño → Escenografía para eventos",
+    "Arte y diseño → Tipografía creativa",
+    "Ciencia y tecnología → Bioinformática",
+    "Ciencia y tecnología → Robótica aplicada",
+    "Ciencia y tecnología → Internet de las cosas (IoT)",
+    "Bienestar social → Igualdad de género",
+    "Bienestar social → Salud mental en el trabajo",
+    "Bienestar social → Inclusión laboral de personas con discapacidad",
+    "Patrimonio lengua regional → Dialecto/localismos",
+    "Patrimonio lengua regional → Oralidad y tradiciones",
+    "Turismo y cultura local → Turismo sostenible",
+    "Turismo y cultura local → Interpretación patrimonial",
   ];
 
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
@@ -45,18 +111,16 @@ function InteresesPage() {
 
   // Cargar intereses desde backend
   useEffect(() => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-
-      setSelectedInterests(cleaned[0]?.intereses || []);
+    if (data?.field_perfildeodi_intereses?.und?.[0]?.value) {
+      const parsed = JSON.parse(data.field_perfildeodi_intereses.und[0].value);
+      setSelectedInterests(parsed || []);
     }
   }, [data]);
 
   // Mutación para guardar
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
-      const res = await fetch("/api/user/profile", {
+      const res = await fetch("/api/user-profile-intereses", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -89,16 +153,13 @@ function InteresesPage() {
   };
 
   const handleSave = () => {
-    mutation.mutate({
-      intereses: selectedInterests,
-    });
+    mutation.mutate(selectedInterests)
   };
 
   const handleCancel = () => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setSelectedInterests(cleaned[0]?.intereses || []);
+    if (data?.field_perfildeodi_intereses?.und?.[0]?.value) {
+      const parsed = JSON.parse(data.field_perfildeodi_intereses.und[0].value);
+      setSelectedInterests(parsed || []);
     }
     setIsEditing(false);
   };
@@ -123,7 +184,7 @@ function InteresesPage() {
             )}
             {/* Botón Editar / Cancelar */}
             <Button
-              variant={isEditing ? "outline" :"default"}
+              variant={isEditing ? "outline" : "default"}
               onClick={() => (isEditing ? handleCancel() : setIsEditing(true))}
               className="flex items-center"
             >

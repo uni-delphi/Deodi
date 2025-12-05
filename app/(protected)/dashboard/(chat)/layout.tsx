@@ -21,55 +21,39 @@ export default async function RootLayout({
   return (
     <>
       <div className="min-h-screen bg-[var(--lightgray)]">
-        <div className="grid grid-cols-12 gap-4 lg:min-h-screen">
+        <div className="grid grid-cols-12 gap-4 min-h-screen">
           <div className="col-span-12 lg:col-span-4 h-full px-4 pt-8 lg:py-8">
-            <ProfileHeader
-              name={session?.user.name.split("@")[0] || "Renzo"}
-              lastName={session?.user.lastName || "Pérez López"}
-              description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
-              avatarUrl="/professional-headshot.png"
-            />
             <div className="w-full">
-              <ButtonGroup orientation="horizontal" aria-label="Profile controls" className="[--radius:9999rem]">
+              <ButtonGroup orientation="horizontal" aria-label="Prompts controls" className="[--radius:9999rem]">
                 <Button
                   variant={"outline"}
                   className="border border-gray-300 shadow"
                   size="sm"
                   asChild
                 >
-                  <Link href={"./experiencia"} className="font-sm">Experiencia</Link>
+                  <Link href={"./nuevo-cv"}>Curriculum</Link>
                 </Button>
                 <Button
                   variant={"outline"}
-                  //className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                   className="border border-gray-300 shadow"
                   size="sm"
                   asChild
                 >
-                  <Link href={"./formacion"} className="font-sm">Formación</Link>
+                  <Link href={"./carta-de-recomendacion"}>Carta</Link>
                 </Button>
+
                 <Button
                   variant={"outline"}
-                  //className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
                   className="border border-gray-300 shadow"
                   size="sm"
                   asChild
                 >
-                  <Link href={"./competencias"} className="font-sm">Competencias</Link>
-                </Button>
-                <Button
-                  variant={"outline"}
-                  //className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
-                  className="border border-gray-300 shadow"
-                  size="sm"
-                  asChild
-                >
-                  <Link href={"./intereses"} className="font-sm">Intereses</Link>
-                </Button>
+                  <Link href={"./exploracion-de-carreras"}>Carreras</Link>
+                </Button>                
               </ButtonGroup>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 bg-red h-full">
+          <div className="col-span-12 lg:col-span-8 bg-red h-full p-8">
             {children}
           </div>
         </div>
