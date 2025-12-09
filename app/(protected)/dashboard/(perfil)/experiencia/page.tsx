@@ -48,9 +48,12 @@ function ExperienciaPage() {
     onSuccess: () => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      //queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    },
   });
 
   // === Handlers ===
@@ -147,7 +150,11 @@ function ExperienciaPage() {
                         value={exp.empresa}
                         onChange={(e) => {
                           console.log("Empresa changed:", e.target.value);
-                          return updateField(exp.nid, "empresa", e.target.value);
+                          return updateField(
+                            exp.nid,
+                            "empresa",
+                            e.target.value
+                          );
                         }}
                         placeholder="Empresa"
                       />
