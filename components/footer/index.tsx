@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-card">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
@@ -80,7 +80,7 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-8 border-t border-gray-300 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">© 2025 Deodi. Todos los derechos reservados.</p>
 
           <div className="flex items-center gap-4">
