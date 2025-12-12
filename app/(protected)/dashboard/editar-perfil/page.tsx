@@ -10,7 +10,7 @@ export default async function EditarPerfilPage() {
   if (!session || !session.user) redirect("/acceso");
   console.log("sesion data en perfil", session);
   return (
-    <main className="flex-1 p-8">
+    <main className="flex">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">Editar Perfil</h1>
         <FormularioEditarUsuario />

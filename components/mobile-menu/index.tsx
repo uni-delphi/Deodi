@@ -38,7 +38,7 @@ export function MobileMenu({
             id: "cv",
             label: "Cargar CV",
             icon: FileText,
-            action: () => redirect('/perfil/cargar-cv')
+            action: () => redirect('/dashboard/cargar-cv')
         },
         {
             id: "conductual",
@@ -50,7 +50,7 @@ export function MobileMenu({
             id: "prompts",
             label: "Cargar Prompts",
             icon: Brain,
-            action: () => redirect('/perfil/chat')
+            action: () => redirect('/dashboard/nuevo-cv')
         },
         {
             id: "logout",

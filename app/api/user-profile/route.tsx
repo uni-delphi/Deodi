@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   return NextResponse.json(fileData);
 }
 
-export async function PUT(req: Request) {  
+export async function PUT(req: Request) {
   try {
     // 1️⃣ Obtener sesión de NextAuth
     const session = await getServerSession(authOptions);
@@ -38,17 +38,10 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    // 2️⃣ Obtener datos del request
-    /*const formData = await req.formData();
-    console.log("🚀 ~ PUT ~ formData:", formData)
-    if (!formData) {
-      return NextResponse.json(
-        { error: "Faltan campos obligatorios" },
-        { status: 400 }
-      );
-    }*/
     // 3️⃣ Actualizar perfil de usuario (nodo)
-    const updateProfileRes = await fetch(`${process.env.BASE_URL}/api/node/13.json`, {
+    const updateProfileRes = await fetch(
+      `${process.env.BASE_URL}/api/node/13.json`,
+      {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -64,10 +57,69 @@ export async function PUT(req: Request) {
             ],
           },
         }),
-      });
+      }
+    );
 
     // 4️⃣ Devolver datos del perfil actualizado
     return NextResponse.json({ message: "Perfil actualizado correctamente" });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Error inesperado", details: error },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const {
+      name,
+      lastName,
+      email,
+      locality,
+      state,
+      country,
+      birthDate,
+      password,
+      ...props
+    } = await req.json();
+
+    // 3️⃣ Actualizar perfil de usuario (nodo)
+    const createdUserRes = await fetch(
+      `${process.env.BASE_URL}/api/user/register.json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          pass: password,
+          mail: email,
+          field_user_nombre: {
+            und: [{ value: name }],
+          },
+          field_user_apellido: {
+            und: [{ value: lastName }],
+          },
+          field_user_fecha_nac: {
+            und: [{ value: birthDate }],
+          },
+          field_user_localidad: {
+            und: [{ target_id: `${locality} ` }],
+          },
+          field_user_provincia: {
+            und: [{ target_id: `${state} ` }],
+          },
+          field_user_pais: {
+            und: [{ target_id: `${country} ` }],
+          },
+        }),
+      }
+    );
+
+    // 4️⃣ Devolver datos del perfil actualizado
+    return NextResponse.json({ message: "Perfil creado correctamente" });
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },

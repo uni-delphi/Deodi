@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createUser } from "@/lib/actions";
+import { createUser } from "@/lib/services/user/user.services";
 import {
   Form,
   FormControl,
@@ -69,19 +69,10 @@ const formSchema = z
     state: z.string().min(1, {
       message: "Este campo es requerido",
     }),
-    education: z.string().min(1, {
+    city: z.string().min(1, {
       message: "Este campo es requerido",
     }),
-    sector: z.string(),
-    otherSector: z.boolean(),
-    otherSectorText: z.string(),
-    institution: z.string().min(1, {
-      message: "Este campo es requerido",
-    }),
-    expertees: z.string().min(1, {
-      message: "Este campo es requerido",
-    }),
-    years: z.string().min(1, {
+    birthday: z.string().min(1, {
       message: "Este campo es requerido",
     }),
     email: z.string().email({ message: "Agregue un mail válido" }),
@@ -92,24 +83,6 @@ const formSchema = z
       message: "Este campo es requerido",
     }),
   })
-  .refine(
-    (values) => {
-      return values.otherSector === true || values.sector !== "";
-    },
-    {
-      message: "Este campo es requerido",
-      path: ["sector"],
-    }
-  )
-  .refine(
-    (values) => {
-      return !values.otherSector || values.otherSectorText !== "";
-    },
-    {
-      message: "Este campo es requerido",
-      path: ["otherSectorText"],
-    }
-  )
   .refine((values) => values.password === values.validatedPassword, {
     message: "Las contraseñas deben coincidir",
     path: ["validatedPassword"],
@@ -128,10 +101,10 @@ const formSchema = z
   .refine(
     (values) => {
       // Verificar si el valor es un año válido (cuatro dígitos)
-      return /^\d{4}$/.test(values.years);
+      return /^\d{4}$/.test(values.birthday);
     },
     {
-      message: "Ingrese un año válido en formato 2003",
+      message: "Ingrese un año válido.",
       path: ["years"],
     }
   );
@@ -151,13 +124,8 @@ export default function SignInForm() {
       lastName: "",
       country: "",
       state: "",
-      education: "",
-      sector: "",
-      otherSector: false,
-      otherSectorText: "",
-      institution: "",
-      expertees: "",
-      years: "",
+      city: "",
+      birthday: "",
       email: "",
       password: "",
       validatedPassword: "",
@@ -174,45 +142,36 @@ export default function SignInForm() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
+    try {
+      const { name, lastName, country, state, city, birthday, mail, password } =
+        values;
+      setIsLoading(true);
+      const resp = await createUser({
+        name,
+        //lastName,
+        country,
+        state,
+        city,
+        birthday,
+        mail: values.email,
+        password,
+      });
 
-    //createUser({
-    //  name: values.name,
-    //  lastName: values.lastName,
-    //  country: values.country,
-    //  state: values.state,
-    //  education: values.education,
-    //  sector: values.otherSector ? values.otherSectorText : values.sector,
-    //  institution: values.institution,
-    //  expertees: values.expertees,
-    //  years: values.years,
-    //  mail: values.email,
-    //  password: values.password,
-    //  id: "",
-    //  uid: "",
-    //  role: "",
-    //  user: {
-    //    uid: "",
-    //    mail: "",
-    //    name: "",
-    //    roles: {}
-    //  }
-    //})
-    //  .then(() => {
-    //    signIn("credentials", {
-    //      email: values?.email,
-    //      password: values?.password,
-    //      callbackUrl: "/bienvenido",
-    //    });
-    //  })
-    //  .catch((error: any) => {
-    //    setIsLoading(false);
-    //    console.log("error creando el usuario", error);
-    //    toast({
-    //      variant: "destructive",
-    //      title: "Error creando el usuario",
-    //    });
-    //  });
+      if (resp) {
+        signIn("credentials", {
+          email: values?.email,
+          password: values?.password,
+          callbackUrl: "/bienvenido",
+        });
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log("error creando el usuario", error);
+      toast({
+        variant: "destructive",
+        title: "Error creando el usuario",
+      });
+    }
   }
 
   return (

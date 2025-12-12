@@ -21,15 +21,15 @@ export default async function RootLayout({
   return (
     <>
       <div className="min-h-screen bg-[var(--lightgray)]">
-        <div className="grid grid-cols-12 gap-4 lg:min-h-screen">
-          <div className="col-span-12 lg:col-span-4 h-full px-4 pt-8 lg:py-8">
+        <div className="grid grid-cols-12 lg:min-h-screen">
+          <div className="col-span-12 lg:col-span-5 h-full px-4 pt-8 lg:py-8">
             <ProfileHeader
               name={session?.user.name.split("@")[0] || "Renzo"}
               lastName={session?.user.lastName || "Pérez López"}
               description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
               avatarUrl="/professional-headshot.png"
             />
-            <div className="w-full">
+            <div className="w-full overflow-hidden py-4">
               <ButtonGroup orientation="horizontal" aria-label="Profile controls" className="[--radius:9999rem]">
                 <Button
                   variant={"outline"}
@@ -69,7 +69,7 @@ export default async function RootLayout({
               </ButtonGroup>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 bg-red h-full">
+          <div className="col-span-12 lg:col-span-7 bg-red h-full py-8 px-4">
             {children}
           </div>
         </div>

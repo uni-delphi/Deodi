@@ -17,7 +17,7 @@ export function ProfileHeader({
 
   return (
     <div className="lg:mb-8 grid grid-cols-12">
-      <div className="col-span-3 lg:col-span-12 mb-6 ">
+      <div className="col-span-12 sm:col-span-3 lg:col-span-12 mb-6 ">
         <Avatar className="w-32 h-32 mb-4">
           <AvatarImage
             src={avatarUrl || "/placeholder.svg"}
@@ -29,7 +29,7 @@ export function ProfileHeader({
         </Avatar>
       </div>
 
-      <div className="col-span-9 lg:col-span-12">
+      <div className="col-span-12 sm:col-span-9 lg:col-span-12">
         <h2 className="text-3xl font-semibold text-purpleDeodi mb-2 text-pretty">
           {name} {lastName}
         </h2>

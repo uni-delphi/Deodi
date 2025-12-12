@@ -11,7 +11,7 @@ export default async function ActualizarConductualPage() {
     console.log("sesion data", session)
 
   return (
-    <main className="flex-1 p-8">
+    <main className="flex">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
