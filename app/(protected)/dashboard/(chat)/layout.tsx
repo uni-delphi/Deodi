@@ -21,8 +21,8 @@ export default async function RootLayout({
   return (
     <>
       <div className="min-h-screen bg-[var(--lightgray)]">
-        <div className="grid grid-cols-12 gap-4 min-h-screen">
-          <div className="col-span-12 lg:col-span-4 h-full px-4 pt-8 lg:py-8">
+        <div className="grid grid-cols-12 min-h-screen">
+          <div className="col-span-12 lg:col-span-5 h-full px-4 pt-8 lg:py-8">
             <div className="w-full">
               <ButtonGroup orientation="horizontal" aria-label="Prompts controls" className="[--radius:9999rem]">
                 <Button
@@ -53,7 +53,7 @@ export default async function RootLayout({
               </ButtonGroup>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 bg-red h-full p-8">
+          <div className="col-span-12 lg:col-span-7 bg-red h-full px-4 py-8">
             {children}
           </div>
         </div>

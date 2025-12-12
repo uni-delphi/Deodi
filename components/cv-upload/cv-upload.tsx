@@ -17,7 +17,6 @@ export function CVUpload() {
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
-      //console.log("🚀 ~ CVUpload ~ file:", file)
       
       const formData = new FormData()
       formData.append("field_perfildeodi_cv", file);
@@ -25,9 +24,7 @@ export function CVUpload() {
       formData.append("title", file.name);
       formData.append("body", file.name);
 
-      //const res = await fetch("/api/upload-cv", { method: "POST", body: formData });
       const res = await fetch("/api/upload-node", { method: "POST", body: formData });
-      //console.log("🚀 ~ CVUpload ~ res:", res)
       
       if (!res.ok) {
         const text = await res.text()
@@ -41,7 +38,7 @@ export function CVUpload() {
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
       })
-      //router.push("/perfil/validar-cv")
+      router.push("/dashboard/validar-cv")
     },
     onError: (error: Error) => {
       toast({

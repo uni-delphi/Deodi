@@ -48,9 +48,12 @@ function ExperienciaPage() {
     onSuccess: () => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      //queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    },
   });
 
   // === Handlers ===
@@ -92,121 +95,116 @@ function ExperienciaPage() {
   };
 
   return (
-    <div className="p-8">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex justify-between items-center">
-            <span className="flex items-center gap-2 text-2xl">
-              <Briefcase className="h-6 w-6" /> Experiencia Laboral
-            </span>
-            {editingTab === "experiencia" ? (
-              <div className="space-x-2">
-                <Button onClick={handleSave}>Guardar</Button>
-                <Button variant="outline" onClick={handleCancel}>
-                  Cancelar
-                </Button>
-              </div>
-            ) : (
-              <Button onClick={() => handleEdit("experiencia")}>
-                Editar
-                <Pencil className="mx-2 p-1" />
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center">
+          <span className="flex items-center gap-2 text-2xl">
+            <Briefcase className="h-6 w-6" /> Experiencia Laboral
+          </span>
+          {editingTab === "experiencia" ? (
+            <div className="space-x-2">
+              <Button onClick={handleSave}>Guardar</Button>
+              <Button variant="outline" onClick={handleCancel}>
+                Cancelar
               </Button>
-            )}
-          </CardTitle>
-          <CardDescription>
-            Historial profesional y logros destacados
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
-          {editedData
-            .filter((d) => d.empresa !== "Nulo")
-            .map((exp) => (
-              <div
-                key={exp.nid}
-                className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative"
-              >
-                {editingTab === "experiencia" && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute -top-4 right-0 text-red-500 hover:bg-red-50"
-                    onClick={() => handleDelete(exp.nid)}
-                    title="Eliminar experiencia"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                )}
-
-                {editingTab === "experiencia" ? (
-                  <>
-                    <div>
-                      <label className="text-sm font-medium ">Empresa</label>
-                      <Input
-                        className="mt-1"
-                        value={exp.empresa}
-                        onChange={(e) => {
-                          console.log("Empresa changed:", e.target.value);
-                          return updateField(exp.nid, "empresa", e.target.value);
-                        }}
-                        placeholder="Empresa"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">
-                        Responsabilidad
-                      </label>
-                      <Input
-                        className="mt-1"
-                        value={exp.responsabilidades_empresa}
-                        onChange={(e) =>
-                          updateField(
-                            exp.nid,
-                            "responsabilidades_empresa",
-                            e.target.value
-                          )
-                        }
-                        placeholder="Responsabilidad"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">
-                        Años
-                      </label>
-                      <Input
-                        className="mt-1"
-                        value={exp.empresa_anos}
-                        onChange={(e) =>
-                          updateField(exp.nid, "empresa_anos", e.target.value)
-                        }
-                        placeholder="01/2012 - 07/2021"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="font-semibold text-purpleDeodi">
-                      {exp.empresa}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {exp.responsabilidades_empresa} • {exp.empresa_anos}
-                    </p>
-                  </>
-                )}
-              </div>
-            ))}
-
-          {editingTab === "experiencia" && (
-            <Button
-              onClick={() => handleAdd("experiencia")}
-              variant="secondary"
-            >
-              + Agregar experiencia
+            </div>
+          ) : (
+            <Button onClick={() => handleEdit("experiencia")}>
+              Editar
+              <Pencil className="mx-2 p-1" />
             </Button>
           )}
-        </CardContent>
-      </Card>
-    </div>
+        </CardTitle>
+        <CardDescription>
+          Historial profesional y logros destacados
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        {editedData
+          .filter((d) => d.empresa !== "Nulo")
+          .map((exp) => (
+            <div
+              key={exp.nid}
+              className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative"
+            >
+              {editingTab === "experiencia" && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute -top-4 right-0 text-red-500 hover:bg-red-50"
+                  onClick={() => handleDelete(exp.nid)}
+                  title="Eliminar experiencia"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              )}
+
+              {editingTab === "experiencia" ? (
+                <>
+                  <div>
+                    <label className="text-sm font-medium ">Empresa</label>
+                    <Input
+                      className="mt-1"
+                      value={exp.empresa}
+                      onChange={(e) => {
+                        console.log("Empresa changed:", e.target.value);
+                        return updateField(exp.nid, "empresa", e.target.value);
+                      }}
+                      placeholder="Empresa"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Responsabilidad
+                    </label>
+                    <Input
+                      className="mt-1"
+                      value={exp.responsabilidades_empresa}
+                      onChange={(e) =>
+                        updateField(
+                          exp.nid,
+                          "responsabilidades_empresa",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Responsabilidad"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Años
+                    </label>
+                    <Input
+                      className="mt-1"
+                      value={exp.empresa_anos}
+                      onChange={(e) =>
+                        updateField(exp.nid, "empresa_anos", e.target.value)
+                      }
+                      placeholder="01/2012 - 07/2021"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="font-semibold text-purpleDeodi">
+                    {exp.empresa}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {exp.responsabilidades_empresa} • {exp.empresa_anos}
+                  </p>
+                </>
+              )}
+            </div>
+          ))}
+
+        {editingTab === "experiencia" && (
+          <Button onClick={() => handleAdd("experiencia")} variant="secondary">
+            + Agregar experiencia
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
