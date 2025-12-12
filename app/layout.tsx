@@ -16,11 +16,14 @@ import {
 } from "@/lib/constants";
 //import { GoogleAnalytics } from "@next/third-parties/google";
 
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import { RootProvider } from "@/lib/providers/RootProvider";
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const nunito = Nunito({ subsets: ["latin"] });
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -56,9 +59,8 @@ export default async function RootLayout({
           <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
         )*/}
         <Toaster />
-        <Analytics/>
+        <Analytics />
         {/* <SpeedInsights/> */}
-        
       </body>
     </html>
   );
