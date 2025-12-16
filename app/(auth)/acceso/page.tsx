@@ -1,4 +1,3 @@
-import React from "react";
 
 import Link from "next/link";
 
@@ -12,9 +11,7 @@ import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 
 export default async function LogIn() {
-  const session: Session | null = await getServerSession(authOptions);
-  //const redirectUrl = session?.user.role === "ADMIN" ? "/admin" : "/estado/1";
-  
+  const session: Session | null = await getServerSession(authOptions);  
   if (session) redirect("/dashboard/experiencia");
 
   return (

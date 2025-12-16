@@ -15,20 +15,25 @@ import {
 } from "@/components/ui/card";
 import { Lasso } from "lucide-react";
 
+import { redirect, useRouter } from "next/navigation";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+
+const createNewUser = async  (payload: any) => {
+      const res = await fetch("/api/user-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      //if (!res.ok) throw new Error("Error al guardar perfil");
+      return res.json();
+    }
+
 export function RegisterForm() {
-  /**
-   * 
-   * Datos obligatorios de registro
-      Nombre
-      Apellido 
-      Mail
-      Fecha de nacimiento
-      Pais 
-      Provincia
-      Localidad
-      password
-      confirm password
-   */
+  const { toast } = useToast();
+  const router = useRouter();
+  
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -42,36 +47,26 @@ export function RegisterForm() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const mutation = useMutation({
+    mutationFn: createNewUser,
+    onSuccess: () => {
+      toast({ title: "Usuario creado correctamente" });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: JSON.stringify(error.message),
+      });
+    },
+    onSettled: () => router.push("/acceso")
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validación básica
-    if (formData.password !== formData.confirmPassword) {
-      alert("Las contraseñas no coinciden");
-      setIsLoading(false);
-      return;
-    }
-
-    // Aquí puedes agregar la lógica para enviar los datos al servidor
-    console.log("Datos del formulario:", formData);
-
-    // Simulación de registro
-    setTimeout(() => {
-      alert("Usuario registrado exitosamente");
-      setIsLoading(false);
-      setFormData({
-        name: "",
-        lastName: "",
-        email: "",
-        locality: "",
-        state: "",
-        country: "",
-        birthDate: "",
-        password: "",
-        confirmPassword: "",
-      });
-    }, 1000);
+    mutation.mutate(formData);
+    setIsLoading(false);   
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +82,7 @@ export function RegisterForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex gap-4">
             <div className="w-1/2 space-y-2">
-              <Label htmlFor="name">Nombre completo</Label>
+              <Label htmlFor="name">Nombre</Label>
               <Input
                 id="name"
                 name="name"
@@ -210,7 +205,11 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <Button type="submit" className="hover:bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="hover:bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg"
+            disabled={isLoading}
+          >
             {isLoading ? "Registrando..." : "Registrar"}
           </Button>
         </form>

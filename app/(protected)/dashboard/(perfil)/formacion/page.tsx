@@ -98,122 +98,116 @@ function FormacionPage() {
   };
 
   return (
-    <div className="p-8">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex justify-between items-center">
-            <span className="flex items-center gap-2 text-2xl">
-              <GraduationCap className="h-6 w-6" /> Formación Académica
-            </span>
-            {editingTab === "estudios" ? (
-              <div className="space-x-2">
-                <Button onClick={handleSave}>Guardar</Button>
-                <Button variant="outline" onClick={handleCancel}>
-                  Cancelar
-                </Button>
-              </div>
-            ) : (
-              <Button onClick={() => handleEdit("estudios")}>
-                Editar <Pencil className="mx-2 p-1" />
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center">
+          <span className="flex items-center gap-2 text-2xl">
+            <GraduationCap className="h-6 w-6" /> Formación Académica
+          </span>
+          {editingTab === "estudios" ? (
+            <div className="space-x-2">
+              <Button onClick={handleSave}>Guardar</Button>
+              <Button variant="outline" onClick={handleCancel}>
+                Cancelar
               </Button>
-            )}
-          </CardTitle>
-          <CardDescription>Educación formal y certificaciones</CardDescription>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
-          {editedData
-            .filter((d) => d.empresa === "Nulo")
-            .map((edu) => (
-              <div
-                key={edu.nid}
-                className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative"
-              >
-                {editingTab === "estudios" && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute -top-4 right-0 text-red-500 hover:bg-red-50"
-                    onClick={() => handleDelete(edu.nid)}
-                    title="Eliminar formación"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                )}
-
-                {editingTab === "estudios" ? (
-                  <>
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">
-                        Título obtenido
-                      </label>
-                      <Input
-                        className="mt-1"
-                        value={edu.titulo_obtenido}
-                        onChange={(e) =>
-                          updateField(
-                            edu.nid,
-                            "titulo_obtenido",
-                            e.target.value
-                          )
-                        }
-                        placeholder="Título"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">
-                        Institución
-                      </label>
-                      <Input
-                        className="mt-1"
-                        value={edu.institucion_educacion}
-                        onChange={(e) =>
-                          updateField(
-                            edu.nid,
-                            "institucion_educacion",
-                            e.target.value
-                          )
-                        }
-                        placeholder="Institución"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-sm font-medium text-muted-foreground">
-                        Año
-                      </label>
-                      <Input
-                        className="mt-1"
-                        value={edu.formacion_ano}
-                        onChange={(e) =>
-                          updateField(edu.nid, "formacion_ano", e.target.value)
-                        }
-                        placeholder="Año"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="font-semibold text-purpleDeodi">
-                      {edu.titulo_obtenido || "Sin título"}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {edu.institucion_educacion} • {edu.formacion_ano}
-                    </p>
-                  </>
-                )}
-              </div>
-            ))}
-
-          {editingTab === "estudios" && (
-            <Button onClick={() => handleAdd("estudios")} variant="secondary">
-              + Agregar formación
+            </div>
+          ) : (
+            <Button onClick={() => handleEdit("estudios")}>
+              Editar <Pencil className="mx-2 p-1" />
             </Button>
           )}
-        </CardContent>
-      </Card>
-    </div>
+        </CardTitle>
+        <CardDescription>Educación formal y certificaciones</CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        {editedData
+          .filter((d) => d.empresa === "Nulo")
+          .map((edu) => (
+            <div
+              key={edu.nid}
+              className="border-l-4 border-purpleDeodi pl-4 space-y-2 relative"
+            >
+              {editingTab === "estudios" && (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute -top-4 right-0 text-red-500 hover:bg-red-50"
+                  onClick={() => handleDelete(edu.nid)}
+                  title="Eliminar formación"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              )}
+
+              {editingTab === "estudios" ? (
+                <>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Título obtenido
+                    </label>
+                    <Input
+                      className="mt-1"
+                      value={edu.titulo_obtenido}
+                      onChange={(e) =>
+                        updateField(edu.nid, "titulo_obtenido", e.target.value)
+                      }
+                      placeholder="Título"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Institución
+                    </label>
+                    <Input
+                      className="mt-1"
+                      value={edu.institucion_educacion}
+                      onChange={(e) =>
+                        updateField(
+                          edu.nid,
+                          "institucion_educacion",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Institución"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Año
+                    </label>
+                    <Input
+                      className="mt-1"
+                      value={edu.formacion_ano}
+                      onChange={(e) =>
+                        updateField(edu.nid, "formacion_ano", e.target.value)
+                      }
+                      placeholder="Año"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="font-semibold text-purpleDeodi">
+                    {edu.titulo_obtenido || "Sin título"}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {edu.institucion_educacion} • {edu.formacion_ano}
+                  </p>
+                </>
+              )}
+            </div>
+          ))}
+
+        {editingTab === "estudios" && (
+          <Button onClick={() => handleAdd("estudios")} variant="secondary">
+            + Agregar formación
+          </Button>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
