@@ -22,8 +22,8 @@ export function Sidebar({
   const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const menuItems = [
-    { id: "formacion", label: "Formación", icon: GraduationCap, hasDropdown: false },
-    { id: "ofertas", label: "Ofertas", icon: Briefcase, hasDropdown: false },
+    { id: "./formacion", label: "Formación", icon: GraduationCap, hasDropdown: false },
+    { id: "./trayectos", label: "Ofertas", icon: Briefcase, hasDropdown: false },
   ];
 
   const handleProfileMouseEnter = () => setIsProfileHovered(true);
@@ -48,7 +48,7 @@ export function Sidebar({
           />
         </Link>
       </div>
-      {/*    <nav className="flex-1 w-full">
+      <nav className="flex-1 w-full">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
@@ -80,7 +80,7 @@ export function Sidebar({
             </div>
           );
         })}
-      </nav> */}
+      </nav>
       <div
         onMouseEnter={handleProfileMouseEnter}
         onMouseLeave={handleProfileMouseLeave}
