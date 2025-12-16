@@ -74,10 +74,10 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
   if (isMobile) {
     return (
       <div className="w-full p-4 bg-gray-100">
-        <div className="w-36 h-36 bg-white mx-auto mt-12 mb-4 rounded-full flex flex-col justify-center items-center shadow-2xl shadow-purpleDeodi">
-          <div className="text-md text-gray-600 px-2 text-center">
-            Explore paths based on…
-          </div>
+        <div className="w-48 h-48 bg-white mx-auto mt-12 mb-4 rounded-full flex flex-col justify-center items-center shadow-2xl shadow-purpleDeodi">
+          <p className="m-0 text-md text-gray-600 px-2 text-center text-balance">
+            Buscar trayectos en base a ...
+          </p>
           <div className="text-md">🌱💪💕</div>
         </div>
         <div className="w-full px-4 space-y-3">
@@ -127,7 +127,7 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
         </div>
       ))}
 
-      <div className="absolute left-1/2 top-1/2 w-40 h-40 bg-white rounded-full shadow-2xl shadow-purpleDeodi flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 border border-white">
+      <div className="absolute left-1/2 top-1/2 w-48 h-48 bg-white rounded-full shadow-2xl shadow-purpleDeodi flex flex-col items-center justify-center text-center -translate-x-1/2 -translate-y-1/2 border border-white">
         <div className="text-gray-600 text-sm p-4 text-balance">Trayectos basados en…</div>
         <div className="text-2xl mt-1">🌱💪💕</div>
       </div>

@@ -33,41 +33,42 @@ export const SelectionPanel: React.FC = () => {
         "
         />
         <div className="relative flex flex-col items-center z-10 px-6">
-          <p className="text-gray-500 mb-6">Explore paths based on...</p>
+          <p className="text-gray-500 mb-6 text-balance">Buscar trayectos en base a ...</p>
 
           <div className="space-y-4 w-full max-w-xs">
             <button
               onClick={() => toggle("experiences")}
               className="flex items-center gap-3 w-full bg-gray-100 px-5 py-3 rounded-full hover:bg-gray-200 transition"
             >
-              <input type="checkbox" checked={options.experiences} readOnly />
-              <span className="text-lg">🌱 Experiences</span>
+              <input className="cursor-pointer" type="checkbox" checked={options.experiences} readOnly />
+              <span className="text-lg">🌱 Experiencia</span>
             </button>
 
             <button
               onClick={() => toggle("skills")}
               className="flex items-center gap-3 w-full bg-gray-100 px-5 py-3 rounded-full hover:bg-gray-200 transition"
             >
-              <input type="checkbox" checked={options.skills} readOnly />
-              <span className="text-lg">💪 Skills</span>
+              <input className="cursor-pointer" type="checkbox" checked={options.skills} readOnly />
+              <span className="text-lg">💪 Habilidades</span>
             </button>
 
             <button
               onClick={() => toggle("interests")}
               className="flex items-center gap-3 w-full bg-gray-100 px-5 py-3 rounded-full hover:bg-gray-200 transition"
             >
-              <input type="checkbox" checked={options.interests} readOnly />
-              <span className="text-lg">💕 Interests</span>
+              <input className="cursor-pointer" type="checkbox" checked={options.interests} readOnly />
+              <span className="text-lg">💕 Intereses</span>
             </button>
           </div>
           <Button
             type="submit"
+            size={"lg"}
             asChild
-            className="my-4 px-8 bg-purpleDeodi text-xl transition-all duration-300 rounded-lg text-white hover:border-solid hover:border-black hover:border-2 hover:text-black"
+            className="my-4 bg-purpleDeodi transition-all duration-300 text-white border  border-purpleDeodi  hover:text-purpleDeodi"
           >
             <Link href="/dashboard/selector-trayectos">Aplicar</Link>
           </Button>
-          <Button variant="outline" className="text-xs px-2" asChild>
+          <Button variant="link" className="text-xs px-2" asChild>
             <Link href="/dashboard/perfil">Cancelar</Link>
           </Button>
         </div>
