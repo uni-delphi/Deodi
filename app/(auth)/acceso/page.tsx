@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import LogInForm from "@/components/login-form/login-form";
-import GoogleLoginButton from "@/components/google-login-button/google-login-button";
-import LayoutDefault from "@/components/image-layout/image-layout";
+
 import { getServerSession } from "next-auth/next";
 import { Session } from "next-auth";
 import { authOptions } from "@/auth.config";
