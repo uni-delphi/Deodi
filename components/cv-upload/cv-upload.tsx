@@ -52,11 +52,7 @@ export function CVUpload() {
         title: "Error",
         description: error.message,
       })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
-      router.push("/dashboard/validar-cv");
-    },
+    }
   })
 
   const handleDrag = useCallback((e: React.DragEvent) => {
