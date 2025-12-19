@@ -41,7 +41,7 @@ export function CVUpload() {
       });      
 
       // Invalidar y esperar a que se refresquen los datos
-      await queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      await queryClient.refetchQueries({ queryKey: ["user-profile"] });
       
       // Navegar solo después de que los datos estén actualizados
       //router.push("/dashboard/validar-cv");
