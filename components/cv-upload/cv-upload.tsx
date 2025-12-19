@@ -17,6 +17,7 @@ export function CVUpload() {
   const queryClient = useQueryClient();
 
   const uploadMutation = useMutation({
+    
     mutationFn: async (file: File) => {
       
       const formData = new FormData()
@@ -34,11 +35,17 @@ export function CVUpload() {
       
       return res.json()
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
       });      
+
+      // Invalidar y esperar a que se refresquen los datos
+      await queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      
+      // Navegar solo después de que los datos estén actualizados
+      router.push("/dashboard/validar-cv");
     },
     onError: (error: Error) => {
       toast({
