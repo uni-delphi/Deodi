@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { BubbleItem, BubbleType } from "./page";
+import { CareerDetail } from "./carrer-detail";
 
 interface PositionedBubble extends BubbleItem {
     x: number;
@@ -17,11 +18,14 @@ interface Props {
 const colorByType: Record<BubbleType, string> = {
     database: "bg-blue-500",
     ai: "bg-green-500",
+    design: "bg-yellow-500",
 };
 
 export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
     const [isMobile, setIsMobile] = useState<boolean | null>(null);
     const [positions, setPositions] = useState<PositionedBubble[]>([]);
+    const [selectedCareer, setSelectedCareer] = useState<BubbleItem | null>(null);
+
 
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth <= 768);
@@ -82,6 +86,7 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
                     {items.map((item) => (
                         <div
                             key={item.label}
+                            onClick={() => setSelectedCareer(item)}
                             className="
                             flex items-center justify-between 
                             p-4 rounded-2xl shadow-sm border 
@@ -99,13 +104,45 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
                                 className={`
                                 w-10 h-10 rounded-full flex items-center justify-center
                                 text-white text-sm font-bold
-                                ${item.type === 'ai' ? 'bg-green-500' : 'bg-blue-500'}
+                                ${colorByType[item.type]}
                             `}
                             >
-                                {item.type === 'ai' ? 'AI' : 'DB'}
+                                {item.type.toUpperCase()}
                             </div>
                         </div>
                     ))}
+                    {selectedCareer && !isMobile && (
+                        <>
+                            <div
+                                className="
+                                            absolute inset-0 
+                                            bg-black/40
+                                            backdrop-blur-[2px]
+                                            transition-opacity duration-300
+                                        "
+                                onClick={() => setSelectedCareer(null)}
+                            />
+
+                            <aside
+                                data-state={selectedCareer ? "open" : "closed"}
+                                className="
+                                            absolute right-0 top-0 h-full w-[380px]
+                                            bg-white border-l shadow-2xl
+                                            p-6 flex flex-col
+                                            transform transition-all duration-700 ease-out
+                                            data-[state=closed]:translate-x-full
+                                            data-[state=closed]:opacity-0
+                                            data-[state=open]:translate-x-0
+                                            data-[state=open]:opacity-100
+                                        "
+                            >
+                                <CareerDetail
+                                    career={selectedCareer}
+                                    onClose={() => setSelectedCareer(null)}
+                                />
+                            </aside>
+                        </>
+                    )}
                 </div>
             </div>
         );
@@ -113,31 +150,68 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
 
     return (
         <div className="relative w-full h-screen bg-gray-100 rounded-xl overflow-hidden">
-            {positions.map((item, i) => (
-                <div
-                    key={i}
-                    className="absolute flex items-center space-x-2"
-                    style={{
-                        left: `${item.x}%`,
-                        top: `${item.y}%`,
-                        transform: `translate(-50%, -50%) translate(${item.offsetX}px, ${item.offsetY}px)`
-                    }}
-                >
-                    <div className={`w-3 h-3 rounded-sm ${colorByType[item.type]}`} />
-                    <div className="text-gray-700 text-lg whitespace-nowrap">
-                        {item.label}
-                    </div>
-                </div>
-            ))}
-
             <div
-                className="absolute left-1/2 top-1/2 w-40 h-40 bg-white rounded-full 
-                shadow-2xl shadow-purpleDeodi flex flex-col items-center justify-center text-center 
-                -translate-x-1/2 -translate-y-1/2 border border-white"
+                className={`
+            absolute inset-0 transition-all duration-1000
+            ${selectedCareer ? 'blur-[4px] grayscale-[20%]' : ''}
+        `}
             >
-                <div className="text-gray-600 text-sm p-4">Explore paths based on…</div>
-                <div className="text-2xl mt-1">🌱💪💕</div>
+                {/* bubbles */}
+                {positions.map((item, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setSelectedCareer(item)}
+                        className="absolute flex items-center space-x-2 cursor-pointer 
+                           hover:scale-105 transition-transform"
+                        style={{
+                            left: `${item.x}%`,
+                            top: `${item.y}%`,
+                            transform: `translate(-50%, -50%) translate(${item.offsetX}px, ${item.offsetY}px)`
+                        }}
+                    >
+                        <div className={`w-3 h-3 rounded-sm ${colorByType[item.type]}`} />
+                        <div className="text-gray-700 text-lg whitespace-nowrap">
+                            {item.label}
+                        </div>
+                    </button>
+                ))}
+
+                {/* centro */}
+                <div
+                    className="absolute left-1/2 top-1/2 w-40 h-40 bg-white rounded-full 
+            shadow-2xl shadow-purpleDeodi flex flex-col items-center justify-center text-center 
+            -translate-x-1/2 -translate-y-1/2 border border-white"
+                >
+                    <div className="text-gray-600 text-sm p-4">Explore paths based on…</div>
+                    <div className="text-2xl mt-1">🌱💪💕</div>
+                </div>
             </div>
+            {selectedCareer && (
+                <>
+                    <div
+                        className="
+                            absolute inset-0 
+                            bg-black/40
+                            backdrop-blur-[2px]
+                            transition-opacity duration-500
+                        "
+                        onClick={() => setSelectedCareer(null)}
+                    ></div>
+                    <aside
+                        className="
+                                    absolute right-0 top-0 h-full w-[380px]
+                                    bg-white border-l shadow-2xl
+                                    p-6 flex flex-col
+                                    transition-all duration-700
+                                    "
+                    >
+                        <CareerDetail
+                            career={selectedCareer}
+                            onClose={() => setSelectedCareer(null)}
+                        />
+                    </aside>
+                </>
+            )}
         </div>
     );
 };
