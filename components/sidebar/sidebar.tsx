@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  GraduationCap,
-  Briefcase,
-} from "lucide-react";
+import { GraduationCap, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Image from "next/image";
 import { ProfileMenu } from "./profile-menu";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 interface SidebarProps {
   activeSection?: string;
@@ -22,8 +20,18 @@ export function Sidebar({
   const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const menuItems = [
-    { id: "./formacion", label: "Formación", icon: GraduationCap, hasDropdown: false },
-    { id: "./trayectos", label: "Ofertas", icon: Briefcase, hasDropdown: false },
+    {
+      id: "/dashboard/formacion",
+      label: "Formación",
+      icon: GraduationCap,
+      hasDropdown: false,
+    },
+    {
+      id: "/dashboard/trayectos",
+      label: "Trayectos",
+      icon: Briefcase,
+      hasDropdown: false,
+    },
   ];
 
   const handleProfileMouseEnter = () => setIsProfileHovered(true);
@@ -32,13 +40,14 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col items-center",
+        "w-20 h-full bg-white fixed border-r border-gray-200 p-6 transition-all duration-300 ease-in-out z-10 flex flex-col items-center"
       )}
     >
       <div className="mb-8">
-        <Link href="/dashboard/experiencia" className={cn(
-          "flex items-center gap-2 mb-6"
-        )}>
+        <Link
+          href="/dashboard/experiencia"
+          className={cn("flex items-center gap-2 mb-6")}
+        >
           <Image
             src="/deodi-logo.webp"
             alt="logo"
@@ -55,8 +64,9 @@ export function Sidebar({
 
           return (
             <div key={item.id} className="relative group">
-              <button
-                onClick={() => onSectionChange?.(item.id)}
+              <Button
+                //onClick={() => onSectionChange?.(item.id)}
+                asChild
                 className={cn(
                   "flex items-center w-full my-6 rounded-lg p-1 transition-colors duration-200 group",
                   isActive
@@ -64,15 +74,24 @@ export function Sidebar({
                     : "border border-white text-gray-600 hover:bg-gray-50 hover:text-purpleDeodi hover:border-gray-200 duration-300 transition-all"
                 )}
               >
-                <div className={cn(
-                  "flex items-center justify-center transition-all duration-200 w-full"
-                )}>
-                  <Icon className={cn(
-                    "h-6 w-6 transition-transform  duration-200",
-                    isActive ? "scale-110" : "group-hover:scale-110"
-                  )} />
-                </div>
-              </button>
+                <Link
+                  href={ item.id }
+                  className="w-full"
+                >
+                  <div
+                    className={cn(
+                      "flex items-center justify-center transition-all duration-200 w-full"
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "h-6 w-6 transition-transform  duration-200",
+                        isActive ? "scale-110" : "group-hover:scale-110"
+                      )}
+                    />
+                  </div>
+                </Link>
+              </Button>
 
               <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 bg-white text-gray-900 text-xs font-medium py-1 px-3 border border-gray-200 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
                 {item.label}

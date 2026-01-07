@@ -1,7 +1,7 @@
 import React from "react";
 
 import Image from "next/image";
-import LogosUnc from "../logos-unc/logos-unc";
+//import LogosUnc from "../logos-unc/logos-unc";
 import imageUnc from "/public/ecampus.jpg";
 
 export default function LayoutDefault(props: any) {

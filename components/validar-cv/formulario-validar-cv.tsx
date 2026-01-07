@@ -29,7 +29,7 @@ interface CVItem {
 }
 
 export default function ValidarCVPage() {
-  const { data } = useUserProfile();
+  const { data, refreshProfile } = useUserProfile();
   
   // Estado único para los datos editables
   const [editedData, setEditedData] = useState<CVItem[]>([]);
@@ -40,6 +40,7 @@ export default function ValidarCVPage() {
 
   // Inicializar datos cuando llegan del hook
   useEffect(() => {
+    refreshProfile();
     if (data?.body?.und?.[0]?.value) {
       try {
         const parsed = JSON.parse(data.body.und[0].value);

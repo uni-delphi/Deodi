@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,10 +10,11 @@ import { Upload, FileText, X, CheckCircle } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 
 export function CVUpload() {
-  const [dragActive, setDragActive] = useState(false)
-  const [file, setFile] = useState<File | null>(null)
-  const { toast } = useToast()
-  const router = useRouter()
+  const [dragActive, setDragActive] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+  const { toast } = useToast();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
@@ -33,19 +34,24 @@ export function CVUpload() {
       
       return res.json()
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
-      })
-      router.push("/dashboard/validar-cv")
+      });      
+
+      // Invalidar y esperar a que se refresquen los datos
+      //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
+      
+      // Navegar solo después de que los datos estén actualizados
+      router.push("/dashboard/validar-cv");
     },
     onError: (error: Error) => {
       toast({
         title: "Error",
         description: error.message,
       })
-    },
+    }
   })
 
   const handleDrag = useCallback((e: React.DragEvent) => {
