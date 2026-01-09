@@ -27,7 +27,7 @@ export function Sidebar({
       hasDropdown: false,
     },
     {
-      id: "/dashboard/trayectos",
+      id: "/dashboard/selector-de-programas",
       label: "Trayectos",
       icon: Briefcase,
       hasDropdown: false,
@@ -75,7 +75,7 @@ export function Sidebar({
                 )}
               >
                 <Link
-                  href={ item.id }
+                  href={item.id}
                   className="w-full"
                 >
                   <div

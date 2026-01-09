@@ -108,7 +108,7 @@ export default function Example() {
     ];
 
     return (
-        <div className="">
+        <div>
             <CareerBubbleMap items={bubbles} />
             <div>ver otras carreras</div>
         </div>
