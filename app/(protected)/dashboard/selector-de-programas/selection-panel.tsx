@@ -20,9 +20,9 @@ export const SelectionPanel: React.FC = () => {
       {/* Círculo con degradado exterior */}
       <div
         className="
-        relative w-[480px] h-[480px]
+        relative w-[420px] h-[420px]
         flex flex-col items-center justify-center
-        rounded-full bg-white shadow-2xl shadow-purpleDeodi
+        rounded-xl bg-white shadow-2xl shadow-purpleDeodi
       "
       >
         <div
@@ -66,7 +66,7 @@ export const SelectionPanel: React.FC = () => {
             asChild
             className="my-4 bg-purpleDeodi transition-all duration-300 text-white border  border-purpleDeodi  hover:text-purpleDeodi"
           >
-            <Link href="/dashboard/selector-trayectos">Aplicar</Link>
+            <Link href="/dashboard/programas-formativos">Aplicar</Link>
           </Button>
           <Button variant="link" className="text-xs px-2" asChild>
             <Link href="/dashboard/perfil">Cancelar</Link>

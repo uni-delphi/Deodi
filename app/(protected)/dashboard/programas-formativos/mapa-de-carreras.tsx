@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { BubbleItem, BubbleType } from "./page";
 import { CareerDetail } from "./carrer-detail";
+import { MobileCareerList } from "./mobile-career-list";
+import { CareerDetailSheet } from "./career-detail-sheet";
 
 interface PositionedBubble extends BubbleItem {
     x: number;
@@ -77,79 +79,25 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
 
     if (isMobile) {
         return (
-            <div className="w-full p-4 bg-gray-100">
-                <div className="w-36 h-36 bg-white mx-auto mt-12 mb-4 rounded-full flex flex-col justify-center items-center shadow-2xl shadow-purpleDeodi">
-                    <div className="text-md text-gray-600 px-2 text-center">Explore paths based on…</div>
-                    <div className="text-md">🌱💪💕</div>
-                </div>
-                <div className="w-full px-4 space-y-3">
-                    {items.map((item) => (
-                        <div
-                            key={item.label}
-                            onClick={() => setSelectedCareer(item)}
-                            className="
-                            flex items-center justify-between 
-                            p-4 rounded-2xl shadow-sm border 
-                            bg-white/80 backdrop-blur-sm
-                        "
-                        >
-                            <div className="flex flex-col">
-                                <span className="font-medium text-gray-800">{item.label}</span>
-                                <span className="text-xs text-gray-500">
-                                    {item.type === 'ai' ? 'IA' : 'Database'}
-                                </span>
-                            </div>
+            <>
+                <MobileCareerList
+                    items={items}
+                    onSelect={setSelectedCareer}
+                    colorByType={colorByType}
+                />
 
-                            <div
-                                className={`
-                                w-10 h-10 rounded-full flex items-center justify-center
-                                text-white text-sm font-bold
-                                ${colorByType[item.type]}
-                            `}
-                            >
-                                {item.type.toUpperCase()}
-                            </div>
-                        </div>
-                    ))}
-                    {selectedCareer && !isMobile && (
-                        <>
-                            <div
-                                className="
-                                            absolute inset-0 
-                                            bg-black/40
-                                            backdrop-blur-[2px]
-                                            transition-opacity duration-300
-                                        "
-                                onClick={() => setSelectedCareer(null)}
-                            />
-
-                            <aside
-                                data-state={selectedCareer ? "open" : "closed"}
-                                className="
-                                            absolute right-0 top-0 h-full w-[380px]
-                                            bg-white border-l shadow-2xl
-                                            p-6 flex flex-col
-                                            transform transition-all duration-700 ease-out
-                                            data-[state=closed]:translate-x-full
-                                            data-[state=closed]:opacity-0
-                                            data-[state=open]:translate-x-0
-                                            data-[state=open]:opacity-100
-                                        "
-                            >
-                                <CareerDetail
-                                    career={selectedCareer}
-                                    onClose={() => setSelectedCareer(null)}
-                                />
-                            </aside>
-                        </>
-                    )}
-                </div>
-            </div>
+                {selectedCareer && (
+                    <CareerDetailSheet
+                        career={selectedCareer}
+                        onClose={() => setSelectedCareer(null)}
+                    />
+                )}
+            </>
         );
     }
 
     return (
-        <div className="relative w-full h-screen bg-gray-100 rounded-xl overflow-hidden">
+        <div className="relative w-full h-screen rounded-xl overflow-hidden">
             <div
                 className={`
             absolute inset-0 transition-all duration-1000
