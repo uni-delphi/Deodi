@@ -3,7 +3,7 @@ import { BubbleItem, BubbleType } from "./page";
 interface Props {
     items: BubbleItem[];
     onSelect: (career: BubbleItem) => void;
-    colorByType: BubbleType;
+    colorByType: Record<BubbleType, string>;
 }
 
 export const MobileCareerList: React.FC<Props> = ({ items, onSelect, colorByType }) => {
