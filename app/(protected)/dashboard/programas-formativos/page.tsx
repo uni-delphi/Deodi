@@ -1,5 +1,8 @@
 import React from "react";
 import { CareerBubbleMap } from "./mapa-de-carreras";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 
 export type BubbleType = "database" | "ai" | "design";
 
@@ -110,7 +113,18 @@ export default function Example() {
     return (
         <div>
             <CareerBubbleMap items={bubbles} />
-            <div>ver otras carreras</div>
+            <div className="flex justify-center fixed bottom-10 left-2/4">
+                <Button
+                    type="button"
+                    size="lg"
+                    className="max-w-48 bg-purpleDeodi hover:bg-purpleDeodi/90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    asChild
+                >
+                    <Link href={"/dashboard/selector-de-programas"}>
+                        Probar nuevas rutas
+                    </Link>
+                </Button>
+            </div>
         </div>
     );
 }
