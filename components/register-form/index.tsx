@@ -217,7 +217,7 @@ export function RegisterForm() {
             className="bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-inherit"
             disabled={isLoading}
           >
-            ¡Ingresa acá!
+            ¡Ingresá acá!
           </Button>
         </form>
       </CardContent>
