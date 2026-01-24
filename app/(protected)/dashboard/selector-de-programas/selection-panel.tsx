@@ -41,7 +41,7 @@ export const SelectionPanel: React.FC = () => {
               className="flex items-center gap-3 w-full bg-gray-100 px-5 py-3 rounded-full hover:bg-gray-200 transition"
             >
               <input className="cursor-pointer" type="checkbox" checked={options.experiences} readOnly />
-              <span className="text-lg">🌱 Experiencia</span>
+              <span className="text-lg">💼 Experiencia</span>
             </button>
 
             <button
@@ -49,7 +49,7 @@ export const SelectionPanel: React.FC = () => {
               className="flex items-center gap-3 w-full bg-gray-100 px-5 py-3 rounded-full hover:bg-gray-200 transition"
             >
               <input className="cursor-pointer" type="checkbox" checked={options.skills} readOnly />
-              <span className="text-lg">💪 Habilidades</span>
+              <span className="text-lg">🎓 Formación</span>
             </button>
 
             <button
