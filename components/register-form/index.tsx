@@ -13,27 +13,52 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Lasso } from "lucide-react";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CitySelector } from "@/components/city-search/city-selector"
 
-const createNewUser = async  (payload: any) => {
-      const res = await fetch("/api/user-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      //if (!res.ok) throw new Error("Error al guardar perfil");
-      return res.json();
-    }
+const PROVINCIAS = [
+  { value: "Cordoba", label: "Cordoba" },
+  { value: "Buenos Aires", label: "Buenos Aires" },
+  { value: "Santa Fe", label: "Santa Fe" },
+  { value: "Mendoza", label: "Mendoza" },
+  { value: "Tucuman", label: "Tucuman" },
+  { value: "Salta", label: "Salta" },
+  { value: "Jujuy", label: "Jujuy" },
+  { value: "Chaco", label: "Chaco" },
+  { value: "Formosa", label: "Formosa" },
+  { value: "Misiones", label: "Misiones" },
+  { value: "Entre Rios", label: "Entre Rios" },
+  { value: "Corrientes", label: "Corrientes" },
+  { value: "San Luis", label: "San Luis" },
+  { value: "La Rioja", label: "La Rioja" },
+  { value: "Catamarca", label: "Catamarca" },
+  { value: "San Juan", label: "San Juan" },
+  { value: "Neuquen", label: "Neuquen" },
+  { value: "Rio Negro", label: "Rio Negro" },
+  { value: "Chubut", label: "Chubut" },
+  { value: "Santa Cruz", label: "Santa Cruz" },
+  { value: "Tierra del Fuego", label: "Tierra del Fuego" },
+  { value: "Ciudad Autónoma de Buenos Aires", label: "Ciudad Autónoma de Buenos Aires" },
+  { value: "La Pampa", label: "La Pampa" },
+  { value: "Santiago del Estero", label: "Santiago del Estero" }
+];
 
-export function RegisterForm() {
+export default function RegisterForm() {
   const { toast } = useToast();
   const router = useRouter();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -47,6 +72,16 @@ export function RegisterForm() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const createNewUser = async (payload: any) => {
+    const res = await fetch("/api/user-profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    //if (!res.ok) throw new Error("Error al guardar perfil");
+    return res.json();
+  };
+
   const mutation = useMutation({
     mutationFn: createNewUser,
     onSuccess: () => {
@@ -58,7 +93,7 @@ export function RegisterForm() {
         description: JSON.stringify(error.message),
       });
     },
-    onSettled: () => router.push("/acceso")
+    onSettled: () => router.push("/acceso"),
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,7 +101,7 @@ export function RegisterForm() {
     setIsLoading(true);
 
     mutation.mutate(formData);
-    setIsLoading(false);   
+    setIsLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +122,7 @@ export function RegisterForm() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Juan Pérez"
+                placeholder="Juan"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -137,42 +172,70 @@ export function RegisterForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="locality">Localidad</Label>
-            <Input
-              id="locality"
-              name="locality"
-              type="text"
-              placeholder="Ciudad de México"
+            <CitySelector
               value={formData.locality}
-              onChange={handleChange}
-              required
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, locality: value }))
+              }
+              label="Localidad"
+              placeholder="Selecciona una localidad"
+              searchPlaceholder="Busca tu ciudad..."
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="state">Provincia</Label>
-            <Input
-              id="state"
-              name="state"
-              type="text"
-              placeholder="Estado"
+            <Select
               value={formData.state}
-              onChange={handleChange}
-              required
-            />
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, state: value }))
+              }
+            >
+              <SelectTrigger id="state" className="w-full">
+                <SelectValue placeholder="Selecciona una provincia" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {PROVINCIAS.sort((a, b) => a.label.localeCompare(b.label)).map((provincia) => (
+                    <SelectItem key={provincia.value} value={provincia.value}>
+                      {provincia.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="country">País</Label>
+            {/*<Label htmlFor="country">País</Label>
+            <Select
+              value={formData.country}
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, country: value }))
+              }
+            >
+              <SelectTrigger id="country" className="w-full">
+                <SelectValue placeholder="Selecciona un país" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  <SelectItem value="mexico">México</SelectItem>
+                  <SelectItem value="argentina">Argentina</SelectItem>
+                  <SelectItem value="colombia">Colombia</SelectItem>
+                  <SelectItem value="chile">Chile</SelectItem>
+                  <SelectItem value="peru">Perú</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <Input
               id="country"
               name="country"
               type="text"
-              placeholder="México"
+              placeholder="Argentina"
               value={formData.country}
               onChange={handleChange}
               required
-            />
+            />*/}
           </div>
 
           <div className="flex gap-4">
