@@ -54,6 +54,15 @@ const PROVINCIAS = [
   { value: "La Pampa", label: "La Pampa" },
   { value: "Santiago del Estero", label: "Santiago del Estero" }
 ];
+const createNewUser = async (payload: any) => {
+  const res = await fetch("/api/user-profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  //if (!res.ok) throw new Error("Error al guardar perfil");
+  return res.json();
+}
 
 export default function RegisterForm() {
   const { toast } = useToast();
@@ -274,6 +283,13 @@ export default function RegisterForm() {
             disabled={isLoading}
           >
             {isLoading ? "Registrando..." : "Registrar"}
+          </Button>
+          <Button
+            type="submit"
+            className="bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-inherit"
+            disabled={isLoading}
+          >
+            ¡Ingresá acá!
           </Button>
         </form>
       </CardContent>
