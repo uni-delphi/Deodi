@@ -20,20 +20,20 @@ import { redirect, useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 
-const createNewUser = async  (payload: any) => {
-      const res = await fetch("/api/user-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      //if (!res.ok) throw new Error("Error al guardar perfil");
-      return res.json();
-    }
+const createNewUser = async (payload: any) => {
+  const res = await fetch("/api/user-profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  //if (!res.ok) throw new Error("Error al guardar perfil");
+  return res.json();
+}
 
 export function RegisterForm() {
   const { toast } = useToast();
   const router = useRouter();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -66,7 +66,7 @@ export function RegisterForm() {
     setIsLoading(true);
 
     mutation.mutate(formData);
-    setIsLoading(false);   
+    setIsLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -211,6 +211,13 @@ export function RegisterForm() {
             disabled={isLoading}
           >
             {isLoading ? "Registrando..." : "Registrar"}
+          </Button>
+          <Button
+            type="submit"
+            className="bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-inherit"
+            disabled={isLoading}
+          >
+            ¡Ingresá acá!
           </Button>
         </form>
       </CardContent>
