@@ -130,7 +130,7 @@ export const CareerBubbleMap: React.FC<Props> = ({ items }) => {
             shadow-2xl shadow-purpleDeodi flex flex-col items-center justify-center text-center 
             -translate-x-1/2 -translate-y-1/2 border border-white"
                 >
-                    <div className="text-gray-600 text-sm p-4">Explore paths based on…</div>
+                    <div className="text-gray-600 text-sm p-4">Programas de aprendizaje basados en…</div>
                     <div className="text-2xl mt-1">💼🎓💕</div>
                 </div>
             </div>

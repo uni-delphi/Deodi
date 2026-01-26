@@ -26,7 +26,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CitySelector } from "@/components/city-search/city-selector"
+import { CitySelector } from "@/components/city-search/city-selector";
+import Link from "next/link";
 
 const PROVINCIAS = [
   { value: "Cordoba", label: "Cordoba" },
@@ -50,9 +51,12 @@ const PROVINCIAS = [
   { value: "Chubut", label: "Chubut" },
   { value: "Santa Cruz", label: "Santa Cruz" },
   { value: "Tierra del Fuego", label: "Tierra del Fuego" },
-  { value: "Ciudad Autónoma de Buenos Aires", label: "Ciudad Autónoma de Buenos Aires" },
+  {
+    value: "Ciudad Autónoma de Buenos Aires",
+    label: "Ciudad Autónoma de Buenos Aires",
+  },
   { value: "La Pampa", label: "La Pampa" },
-  { value: "Santiago del Estero", label: "Santiago del Estero" }
+  { value: "Santiago del Estero", label: "Santiago del Estero" },
 ];
 const createNewUser = async (payload: any) => {
   const res = await fetch("/api/user-profile", {
@@ -62,7 +66,7 @@ const createNewUser = async (payload: any) => {
   });
   //if (!res.ok) throw new Error("Error al guardar perfil");
   return res.json();
-}
+};
 
 export default function RegisterForm() {
   const { toast } = useToast();
@@ -94,7 +98,7 @@ export default function RegisterForm() {
   const mutation = useMutation({
     mutationFn: createNewUser,
     onSuccess: () => {
-      toast({ title: "Usuario creado correctamente" });
+      toast({ title: "Usuario creado correctamente enviamos un correo de confirmación" });
     },
     onError: (error: Error) => {
       toast({
@@ -102,7 +106,9 @@ export default function RegisterForm() {
         description: JSON.stringify(error.message),
       });
     },
-    onSettled: () => router.push("/acceso"),
+    onSettled: () => {
+      router.push("/acceso");
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -205,7 +211,9 @@ export default function RegisterForm() {
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  {PROVINCIAS.sort((a, b) => a.label.localeCompare(b.label)).map((provincia) => (
+                  {PROVINCIAS.sort((a, b) =>
+                    a.label.localeCompare(b.label),
+                  ).map((provincia) => (
                     <SelectItem key={provincia.value} value={provincia.value}>
                       {provincia.label}
                     </SelectItem>
@@ -279,19 +287,20 @@ export default function RegisterForm() {
 
           <Button
             type="submit"
-            className="hover:bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg"
+            className="text-white border-solid w-full font-semibold py-3 px-6 rounded-lg bg-purpleDeodi hover:bg-purpleDeodi/90 transition-all duration-300 "
             disabled={isLoading}
           >
-            {isLoading ? "Registrando..." : "Registrar"}
-          </Button>
-          <Button
-            type="submit"
-            className="bg-purpleDeodi transition-all duration-300 text-white border-solid border-white border-2 w-full font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-inherit"
-            disabled={isLoading}
-          >
-            ¡Ingresá acá!
+            {isLoading ? "Enviando..." : "Enviar"}
           </Button>
         </form>
+        <div className="py-8">
+          <Link
+            className="transition-all duration-300 w-full font-semibold py-3 px-6 rounded-lg"
+            href="/acceso"
+          >
+            ¡Ingresá acá!
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

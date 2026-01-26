@@ -1,123 +1,192 @@
 "use client";
+
+import React from "react";
+
+import { useState, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Camera, Loader2, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, User } from "lucide-react";
-import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+interface ProfileData {
+  name: string;
+  email: string;
+  lastName?: string;
+  description?: string;
+  avatarUrl?: string;
+}
+
+interface UploadResponse {
+  url: string;
+  message: string;
+}
+
+async function uploadAvatar(file: File): Promise<UploadResponse> {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const response = await fetch("/api/upload-avatar", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Error al subir la imagen");
+  }
+
+  return response.json();
+}
 
 interface ProfileHeaderProps {
-  name: string;
-  lastName: string;
-  description: string;
-  avatarUrl?: string;
+  initialData?: ProfileData;
 }
 
 export function ProfileHeader({
   name,
+  email,
   lastName,
   description,
   avatarUrl,
-}: ProfileHeaderProps) {
-  const initials = `${name.charAt(0)}${lastName.charAt(0)}`;
-  const [formData, setFormData] = useState<ProfileHeaderProps>({
-    name,
-    lastName,
-    description,
-    avatarUrl,
+}: ProfileData) {
+  const [profile, setProfile] = useState<ProfileData>({
+    name: name || "Nombre",
+    email: email || "usuario@ejemplo.com",
+    description: description || "",
+    lastName: lastName || "Apellido",
+    avatarUrl: avatarUrl || "",
   });
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(avatarUrl);
-  const [isEditing, setIsEditing] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setPreviewUrl(result);
-        setFormData((prev) => ({ ...prev, avatarUrl: result }));
-      };
-      reader.readAsDataURL(file);
+  const mutation = useMutation({
+    mutationFn: uploadAvatar,
+    onSuccess: (data) => {
+      setProfile((prev) => ({ ...prev, avatarUrl: data.url }));
+      setPreviewUrl(null);
+    },
+    onError: () => {
+      setPreviewUrl(null);
+    },
+  });
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validar tipo de archivo
+    if (!file.type.startsWith("image/")) {
+      return;
     }
+
+    // Validar tamaño (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      return;
+    }
+
+    // Crear preview
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setPreviewUrl(event.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    // Subir imagen
+    mutation.mutate(file);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
   };
 
-  const handleSave = () => {
-    //onSave?.(formData);
-    setIsEditing(false);
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
-  const handleCancel = () => {
-    setFormData({ name, lastName, description, avatarUrl });
-    setPreviewUrl(avatarUrl);
-    setIsEditing(false);
-  };
-
-  const getInitials = () => {
-    const first = formData.name?.[0] || "";
-    const last = formData.lastName?.[0] || "";
-    return (first + last).toUpperCase();
-  };
+  const displayUrl = previewUrl || profile.avatarUrl;
 
   return (
-    <div className="lg:mb-8 grid grid-cols-12">
-      <div className="col-span-12 sm:col-span-3 lg:col-span-12 mb-6 ">
-        {/*<Avatar className="w-32 h-32 mb-4">
-          <AvatarImage
-            src={avatarUrl || "/placeholder.svg"}
-            alt={`${name} ${lastName}`}
-          />
-          <AvatarFallback className="text-2xl font-bold bg-muted text-muted-foreground">
-            {initials}
-          </AvatarFallback>
-        </Avatar>*/}
-        <div className="relative aspect-square w-32">
-          <Avatar className="size-32 border-4 border-0">
-            <AvatarImage
-              src={previewUrl || "/placeholder.svg"}
-              alt="Avatar del usuario"
+    <Card className="w-full">
+      <CardContent className="pt-6">
+        <div className="flex flex-col items-center gap-4">
+          {/* Avatar con overlay de edición */}
+          <div className="relative group">
+            <Avatar className="size-24 select-none hover:border-0 outline-none border-0 focus:outline-none">
+              {displayUrl ? (
+                <AvatarImage src={displayUrl} alt={profile.name} />
+              ) : null}
+              <AvatarFallback className="text-xl bg-gray-200 overflow-hidden hover:border-0 outline-none border-0 focus:outline-none">
+                {profile.avatarUrl || previewUrl
+                  ? null
+                  : getInitials(profile.name) +
+                      getInitials(profile.lastName!) || (
+                      <User className="size-8" />
+                    )}
+              </AvatarFallback>
+            </Avatar>
+
+            {/* Overlay de carga */}
+            {mutation.isPending && (
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-background/80">
+                <Loader2 className="size-6 animate-spin text-muted-foreground" />
+              </div>
+            )}
+
+            {/* Botón de cámara */}
+            <Button
+              type="button"
+              size="icon"
+              variant="secondary"
+              className="absolute -bottom-1 -right-1 size-8 rounded-full shadow-md"
+              onClick={handleButtonClick}
+              disabled={mutation.isPending}
+              aria-label="Cambiar foto de perfil"
+            >
+              <Camera className="size-4" />
+            </Button>
+
+            {/* Input oculto */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+              aria-label="Seleccionar imagen de perfil"
             />
-            <AvatarFallback className="bg-muted text-muted-foreground text-2xl">
-              {getInitials() || <User className="size-12" />}
-            </AvatarFallback>
-          </Avatar>
-          {(
-            <div className="absolute -bottom-4 -right-4">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-                aria-label="Seleccionar imagen de perfil"
-              />
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 flex size-9 items-center justify-center rounded-lg bg-white text-primary-foreground shadow-md transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                aria-label="Cambiar imagen de perfil"
-              >
-                <Camera className="size-4 fill-white text-purpleDeodi" />
-              </button>
+          </div>
+
+          {/* Información del usuario */}
+          <div className="flex flex-col items-center gap-1 text-center">
+            <h2 className="text-xl font-semibold">{profile.name}</h2>
+            <p className="text-sm text-muted-foreground">{profile.email}</p>
+          </div>
+
+          {/* Mensajes de estado */}
+          {mutation.isError && (
+            <div className="w-full rounded-md bg-destructive/10 p-3 text-sm text-destructive text-center">
+              {mutation.error?.message || "Error al subir la imagen"}
             </div>
           )}
+
+          {mutation.isSuccess && (
+            <div className="w-full rounded-md bg-green-500/10 p-3 text-sm text-green-600 dark:text-green-400 text-center">
+              Imagen actualizada correctamente
+            </div>
+          )}
+
+          {/* Texto de ayuda */}
+          <p className="text-xs text-muted-foreground text-center">
+            {description}
+          </p>
         </div>
-      </div>
-
-      <div className="col-span-12 sm:col-span-9 lg:col-span-12">
-        <h2 className="text-3xl font-semibold text-purpleDeodi mb-2 text-pretty">
-          {name} {lastName}
-        </h2>
-
-        <p className="text-muted-foreground max-w-md text-pretty leading-relaxed">
-          {description}
-        </p>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

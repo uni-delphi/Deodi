@@ -27,7 +27,8 @@ export default async function RootLayout({
               name={session?.user.name.split("@")[0] || "Renzo"}
               lastName={session?.user.lastName || "Pérez López"}
               description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
-              avatarUrl="/professional-headshot.png"
+              avatarUrl={""}
+              email={session?.user.email}
             />
             <div className="w-full overflow-hidden py-4">
               <ButtonGroup orientation="horizontal" aria-label="Profile controls" className="[--radius:9999rem]">
