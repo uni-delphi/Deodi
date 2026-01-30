@@ -10,10 +10,10 @@ export async function POST(req: Request) {
   }
 
   const formData = await req.formData();
-  const file = formData.get("field_perfildeodi_cv") as File | null;
-  const ejecutarIA = formData.get("field_perfildeodi_ejecutar_ia") as
+  const file = formData.get("avatar") as File | null;
+  /*const ejecutarIA = formData.get("field_perfildeodi_ejecutar_ia") as
     | string
-    | null;
+    | null;*/
   const title = formData.get("title") as string;
   const bodyValue = formData.get("body") as string;
 
@@ -25,6 +25,7 @@ export async function POST(req: Request) {
   }
 
   let fid: string | null = null;
+
   try {
     // 3️⃣ Subir archivo si existe
     if (file) {
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
       });
 
       const fileData = await fileRes.json();
+
       if (!fileRes.ok) {
         const text = await fileRes.text();
         return NextResponse.json(
@@ -61,6 +63,8 @@ export async function POST(req: Request) {
 
     // 5️⃣ Asignar archivo al nodo si existe
     if (fid) {
+      console.log("🚀 ~ POST ~ fid:", fid)
+
       const putRes = await fetch(`${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`, {
         method: "PUT",
         headers: {
@@ -69,7 +73,7 @@ export async function POST(req: Request) {
           Cookie: `${session.sessionName}=${session.sessid}`,
         },
         body: JSON.stringify({
-          field_perfildeodi_cv: {
+          field_perfildeodi_testvocacional: {
             und: [
               {
                 fid,
@@ -78,13 +82,7 @@ export async function POST(req: Request) {
               },
             ],
           },
-          field_perfildeodi_ejecutar_ia: {
-            und: [
-              {
-                value: ejecutarIA ?? "0",
-              },
-            ],
-          },
+          picture: `${process.env.BASE_URL}/app/sites/default/${file?.name}`,          
         }),
       });
 
@@ -95,25 +93,8 @@ export async function POST(req: Request) {
           { status: 500 }
         );
       }
-      console.log("🚀 ~ POST ~ putRes:", putRes);
-      const dada = await putRes.json();
-      const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${session.user.field_user_perfildeodi.und[0].target_id}`, {
-        method: "POST",
-        headers: {  
-          "Content-Type": "application/json",
-          "X-CSRF-Token": session.csrfToken,
-          Cookie: `${session.sessionName}=${session.sessid}`,
-        },
-      });
-
-      if (!aiAnalyzeRes.ok) {
-        const text = await aiAnalyzeRes.text();
-        return NextResponse.json( 
-          { error: "Error iniciando análisis IA", details: text },
-          { status: 500 }
-        );
-      }
-      return NextResponse.json({ isSuccess: true, fid, dada });
+     
+      return NextResponse.json({ isSuccess: true, putRes });
     }
   } catch (error) {
     return NextResponse.json(

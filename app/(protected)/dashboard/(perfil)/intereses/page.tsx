@@ -27,10 +27,12 @@ import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
 import { cleanKeys } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Heart, X, Pencil, Check } from "lucide-react";
+import { useIntereses } from "@/lib/hooks/user/useIntereses";
 
 function InteresesPage() {
   const { toast } = useToast();
-  const { data } = useUserProfile();
+  const { data, isLoading } = useUserProfile();
+  const { data: interesesData, isLoading: isInteresesLoading } = useIntereses();
 
   const intereses = [
     "Creatividad → Diseño gráfico",
@@ -115,6 +117,7 @@ function InteresesPage() {
       const parsed = JSON.parse(data.field_perfildeodi_intereses.und[0].value);
       setSelectedInterests(parsed || []);
     }
+    console.log("🚀 ~ useEffect ~ parsed:", interesesData);
   }, [data]);
 
   // Mutación para guardar
@@ -143,7 +146,7 @@ function InteresesPage() {
     setSelectedInterests((prev) =>
       prev.includes(interest)
         ? prev.filter((i) => i !== interest)
-        : [...prev, interest]
+        : [...prev, interest],
     );
   };
 
@@ -205,20 +208,20 @@ function InteresesPage() {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-[300px] p-0 bg-white">
+            <PopoverContent className="w-[300px] p-0 bg-white z-50">
               <Command>
                 <CommandList>
                   <CommandGroup>
-                    {intereses.map((item) => (
+                    {interesesData.intereses.map((item: any) => (
                       <CommandItem
-                        key={item}
+                        key={item.interes.tid}
                         onSelect={() => toggleInterest(item)}
                       >
                         <Checkbox
                           checked={selectedInterests.includes(item)}
                           className="mr-2"
                         />
-                        {item}
+                        {item.interes.nombre}
                       </CommandItem>
                     ))}
                   </CommandGroup>
@@ -230,17 +233,17 @@ function InteresesPage() {
 
         {/* Badges (activos en ambos modos, pero con X solo si isEditing) */}
         <div className="flex flex-wrap gap-2">
-          {selectedInterests.map((interest) => (
+          {selectedInterests.map((item: any) => (
             <Badge
-              key={interest}
+              key={item.interes.tid}
               variant="outline"
               className="py-2 px-3 border border-purpleDeodi text-purpleDeodi flex items-center gap-1"
             >
-              {interest}
+              {item.interes.nombre}
               {isEditing && (
                 <X
                   className="h-4 w-4 ml-1 cursor-pointer hover:text-red-500"
-                  onClick={() => removeInterest(interest)}
+                  onClick={() => removeInterest(item)}
                 />
               )}
             </Badge>

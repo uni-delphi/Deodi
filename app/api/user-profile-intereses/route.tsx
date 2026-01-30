@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   }
 
   const fileRes = await fetch(
-    `${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`,
+    `${process.env.BASE_URL}/api/node/json-intereses`,
     {
       method: "GET",
       headers: {
@@ -49,7 +49,7 @@ export async function PUT(req: Request) {
     }*/
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const updateProfileRes = await fetch(
-      `${process.env.BASE_URL}/api/node/13.json`,
+      `${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`,
       {
         method: "PUT",
         headers: {
