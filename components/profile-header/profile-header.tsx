@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
-
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Camera, Loader2, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import Image from "next/image";
 
 interface ProfileData {
   name: string;
@@ -25,15 +26,17 @@ interface UploadResponse {
 async function uploadAvatar(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("avatar", file);
+  formData.append("title", file.name);
+  formData.append("body", file.name);
 
-  const response = await fetch("/api/upload-avatar", {
+  const response = await fetch("/api/user-image", {
     method: "POST",
     body: formData,
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al subir la imagen");
+    const error = await response.text();
+    throw new Error(error || "Error al subir la imagen");
   }
 
   return response.json();
@@ -50,6 +53,8 @@ export function ProfileHeader({
   description,
   avatarUrl,
 }: ProfileData) {
+  const { data, isLoading, isError } = useUserProfile();
+  
   const [profile, setProfile] = useState<ProfileData>({
     name: name || "Nombre",
     email: email || "usuario@ejemplo.com",
@@ -57,16 +62,33 @@ export function ProfileHeader({
     lastName: lastName || "Apellido",
     avatarUrl: avatarUrl || "",
   });
+  
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Actualizar profile cuando llegue la data del servidor
+  useEffect(() => {
+    if (data) {
+      const serverAvatarUrl = `https://apideodi.cloud/app/sites/default/files/${data?.field_perfildeodi_testvocacional?.und?.[0]?.filename}`;
+      setProfile((prev) => ({
+        ...prev,
+        name: data.name || prev.name,
+        email: data.email || prev.email,
+        avatarUrl: serverAvatarUrl,
+      }));
+    }
+  }, [data]); // Solo depende de 'data'
+
   const mutation = useMutation({
     mutationFn: uploadAvatar,
-    onSuccess: (data) => {
-      setProfile((prev) => ({ ...prev, avatarUrl: data.url }));
-      setPreviewUrl(null);
+    onSuccess: (responseData: any) => {
+      // Actualizar el avatarUrl con la respuesta del servidor
+      //setProfile((prev) => ({ ...prev, avatarUrl: `https://apideodi.cloud/app/sites/default/files/${responseData?.field_perfildeodi_testvocacional?.und?.[0]?.filename}` }));
+      // Limpiar el preview
+      //setPreviewUrl(null);
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Upload error:", error);
       setPreviewUrl(null);
     },
   });
@@ -77,15 +99,17 @@ export function ProfileHeader({
 
     // Validar tipo de archivo
     if (!file.type.startsWith("image/")) {
+      alert("Por favor selecciona un archivo de imagen válido");
       return;
     }
 
     // Validar tamaño (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
+      alert("La imagen debe ser menor a 5MB");
       return;
     }
 
-    // Crear preview
+    // Crear preview local mientras se sube
     const reader = new FileReader();
     reader.onload = (event) => {
       setPreviewUrl(event.target?.result as string);
@@ -100,15 +124,13 @@ export function ProfileHeader({
     fileInputRef.current?.click();
   };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+  const getInitials = (name: string, lastName?: string) => {
+    const firstInitial = name?.[0] || "";
+    const lastInitial = lastName?.[0] || "";
+    return (firstInitial + lastInitial).toUpperCase() || "U";
   };
 
+  // Determinar qué URL mostrar: preview temporal o URL guardada
   const displayUrl = previewUrl || profile.avatarUrl;
 
   return (
@@ -117,17 +139,16 @@ export function ProfileHeader({
         <div className="flex flex-col items-center gap-4">
           {/* Avatar con overlay de edición */}
           <div className="relative group">
-            <Avatar className="size-24 select-none hover:border-0 outline-none border-0 focus:outline-none">
-              {displayUrl ? (
-                <AvatarImage src={displayUrl} alt={profile.name} />
-              ) : null}
-              <AvatarFallback className="text-xl bg-gray-200 overflow-hidden hover:border-0 outline-none border-0 focus:outline-none">
-                {profile.avatarUrl || previewUrl
-                  ? null
-                  : getInitials(profile.name) +
-                      getInitials(profile.lastName!) || (
-                      <User className="size-8" />
-                    )}
+            <Avatar className="size-24 select-none">
+              {displayUrl && (
+                <AvatarImage 
+                  src={displayUrl} 
+                  alt={profile.name}
+                  className="object-cover"
+                />
+              )}
+              <AvatarFallback className="text-xl bg-gray-200">
+                {displayUrl ? null : getInitials(profile.name, profile.lastName)}
               </AvatarFallback>
             </Avatar>
 
@@ -143,7 +164,7 @@ export function ProfileHeader({
               type="button"
               size="icon"
               variant="secondary"
-              className="absolute -bottom-1 -right-1 size-8 rounded-full shadow-md"
+              className="absolute -bottom-1 -right-1 size-8 rounded-full shadow-md bg-white"
               onClick={handleButtonClick}
               disabled={mutation.isPending}
               aria-label="Cambiar foto de perfil"
@@ -164,7 +185,9 @@ export function ProfileHeader({
 
           {/* Información del usuario */}
           <div className="flex flex-col items-center gap-1 text-center">
-            <h2 className="text-xl font-semibold">{profile.name}</h2>
+            <h2 className="text-xl font-semibold">
+              {profile.name} {profile.lastName}
+            </h2>
             <p className="text-sm text-muted-foreground">{profile.email}</p>
           </div>
 
@@ -182,9 +205,11 @@ export function ProfileHeader({
           )}
 
           {/* Texto de ayuda */}
-          <p className="text-xs text-muted-foreground text-center">
-            {description}
-          </p>
+          {description && (
+            <p className="text-xs text-muted-foreground text-center">
+              {description}
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -3,15 +3,15 @@ import { BubbleItem, BubbleType } from "./page";
 interface Props {
     items: BubbleItem[];
     onSelect: (career: BubbleItem) => void;
-    colorByType: Record<BubbleType, string>;
+    colorByType: Record<number, string>;
 }
 
 export const MobileCareerList: React.FC<Props> = ({ items, onSelect, colorByType }) => {
     return (
         <div className="w-full px-4 pb-24 space-y-3">
-            {items.map(item => (
+            {items.map((item, index) => (
                 <button
-                    key={item.label}
+                    key={item.nombre_ruta}
                     onClick={() => onSelect(item)}
                     className="
                         w-full flex items-center justify-between
@@ -23,7 +23,7 @@ export const MobileCareerList: React.FC<Props> = ({ items, onSelect, colorByType
                 >
                     <div className="flex flex-col text-left">
                         <span className="font-medium text-gray-800">
-                            {item.label}
+                            {item.nombre_ruta}
                         </span>
                         <span className="text-xs text-gray-500">
                             {item.type}
@@ -34,10 +34,10 @@ export const MobileCareerList: React.FC<Props> = ({ items, onSelect, colorByType
                         className={`
                             w-10 h-10 rounded-full flex items-center justify-center
                             text-white text-xs font-bold
-                            ${colorByType[item.type]}
+                            ${colorByType[Math.floor(Math.random() * (3 - 1 + 1)) + 1]}
                         `}
                     >
-                        {item.type.toUpperCase()}
+                        {item.type}
                     </div>
                 </button>
             ))}

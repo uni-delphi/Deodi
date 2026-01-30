@@ -29,24 +29,6 @@ export async function POST(req: Request) {
   let fid: string | null = null;
 
   try {
-    // 2️⃣ Obtener CSRF Token desde Drupal
-    //const csrfRes = await fetch(`https://apideodi.cloud/app/services/session/token`, {
-    //  method: "GET",
-    //  headers: {
-    //    "Content-Type": "text/plain",
-    //    "Cookie": `${session.sessionName}=${session.sessid}`
-    //  },
-    //});
-
-    //const csrfToken = await csrfRes.text();
-    //if (!csrfRes.ok) {
-    //  const text = await csrfRes.text();
-    //  return NextResponse.json({ error: "Error obteniendo CSRF token", details: text }, { status: 500 });
-    //}
-
-    //console.log("csrfToken", csrfToken)
-    //console.log("token", session.csrfToken)
-
     // 3️⃣ Subir archivo si existe
     if (file) {
       const arrayBuffer = await file.arrayBuffer();
@@ -69,7 +51,6 @@ export async function POST(req: Request) {
       });
 
       const fileData = await fileRes.json();
-      console.log("🚀 ~ POST ~ fileData:", fileData);
 
       if (!fileRes.ok) {
         const text = await fileRes.text();
@@ -82,35 +63,9 @@ export async function POST(req: Request) {
       fid = fileData.fid;
     }
 
-    // 4️⃣ Crear nodo
-    /*const nodeRes = await fetch(`${process.env.BASE_URL}/api/node.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": session.csrfToken,
-        Cookie: `${session.sessionName}=${session.sessid}`,
-      },
-      body: JSON.stringify({
-        type: "formulariodemo",
-        title,
-        body: {
-          und: [{ value: bodyValue, summary: "", format: "filtered_html" }],
-        },
-      }),
-    });
-
-    if (!nodeRes.ok) {
-      const text = await nodeRes.text();
-      return NextResponse.json({ error: "Error creando nodo", details: text }, { status: 500 });
-    }
-
-    const nodeData = await nodeRes.json();
-    console.log("🚀 ~ POST ~ nodeData:", nodeData);
-    const nid = nodeData.nid;*/
-
     // 5️⃣ Asignar archivo al nodo si existe
     if (fid) {
-      const putRes = await fetch(`${process.env.BASE_URL}/api/node/13.json`, {
+      const putRes = await fetch(`${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +99,7 @@ export async function POST(req: Request) {
           { status: 500 }
         );
       }
-      console.log("🚀 ~ POST ~ putRes:", putRes);
+      
       const dada = await putRes.json();
       const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${session.user.field_user_perfildeodi.und[0].target_id}`, {
         method: "POST",

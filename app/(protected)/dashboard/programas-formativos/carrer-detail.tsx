@@ -10,7 +10,7 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
     career,
     onClose,
 }) => {
-    const totalHours = career.courses?.reduce(
+    const totalHours = career.trayectos?.reduce(
         (acc, c) => acc + c.durationHours,
         0
     ) ?? 0;
@@ -20,10 +20,10 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
             <div className="flex items-start justify-between mb-4">
                 <div>
                     <h3 className="text-xl font-semibold">
-                        {career.label}
+                        {career.nombre}
                     </h3>
                     <p className="text-sm text-gray-500">
-                        Career path
+                        Trayecto
                     </p>
                 </div>
 
@@ -37,13 +37,13 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
             </div>
 
             <div className="space-y-4 flex-1 overflow-y-auto">
-                {career.courses?.map(course => (
+                {career.trayectos?.map(course => (
                     <div
-                        key={course.id}
+                        key={course.id_trayecto}
                         className="p-4 rounded-xl border bg-gray-50"
                     >
                         <div className="font-medium text-gray-800">
-                            {course.title}
+                            {course.nombre}
                         </div>
                         <div className="text-sm text-gray-500">
                             ⏱ {course.durationHours} hours

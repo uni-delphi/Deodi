@@ -32,7 +32,7 @@ export function CVUpload() {
         throw new Error("Error subiendo el CV. " + text)
       }
       
-      return res.json()
+      return res.json();
     },
     onSuccess: async () => {
       toast({
@@ -52,7 +52,7 @@ export function CVUpload() {
         description: error.message,
       })
     }
-  })
+  });
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
