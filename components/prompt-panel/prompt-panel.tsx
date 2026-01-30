@@ -22,11 +22,6 @@ export function PromptPanel({ prompt, description, onSubmit }: PromptPanelProps)
         >{prompt}</div>
       </div>
 
-      {/* Párrafo descriptivo */}
-      <p className="text-sm text-muted-foreground leading-relaxed">
-        {description}
-      </p>
-
       {/* Botón de submit */}
       <Button
         onClick={onSubmit}

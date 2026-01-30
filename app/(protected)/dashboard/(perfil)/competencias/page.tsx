@@ -29,15 +29,20 @@ function CompetenciasPage() {
   const { toast } = useToast();
   const { data, isLoading } = useUserProfile();
 
-  const [editedData, setEditedData] = useState<any[]>([]);
+  const [editedData, setEditedData] = useState<string | null>(null);
   const [editingTab, setEditingTab] = useState<string | null>(null);
 
   // Cargar datos del backend
   useEffect(() => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setEditedData(cleaned);
+    if (data?.field_perfildeodi_competencias?.und?.[0]?.value) {
+      //const parsed = JSON.parse(data.field_perfildeodi_competencias.und[0].value);
+      console.log(
+        "🚀 ~ CompetenciasPage ~ parsed:",
+        data.field_perfildeodi_competencias.und[0].value,
+      );
+
+      //const cleaned = parsed.map(cleanKeys);
+      setEditedData(data.field_perfildeodi_competencias.und[0].value);
     }
   }, [data]);
 
@@ -60,7 +65,7 @@ function CompetenciasPage() {
   });
 
   // === Handlers ===
-  const handleEdit = (tab: string) => setEditingTab(tab);
+  /*const handleEdit = (tab: string) => setEditingTab(tab);
 
   const handleCancel = () => {
     if (data?.body?.und?.[0]?.value) {
@@ -93,9 +98,9 @@ function CompetenciasPage() {
 
   const updateField = (index: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item))
+      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)),
     );
-  };
+  };*/
 
   // === Datos estáticos ===
   const competencias = [
@@ -114,8 +119,8 @@ function CompetenciasPage() {
         <CardDescription>Competencias técnicas y profesionales</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-2">
-        {competencias.map((c, i) => (
-          <Badge key={i} variant="outline">
+        {editedData?.split("\n").map((c, i) => (
+          <Badge key={i} variant="default">
             {c}
           </Badge>
         ))}
