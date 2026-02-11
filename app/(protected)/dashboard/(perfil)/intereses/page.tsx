@@ -32,82 +32,8 @@ import { useIntereses } from "@/lib/hooks/user/useIntereses";
 function InteresesPage() {
   const { toast } = useToast();
   const { data, isLoading } = useUserProfile();
-  const { data: interesesData, isLoading: isInteresesLoading } = useIntereses();
-
-  const intereses = [
-    "Creatividad → Diseño gráfico",
-    "Creatividad → Ilustración digital",
-    "Creatividad → Fotografía artística",
-    "Tecnología → Programación web",
-    "Tecnología → Inteligencia artificial aplicada",
-    "Tecnología → Automatización de procesos",
-    "Comunicación → Redacción institucional",
-    "Comunicación → Storytelling digital",
-    "Comunicación → Gestión de redes sociales",
-    "Innovación → Modelos de negocio disruptivos",
-    "Innovación → Emprendimiento social",
-    "Innovación → Economía circular",
-    "Educación → Formación de adultos",
-    "Educación → Educación digital/online",
-    "Educación → Diseño de experiencias de aprendizaje",
-    "Cultura → Patrimonio local",
-    "Cultura → Diversidad e inclusión cultural",
-    "Cultura → Producción de eventos culturales",
-    "Medioambiente → Gestión de residuos",
-    "Medioambiente → Energías renovables",
-    "Medioambiente → Conservación de ecosistemas",
-    "Salud y bienestar → Mindfulness y bienestar laboral",
-    "Salud y bienestar → Nutrición consciente",
-    "Salud y bienestar → Ergonomía y ambiente de trabajo",
-    "Relaciones interpersonales → Coaching y mentoring",
-    "Relaciones interpersonales → Trabajo en equipo",
-    "Relaciones interpersonales → Resolución de conflictos",
-    "Ciudadanía y comunidad → Desarrollo comunitario",
-    "Ciudadanía y comunidad → Voluntariado corporativo",
-    "Ciudadanía y comunidad → Cooperación institucional",
-    "Empleabilidad → Desarrollo de carrera profesional",
-    "Empleabilidad → Marca personal",
-    "Empleabilidad → Movilidad internacional",
-    "Economía y finanzas → Microemprendimientos",
-    "Economía y finanzas → Inversión responsable",
-    "Economía y finanzas → Comercio internacional",
-    "Datos y análisis → Big data aplicado",
-    "Datos y análisis → Visualización de datos",
-    "Datos y análisis → Inteligencia de negocio (BI)",
-    "Marketing → Marketing digital",
-    "Marketing → Branding personal",
-    "Marketing → Investigación de mercado",
-    "Gestión y liderazgo → Gestión de proyectos",
-    "Gestión y liderazgo → Liderazgo inclusivo",
-    "Gestión y liderazgo → Cambio organizacional",
-    "Sostenibilidad → Responsabilidad social empresarial (RSE)",
-    "Sostenibilidad → Certificaciones sostenibles",
-    "Sostenibilidad → Economía verde",
-    "Patrimonio profesional → Formación permanente",
-    "Patrimonio profesional → Transferencia de conocimiento",
-    "Patrimonio profesional → Validación de experiencias previas",
-    "Cultura digital → Metodologías ágiles",
-    "Cultura digital → Trabajo remoto/híbrido",
-    "Cultura digital → Ciberseguridad personal",
-    "Idiomas y comunicación global → Inglés para negocios",
-    "Idiomas y comunicación global → Portugués latino-americano",
-    "Idiomas y comunicación global → Comunicación intercultural",
-    "Arte y diseño → Diseño de interiores",
-    "Arte y diseño → Escenografía para eventos",
-    "Arte y diseño → Tipografía creativa",
-    "Ciencia y tecnología → Bioinformática",
-    "Ciencia y tecnología → Robótica aplicada",
-    "Ciencia y tecnología → Internet de las cosas (IoT)",
-    "Bienestar social → Igualdad de género",
-    "Bienestar social → Salud mental en el trabajo",
-    "Bienestar social → Inclusión laboral de personas con discapacidad",
-    "Patrimonio lengua regional → Dialecto/localismos",
-    "Patrimonio lengua regional → Oralidad y tradiciones",
-    "Turismo y cultura local → Turismo sostenible",
-    "Turismo y cultura local → Interpretación patrimonial",
-  ];
-
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const { data: interesesData, isLoading: isInteresesLoading, refreshIntereses } = useIntereses();
+  const [selectedInterests, setSelectedInterests] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -115,10 +41,12 @@ function InteresesPage() {
   useEffect(() => {
     if (data?.field_perfildeodi_intereses?.und?.[0]?.value) {
       const parsed = JSON.parse(data.field_perfildeodi_intereses.und[0].value);
-      setSelectedInterests(parsed || []);
+      /*parsed.forEach((selectedItem: any) => {
+        interesesData.intereses.find((item: any) => (item.interes.tid === selectedItem.interes.tid)).selected = true;
+      });*/
+      setSelectedInterests(parsed || []);      
     }
-    console.log("🚀 ~ useEffect ~ parsed:", interesesData);
-  }, [data]);
+  }, [data, interesesData]);
 
   // Mutación para guardar
   const mutation = useMutation({
@@ -157,6 +85,7 @@ function InteresesPage() {
 
   const handleSave = () => {
     mutation.mutate(selectedInterests);
+    refreshIntereses();
   };
 
   const handleCancel = () => {
@@ -208,7 +137,7 @@ function InteresesPage() {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-[300px] p-0 bg-white z-50">
+            <PopoverContent className="w-[600px] p-0 bg-white z-50">
               <Command>
                 <CommandList>
                   <CommandGroup>
@@ -218,7 +147,7 @@ function InteresesPage() {
                         onSelect={() => toggleInterest(item)}
                       >
                         <Checkbox
-                          checked={selectedInterests.includes(item)}
+                          checked={item.selected}
                           className="mr-2"
                         />
                         {item.interes.nombre}

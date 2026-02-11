@@ -21,6 +21,7 @@ export async function GET(req: Request) {
     }
   );
   const fileData = await fileRes.json();
+  
   if (!fileRes.ok) {
     return NextResponse.json(
       { error: "Error al obtener el archivo" },

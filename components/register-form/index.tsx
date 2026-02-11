@@ -6,13 +6,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 import { useRouter } from "next/navigation";
 
@@ -29,35 +23,61 @@ import {
 import { CitySelector } from "@/components/city-search/city-selector";
 import Link from "next/link";
 
+import { z } from "zod";
+import {
+  registerSchema,
+  type RegisterFormData,
+} from "@/lib/validations/register-form"; // Ajusta la ruta según donde guardes el archivo
+
 const PROVINCIAS = [
-  { value: "Cordoba", label: "Cordoba" },
-  { value: "Buenos Aires", label: "Buenos Aires" },
-  { value: "Santa Fe", label: "Santa Fe" },
-  { value: "Mendoza", label: "Mendoza" },
-  { value: "Tucuman", label: "Tucuman" },
-  { value: "Salta", label: "Salta" },
-  { value: "Jujuy", label: "Jujuy" },
-  { value: "Chaco", label: "Chaco" },
-  { value: "Formosa", label: "Formosa" },
-  { value: "Misiones", label: "Misiones" },
-  { value: "Entre Rios", label: "Entre Rios" },
-  { value: "Corrientes", label: "Corrientes" },
-  { value: "San Luis", label: "San Luis" },
-  { value: "La Rioja", label: "La Rioja" },
-  { value: "Catamarca", label: "Catamarca" },
-  { value: "San Juan", label: "San Juan" },
-  { value: "Neuquen", label: "Neuquen" },
-  { value: "Rio Negro", label: "Rio Negro" },
-  { value: "Chubut", label: "Chubut" },
-  { value: "Santa Cruz", label: "Santa Cruz" },
-  { value: "Tierra del Fuego", label: "Tierra del Fuego" },
+  { value: "Córdoba (4065)", label: "Córdoba" },
+  { value: "Buenos Aires (4066)", label: "Buenos Aires" },
+  { value: "Santa Fe (4048)", label: "Santa Fe" },
+  { value: "Mendoza (4056)", label: "Mendoza" },
+  { value: "Tucumán (4051)", label: "Tucumán" },
+  { value: "Salta (4064)", label: "Salta" },
+  { value: "Jujuy (4059)", label: "Jujuy" },
+  { value: "Chaco (4052)", label: "Chaco" },
+  { value: "Formosa (4053)", label: "Formosa" },
+  { value: "Misiones (4063)", label: "Misiones" },
+  { value: "Entre Ríos (4057)", label: "Entre Ríos" },
+  { value: "Corrientes (4062)", label: "Corrientes" },
+  { value: "San Luis (4047)", label: "San Luis" },
+  { value: "La Rioja (4049)", label: "La Rioja" },
+  { value: "Catamarca (4050)", label: "Catamarca" },
+  { value: "San Juan (4058)", label: "San Juan" },
+  { value: "Neuquén (4046)", label: "Neuquén" },
+  { value: "Río Negro (4061)", label: "Río Negro" },
+  { value: "Chubut (4055)", label: "Chubut" },
+  { value: "Santa Cruz (4054)", label: "Santa Cruz" },
   {
-    value: "Ciudad Autónoma de Buenos Aires",
+    value: "Tierra del Fuego, Antártida e Islas del Atlántico Sur (4068)",
+    label: "Tierra del Fuego",
+  },
+  {
+    value: "Ciudad Autónoma de Buenos Aires (4045)",
     label: "Ciudad Autónoma de Buenos Aires",
   },
-  { value: "La Pampa", label: "La Pampa" },
-  { value: "Santiago del Estero", label: "Santiago del Estero" },
+  { value: "La Pampa (4067)", label: "La Pampa" },
+  { value: "Santiago del Estero (4060)", label: "Santiago del Estero" },
 ];
+
+const SATISFACE_NBI = [
+  { value: "Si", label: "Si" },
+  { value: "No", label: "No" },
+];
+
+const TRABAJA = [
+  { value: "Si", label: "Si" },
+  { value: "No", label: "No" },
+];
+
+const SEXO = [
+  { value: "Masculino", label: "Masculino" },
+  { value: "Femenino", label: "Femenino" },
+  { value: "No Binario", label: "No Binario" },
+];
+
 const createNewUser = async (payload: any) => {
   const res = await fetch("/api/user-profile", {
     method: "POST",
@@ -72,17 +92,26 @@ export default function RegisterForm() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormData>({
     name: "",
     lastName: "",
     email: "",
     locality: "",
     state: "",
-    country: "",
+    country: "Argentina (64)",
     birthDate: "",
     password: "",
     confirmPassword: "",
+    trabaja: "",
+    trabaja_local: "",
+    localidad_trabajo: "",
+    satisface_nbi: "",
+    sexo: "",
   });
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof RegisterFormData, string>>
+  >({});
+
   const [isLoading, setIsLoading] = useState(false);
 
   const createNewUser = async (payload: any) => {
@@ -98,7 +127,10 @@ export default function RegisterForm() {
   const mutation = useMutation({
     mutationFn: createNewUser,
     onSuccess: () => {
-      toast({ title: "Usuario creado correctamente enviamos un correo de confirmación" });
+      toast({
+        title:
+          "Usuario creado correctamente enviamos un correo de confirmación",
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -114,16 +146,50 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrors({});
 
-    mutation.mutate(formData);
-    setIsLoading(false);
+    try {
+      // Validar con Zod
+      const validatedData = registerSchema.parse(formData);
+
+      // Si la validación es exitosa, enviar datos
+      mutation.mutate(validatedData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Mapear errores de Zod al estado
+        const fieldErrors: Partial<Record<keyof RegisterFormData, string>> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as keyof RegisterFormData] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+
+        toast({
+          title: "Error de validación",
+          description: "Por favor corrige los errores en el formulario",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    // Limpiar error del campo cuando el usuario empieza a escribir
+    if (errors[name as keyof RegisterFormData]) {
+      setErrors({
+        ...errors,
+        [name]: undefined,
+      });
+    }
   };
 
   return (
@@ -140,8 +206,11 @@ export default function RegisterForm() {
                 placeholder="Juan"
                 value={formData.name}
                 onChange={handleChange}
-                required
+                className={errors.name ? "border-red-500" : ""}
               />
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
 
             <div className="w-1/2 space-y-2">
@@ -153,8 +222,11 @@ export default function RegisterForm() {
                 placeholder="Pérez"
                 value={formData.lastName}
                 onChange={handleChange}
-                required
+                className={errors.lastName ? "border-red-500" : ""}
               />
+              {errors.lastName && (
+                <p className="text-sm text-red-500">{errors.lastName}</p>
+              )}
             </div>
           </div>
 
@@ -168,8 +240,11 @@ export default function RegisterForm() {
                 placeholder="juan@ejemplo.com"
                 value={formData.email}
                 onChange={handleChange}
-                required
+                className={errors.email ? "border-red-500" : ""}
               />
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
 
             <div className="w-1/2 space-y-2">
@@ -180,33 +255,47 @@ export default function RegisterForm() {
                 type="date"
                 value={formData.birthDate}
                 onChange={handleChange}
-                className="text-white"
-                required
+                className={`text-white ${errors.birthDate ? "border-red-500" : ""}`}
               />
+              {errors.birthDate && (
+                <p className="text-sm text-red-500">{errors.birthDate}</p>
+              )}
             </div>
           </div>
 
           <div className="space-y-2">
             <CitySelector
               value={formData.locality}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, locality: value }))
-              }
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, locality: value }));
+                if (errors.locality) {
+                  setErrors({ ...errors, locality: undefined });
+                }
+              }}
               label="Localidad"
               placeholder="Selecciona una localidad"
               searchPlaceholder="Busca tu ciudad..."
             />
+            {errors.locality && (
+              <p className="text-sm text-red-500">{errors.locality}</p>
+            )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="state">Provincia</Label>
             <Select
               value={formData.state}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, state: value }))
-              }
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, state: value }));
+                if (errors.state) {
+                  setErrors({ ...errors, state: undefined });
+                }
+              }}
             >
-              <SelectTrigger id="state" className="w-full">
+              <SelectTrigger
+                id="state"
+                className={`w-full ${errors.state ? "border-red-500" : ""}`}
+              >
                 <SelectValue placeholder="Selecciona una provincia" />
               </SelectTrigger>
               <SelectContent className="bg-white">
@@ -221,6 +310,9 @@ export default function RegisterForm() {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            {errors.state && (
+              <p className="text-sm text-red-500">{errors.state}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -255,6 +347,160 @@ export default function RegisterForm() {
             />*/}
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="trabaja">¿Trabaja?</Label>
+            <Select
+              value={formData.trabaja}
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, trabaja: value }));
+                if (errors.trabaja) {
+                  setErrors({ ...errors, trabaja: undefined });
+                }
+              }}
+            >
+              <SelectTrigger
+                id="trabaja"
+                className={`w-full ${errors.trabaja ? "border-red-500" : ""}`}
+              >
+                <SelectValue placeholder="Selecciona una opción" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
+                    (provincia) => (
+                      <SelectItem key={provincia.value} value={provincia.value}>
+                        {provincia.label}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.trabaja && (
+              <p className="text-sm text-red-500">{errors.trabaja}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="trabaja_local">¿Trabaja en localidad?</Label>
+            <Select
+              value={formData.trabaja_local}
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, trabaja_local: value }));
+                if (errors.trabaja_local) {
+                  setErrors({ ...errors, trabaja_local: undefined });
+                }
+              }}
+            >
+              <SelectTrigger
+                id="trabaja_local"
+                className={`w-full ${errors.trabaja_local ? "border-red-500" : ""}`}
+              >
+                <SelectValue placeholder="Selecciona una opción" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
+                    (provincia) => (
+                      <SelectItem key={provincia.value} value={provincia.value}>
+                        {provincia.label}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.trabaja_local && (
+              <p className="text-sm text-red-500">{errors.trabaja_local}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <CitySelector
+              value={formData.localidad_trabajo}
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, localidad_trabajo: value }));
+                if (errors.localidad_trabajo) {
+                  setErrors({ ...errors, localidad_trabajo: undefined });
+                }
+              }}
+              label="Localidad de trabajo"
+              placeholder="Selecciona una localidad"
+              searchPlaceholder="Busca tu ciudad..."
+            />
+            {errors.localidad_trabajo && (
+              <p className="text-sm text-red-500">{errors.localidad_trabajo}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="satisface_nbi">Satisface NBI</Label>
+            <Select
+              value={formData.satisface_nbi}
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, satisface_nbi: value }));
+                if (errors.satisface_nbi) {
+                  setErrors({ ...errors, satisface_nbi: undefined });
+                }
+              }}
+            >
+              <SelectTrigger
+                id="satisface_nbi"
+                className={`w-full ${errors.satisface_nbi ? "border-red-500" : ""}`}
+              >
+                <SelectValue placeholder="Selecciona una opción" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {SATISFACE_NBI.sort((a, b) =>
+                    a.label.localeCompare(b.label),
+                  ).map((provincia) => (
+                    <SelectItem key={provincia.value} value={provincia.value}>
+                      {provincia.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.satisface_nbi && (
+              <p className="text-sm text-red-500">{errors.satisface_nbi}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="sexo">Sexo</Label>
+            <Select
+              value={formData.sexo}
+              onValueChange={(value) => {
+                setFormData((prev) => ({ ...prev, sexo: value }));
+                if (errors.sexo) {
+                  setErrors({ ...errors, sexo: undefined });
+                }
+              }}
+            >
+              <SelectTrigger
+                id="sexo"
+                className={`w-full ${errors.sexo ? "border-red-500" : ""}`}
+              >
+                <SelectValue placeholder="Selecciona una opción" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {SEXO.sort((a, b) => a.label.localeCompare(b.label)).map(
+                    (provincia) => (
+                      <SelectItem key={provincia.value} value={provincia.value}>
+                        {provincia.label}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.sexo && (
+              <p className="text-sm text-red-500">{errors.sexo}</p>
+            )}
+          </div>
+
           <div className="flex gap-4">
             <div className="w-1/2 space-y-2">
               <Label htmlFor="password">Contraseña</Label>
@@ -265,9 +511,11 @@ export default function RegisterForm() {
                 placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
-                required
-                minLength={6}
+                className={errors.password ? "border-red-500" : ""}
               />
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
 
             <div className="w-1/2 space-y-2">
@@ -279,9 +527,11 @@ export default function RegisterForm() {
                 placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                required
-                minLength={6}
+                className={errors.confirmPassword ? "border-red-500" : ""}
               />
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+              )}
             </div>
           </div>
 
