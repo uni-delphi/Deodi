@@ -38,15 +38,6 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    // 2️⃣ Obtener datos del request
-    /*const formData = await req.formData();
-    console.log("🚀 ~ PUT ~ formData:", formData)
-    if (!formData) {
-      return NextResponse.json(
-        { error: "Faltan campos obligatorios" },
-        { status: 400 }
-      );
-    }*/
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const updateProfileRes = await fetch(
       `${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`,

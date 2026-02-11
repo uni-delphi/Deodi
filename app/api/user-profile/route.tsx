@@ -18,13 +18,13 @@ export async function GET(req: Request) {
         "X-CSRF-Token": session.csrfToken,
         Cookie: `${session.sessionName}=${session.sessid}`,
       },
-    }
+    },
   );
   const fileData = await fileRes.json();
   if (!fileRes.ok) {
     return NextResponse.json(
       { error: "Error al obtener el archivo" },
-      { status: fileRes.status }
+      { status: fileRes.status },
     );
   }
   return NextResponse.json(fileData);
@@ -57,15 +57,17 @@ export async function PUT(req: Request) {
             ],
           },
         }),
-      }
+      },
     );
+    // agregar ejecutar generar competencias
+
 
     // 4️⃣ Devolver datos del perfil actualizado
-    return NextResponse.json({ message: "Perfil actualizado correctamente" });
+    return NextResponse.json({ message: "Perfil actualizado correctamente." });
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -81,9 +83,27 @@ export async function POST(req: Request) {
       country,
       birthDate,
       password,
+      trabaja,
+      trabaja_local,
+      localidad_trabajo,
+      satisface_nbi,
+      sexo,
       ...props
     } = await req.json();
 
+    console.log(name,
+      lastName,
+      email,
+      locality,
+      state,
+      country,
+      birthDate,
+      password,
+      trabaja,
+      trabaja_local,
+      localidad_trabajo,
+      satisface_nbi,
+      sexo,)
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const createdUserRes = await fetch(
       `${process.env.BASE_URL}/api/user/register.json`,
@@ -106,24 +126,81 @@ export async function POST(req: Request) {
             und: [{ value: birthDate }],
           },
           field_user_localidad: {
-            und: [{ target_id: `${locality} ` }],
+            und: [{ target_id: locality }],
           },
           field_user_provincia: {
-            und: [{ target_id: `${state} ` }],
+            und: [{ target_id: state }],
           },
           field_user_pais: {
-            und: [{ target_id: `${country} ` }],
+            und: [{ target_id: country }],
+          },
+          field_user_trabaja: {
+            und: "Si",
+          },
+          field_user_trabaja_local: {
+            und: "No",
+          },
+          field_user_localidad_trabajo: {
+            und: [{ target_id: "Localidad Trabajo (ID)" }],
+          },
+          field_user_satisface_nbi: {
+            und: "Si",
+          },
+          field_user_sexo: {
+            und: "Femenino",
           },
         }),
-      }
+      },
     );
+
+    /**
+       * {
+      "name": "nuevo_nombre",
+      "pass": "nueva_contraseña",
+      "mail": "nuevo@correo.com",
+      "field_user_nombre": {
+        "und": [ { "value": "Nuevo Nombre" } ]
+      },
+      "field_user_apellido": {
+        "und": [ { "value": "Nuevo Apellido" } ]
+      },
+      "field_user_fecha_nac": {
+        "und": [ { "value": "YYYY-MM-DD" } ]
+      },
+      "field_user_localidad": {
+        "und": [ { "target_id": "Localidad Nombre (ID)" } ]
+      },
+      "field_user_provincia": {
+        "und": [ { "target_id": "Provincia Nombre (ID)" } ]
+      },
+      "field_user_pais": {
+        "und": [ { "target_id": "Pais Nombre (ID)" } ]
+      },
+      "field_user_trabaja": {
+        "und": "Si"
+      },
+      "field_user_trabaja_local": {
+        "und": "No"
+      },
+      "field_user_localidad_trabajo": {
+        "und": [ { "target_id": "Localidad Trabajo (ID)" } ]
+      },
+      "field_user_satisface_nbi": {
+        "und": "Si"
+      },
+      "field_user_sexo": {
+        "und": "Femenino"
+      }
+    }
+       * 
+       */
 
     // 4️⃣ Devolver datos del perfil actualizado
     return NextResponse.json({ message: "Perfil creado correctamente" });
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

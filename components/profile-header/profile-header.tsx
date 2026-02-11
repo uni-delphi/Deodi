@@ -205,11 +205,11 @@ export function ProfileHeader({
           )}
 
           {/* Texto de ayuda */}
-          {description && (
+          {/*description && (
             <p className="text-xs text-muted-foreground text-center">
               {description}
             </p>
-          )}
+          )*/}
         </div>
       </CardContent>
     </Card>
