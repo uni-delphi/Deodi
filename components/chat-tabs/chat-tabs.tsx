@@ -17,8 +17,8 @@ function ChatTabs() {
     >
       <Button
         variant={"outline"}
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/nuevo-cv"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/nuevo-cv"),
         })}
         size="sm"
         asChild
@@ -27,8 +27,8 @@ function ChatTabs() {
       </Button>
       <Button
         variant={"outline"}
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/carta-de-recomendacion"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/carta-de-recomendacion"),
         })}
         size="sm"
         asChild
@@ -38,8 +38,8 @@ function ChatTabs() {
 
       <Button
         variant={"outline"}
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/exploracion-de-carreras"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/exploracion-de-carreras"),
         })}
         size="sm"
         asChild

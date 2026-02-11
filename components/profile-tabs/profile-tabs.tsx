@@ -17,8 +17,8 @@ export function ProfileTabs() {
     >
       <Button
         variant={"outline"}
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/experiencia"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/experiencia"),
         })}
         size="sm"
         asChild
@@ -29,8 +29,8 @@ export function ProfileTabs() {
       </Button>
       <Button
         variant={"outline"}
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/formacion"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/formacion"),
         })}
         size="sm"
         asChild
@@ -42,8 +42,8 @@ export function ProfileTabs() {
       <Button
         variant={"outline"}
         //className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/competencias"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/competencias"),
         })}
         size="sm"
         asChild
@@ -55,8 +55,8 @@ export function ProfileTabs() {
       <Button
         variant={"outline"}
         //className="border border-purpleDeodi text-purpleDeodi font-semibold rounded-full cursor-pointer hover:bg-purpleDeodi hover:text-white"
-        className={cn("border border-gray-300 shadow", {
-          "bg-gray-200": pathname.endsWith("/intereses"),
+        className={cn("border border-gray-300 shadow text-purpleDeodi", {
+          "bg-purpleDeodi/40": pathname.endsWith("/intereses"),
         })}
         size="sm"
         asChild

@@ -347,72 +347,80 @@ export default function RegisterForm() {
             />*/}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="trabaja">¿Trabaja?</Label>
-            <Select
-              value={formData.trabaja}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, trabaja: value }));
-                if (errors.trabaja) {
-                  setErrors({ ...errors, trabaja: undefined });
-                }
-              }}
-            >
-              <SelectTrigger
-                id="trabaja"
-                className={`w-full ${errors.trabaja ? "border-red-500" : ""}`}
+          <div className="flex gap-4">
+            <div className="w-1/2 space-y-2">
+              <Label htmlFor="trabaja">¿Trabaja?</Label>
+              <Select
+                value={formData.trabaja}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, trabaja: value }));
+                  if (errors.trabaja) {
+                    setErrors({ ...errors, trabaja: undefined });
+                  }
+                }}
               >
-                <SelectValue placeholder="Selecciona una opción" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
-                    (provincia) => (
-                      <SelectItem key={provincia.value} value={provincia.value}>
-                        {provincia.label}
-                      </SelectItem>
-                    ),
-                  )}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.trabaja && (
-              <p className="text-sm text-red-500">{errors.trabaja}</p>
-            )}
-          </div>
+                <SelectTrigger
+                  id="trabaja"
+                  className={`w-full ${errors.trabaja ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder="Selecciona una opción" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
+                      (provincia) => (
+                        <SelectItem
+                          key={provincia.value}
+                          value={provincia.value}
+                        >
+                          {provincia.label}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.trabaja && (
+                <p className="text-sm text-red-500">{errors.trabaja}</p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="trabaja_local">¿Trabaja en localidad?</Label>
-            <Select
-              value={formData.trabaja_local}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, trabaja_local: value }));
-                if (errors.trabaja_local) {
-                  setErrors({ ...errors, trabaja_local: undefined });
-                }
-              }}
-            >
-              <SelectTrigger
-                id="trabaja_local"
-                className={`w-full ${errors.trabaja_local ? "border-red-500" : ""}`}
+            <div className="w-1/2 space-y-2">
+              <Label htmlFor="trabaja_local">¿Trabaja en localidad?</Label>
+              <Select
+                value={formData.trabaja_local}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, trabaja_local: value }));
+                  if (errors.trabaja_local) {
+                    setErrors({ ...errors, trabaja_local: undefined });
+                  }
+                }}
               >
-                <SelectValue placeholder="Selecciona una opción" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
-                    (provincia) => (
-                      <SelectItem key={provincia.value} value={provincia.value}>
-                        {provincia.label}
-                      </SelectItem>
-                    ),
-                  )}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.trabaja_local && (
-              <p className="text-sm text-red-500">{errors.trabaja_local}</p>
-            )}
+                <SelectTrigger
+                  id="trabaja_local"
+                  className={`w-full ${errors.trabaja_local ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder="Selecciona una opción" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {TRABAJA.sort((a, b) => a.label.localeCompare(b.label)).map(
+                      (provincia) => (
+                        <SelectItem
+                          key={provincia.value}
+                          value={provincia.value}
+                        >
+                          {provincia.label}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.trabaja_local && (
+                <p className="text-sm text-red-500">{errors.trabaja_local}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -433,72 +441,76 @@ export default function RegisterForm() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="satisface_nbi">Satisface NBI</Label>
-            <Select
-              value={formData.satisface_nbi}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, satisface_nbi: value }));
-                if (errors.satisface_nbi) {
-                  setErrors({ ...errors, satisface_nbi: undefined });
-                }
-              }}
-            >
-              <SelectTrigger
-                id="satisface_nbi"
-                className={`w-full ${errors.satisface_nbi ? "border-red-500" : ""}`}
+          <div className="flex gap-4">
+            <div className="w-1/2 space-y-2">
+              <Label htmlFor="satisface_nbi">Satisface NBI</Label>
+              <Select
+                value={formData.satisface_nbi}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, satisface_nbi: value }));
+                  if (errors.satisface_nbi) {
+                    setErrors({ ...errors, satisface_nbi: undefined });
+                  }
+                }}
               >
-                <SelectValue placeholder="Selecciona una opción" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  {SATISFACE_NBI.sort((a, b) =>
-                    a.label.localeCompare(b.label),
-                  ).map((provincia) => (
-                    <SelectItem key={provincia.value} value={provincia.value}>
-                      {provincia.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.satisface_nbi && (
-              <p className="text-sm text-red-500">{errors.satisface_nbi}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="sexo">Sexo</Label>
-            <Select
-              value={formData.sexo}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, sexo: value }));
-                if (errors.sexo) {
-                  setErrors({ ...errors, sexo: undefined });
-                }
-              }}
-            >
-              <SelectTrigger
-                id="sexo"
-                className={`w-full ${errors.sexo ? "border-red-500" : ""}`}
-              >
-                <SelectValue placeholder="Selecciona una opción" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  {SEXO.sort((a, b) => a.label.localeCompare(b.label)).map(
-                    (provincia) => (
+                <SelectTrigger
+                  id="satisface_nbi"
+                  className={`w-full ${errors.satisface_nbi ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder="Selecciona una opción" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {SATISFACE_NBI.sort((a, b) =>
+                      a.label.localeCompare(b.label),
+                    ).map((provincia) => (
                       <SelectItem key={provincia.value} value={provincia.value}>
                         {provincia.label}
                       </SelectItem>
-                    ),
-                  )}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.sexo && (
-              <p className="text-sm text-red-500">{errors.sexo}</p>
-            )}
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.satisface_nbi && (
+                <p className="text-sm text-red-500">{errors.satisface_nbi}</p>
+              )}
+            </div>
+            <div className="w-1/2 space-y-2">
+              <Label htmlFor="sexo">Sexo</Label>
+              <Select
+                value={formData.sexo}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, sexo: value }));
+                  if (errors.sexo) {
+                    setErrors({ ...errors, sexo: undefined });
+                  }
+                }}
+              >
+                <SelectTrigger
+                  id="sexo"
+                  className={`w-full ${errors.sexo ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder="Selecciona una opción" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {SEXO.sort((a, b) => a.label.localeCompare(b.label)).map(
+                      (provincia) => (
+                        <SelectItem
+                          key={provincia.value}
+                          value={provincia.value}
+                        >
+                          {provincia.label}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.sexo && (
+                <p className="text-sm text-red-500">{errors.sexo}</p>
+              )}
+            </div>
           </div>
 
           <div className="flex gap-4">
