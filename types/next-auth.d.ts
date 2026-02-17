@@ -1,47 +1,34 @@
-import NextAuth from "next-auth";
+// next-auth.d.ts
 import { DefaultSession, DefaultUser } from "next-auth";
-import { JWT, DefaultJWT } from "next-auth/jwt";
+import { DefaultJWT } from "next-auth/jwt";
+import { DrupalField } from "@/auth.config"; // 👈 Importar la interfaz
 
 declare module "next-auth" {
   interface Session {
-    sessid: string;
-    sessionName: string;
-    csrfToken: string;
     user: {
-      /** The user's postal address. */
       id: string;
-      role: any;
+      role: Record<string, string>;
       name: string;
-      lastName: string;
       email: string;
-      field_user_perfildeodi: any;
-    } & DefaultSession;
+    } & DefaultSession["user"];
   }
 
   interface User extends DefaultUser {
     id: string;
     lastName: string;
-    role: any;
-    field_user_perfildeodi: string;
-    //user: {
-    //  uid: string;
-    //  mail: string;
-    //  name: string;
-    //  field_user_perfildeodi: string;
-    //  roles: {
-    //    [key: string]: string;
-    //  };
-    //};
+    role: Record<string, string>;
+    field_user_perfildeodi: DrupalField; // 👈 Usa la misma interfaz
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     id: string;
-    role: any;
-    mail: string;
+    role: Record<string, string>;
     name: string;
-    lastName: string;
-    field_user_perfildeodi: string;
+    field_user_perfildeodi: string; // 👈 En el JWT ya es solo el target_id (string)
+    sessid: string;
+    sessionName: string;
+    csrfToken: string;
   }
 }

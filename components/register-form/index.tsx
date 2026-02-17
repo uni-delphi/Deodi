@@ -126,11 +126,20 @@ export default function RegisterForm() {
 
   const mutation = useMutation({
     mutationFn: createNewUser,
-    onSuccess: () => {
-      toast({
-        title:
-          "Usuario creado correctamente enviamos un correo de confirmación",
-      });
+    onSuccess: (res) => {
+      console.log("🚀 ~ RegisterForm ~ res:", res)
+      
+      if (res.status) {
+        toast({
+          title:
+            "Usuario creado correctamente enviamos un correo de confirmación",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: res.error || "Error al crear el usuario",
+        });
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -139,6 +148,7 @@ export default function RegisterForm() {
       });
     },
     onSettled: () => {
+      setIsLoading(false);
       router.push("/acceso");
     },
   });

@@ -1,11 +1,9 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export async function POST(req: Request) {
-  // 1️⃣ Obtener sesión de NextAuth
-  const session = await getServerSession(authOptions);
-  if (!session) {
+export async function POST(req: NextRequest) {
+   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
@@ -35,8 +33,8 @@ export async function POST(req: Request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": session.csrfToken,
-          Cookie: `${session.sessionName}=${session.sessid}`,
+          "X-CSRF-Token": token.csrfToken as string,
+          Cookie: `${token.sessionName}=${token.sessid}`,
         },
         body: JSON.stringify({
           file: {
@@ -61,12 +59,12 @@ export async function POST(req: Request) {
 
     // 5️⃣ Asignar archivo al nodo si existe
     if (fid) {
-      const putRes = await fetch(`${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`, {
+      const putRes = await fetch(`${process.env.BASE_URL}/api/node/${token.field_user_perfildeodi}.json`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": session.csrfToken,
-          Cookie: `${session.sessionName}=${session.sessid}`,
+          "X-CSRF-Token": token.csrfToken as string,
+          Cookie: `${token.sessionName}=${token.sessid}`,
         },
         body: JSON.stringify({
           field_perfildeodi_cv: {
@@ -95,14 +93,14 @@ export async function POST(req: Request) {
           { status: 500 }
         );
       }
-      console.log("🚀 ~ POST ~ putRes:", putRes);
+      //console.log("🚀 ~ POST ~ putRes:", putRes);
       const dada = await putRes.json();
-      const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${session.user.field_user_perfildeodi.und[0].target_id}`, {
+      const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${token.field_user_perfildeodi}`, {
         method: "POST",
         headers: {  
           "Content-Type": "application/json",
-          "X-CSRF-Token": session.csrfToken,
-          Cookie: `${session.sessionName}=${session.sessid}`,
+          "X-CSRF-Token": token.csrfToken as string,
+          Cookie: `${token.sessionName}=${token.sessid}`,
         },
       });
 

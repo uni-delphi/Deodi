@@ -38,7 +38,7 @@ export const CareerBubbleMap: React.FC<Props> = () => {
     if (data?.body?.und?.[0]?.value) {
       const parsed = JSON.parse(data.field_perfildeodi_match.und[0].value);
       const cleaned = parsed.map(cleanKeys);
-      console.log("🚀 ~ CareerBubbleMap ~ cleaned:", cleaned);
+      //console.log("🚀 ~ CareerBubbleMap ~ cleaned:", cleaned);
 
       setEditedData(cleaned);
     }

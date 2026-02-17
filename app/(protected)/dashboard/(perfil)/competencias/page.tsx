@@ -36,10 +36,10 @@ function CompetenciasPage() {
   useEffect(() => {
     if (data?.field_perfildeodi_competencias?.und?.[0]?.value) {
       //const parsed = JSON.parse(data.field_perfildeodi_competencias.und[0].value);
-      console.log(
+      /*console.log(
         "🚀 ~ CompetenciasPage ~ parsed:",
         data.field_perfildeodi_competencias.und[0].value,
-      );
+      );*/
 
       //const cleaned = parsed.map(cleanKeys);
       setEditedData(data.field_perfildeodi_competencias.und[0].value);
