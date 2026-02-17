@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
-
 import { getToken } from "next-auth/jwt";
 
 export async function GET(req: NextRequest) {
-  // 👈 NextRequest en lugar de Request
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });

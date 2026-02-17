@@ -48,7 +48,8 @@ export const authOptions: NextAuthOptions = {
             sessid: drupalUser.sessid,
             sessionName: drupalUser.session_name,
             csrfToken: drupalUser.token,
-            field_user_perfildeodi: drupalUser.user.field_user_perfildeodi as unknown as DrupalField, // 👈 Ahora es DrupalField
+            field_user_perfildeodi: drupalUser.user
+              .field_user_perfildeodi as unknown as DrupalField, // 👈 Ahora es DrupalField
           };
 
           return user;
@@ -93,16 +94,26 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
-        const u = user as DrupalUserSession;
-        // ✅ Ahora TypeScript sabe que .und existe
-        token.field_user_perfildeodi = u.field_user_perfildeodi.und[0].target_id;
-        token.id = u.id;
-        token.name = u.name ?? "";
-        token.email = u.email;
-        token.role = u.role;
-        token.sessid = u.sessid;
-        token.sessionName = u.sessionName;
-        token.csrfToken = u.csrfToken;
+        const {
+          id,
+          name,
+          lastName,
+          email,
+          role,
+          field_user_perfildeodi,
+          sessid,
+          sessionName,
+          csrfToken,
+        } = user as DrupalUserSession;
+        token.id = id;
+        token.name = name ?? "";
+        token.lastName = lastName ?? "";
+        token.email = email;
+        token.role = role;
+        token.field_user_perfildeodi = field_user_perfildeodi.und[0].target_id;
+        token.sessid = sessid;
+        token.sessionName = sessionName;
+        token.csrfToken = csrfToken;
       }
       return token;
     },
@@ -110,6 +121,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
+        session.user.lastName = token.lastName as string;
         session.user.email = token.email as string;
         session.user.role = token.role as Record<string, string>;
       }
