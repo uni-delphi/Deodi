@@ -1,13 +1,8 @@
-import AdminDropDown from "@/components/admin-dropdown/admin-dropdown";
-import { Sidebar } from "@/components/sidebar/sidebar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 import { ProfileHeader } from "@/components/profile-header/profile-header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ButtonGroup } from "@/components/ui/button-group";
 import { ProfileTabs } from "@/components/profile-tabs/profile-tabs";
 
 export default async function RootLayout({
@@ -25,7 +20,7 @@ export default async function RootLayout({
           <div className="col-span-12 lg:col-span-5 h-full px-4 pt-8 lg:py-8">
             <ProfileHeader
               name={session?.user.name.split("@")[0] || "Renzo"}
-              lastName={session?.user.lastName || "Pérez López"}
+              lastName={session?.user?.lastName || "Pérez López"}
               description="Desarrollador Full Stack apasionado por crear soluciones innovadoras y escalables. Con más de 5 años de experiencia en tecnologías web modernas."
               avatarUrl={""}
               email={session?.user.email}

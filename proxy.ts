@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req: NextRequestWithAuth, res) {
-    if (
+    /*if (
       req.nextUrl.pathname.startsWith("/admin") &&
-      req.nextauth.token?.role !== "ADMIN"
+      //req.nextauth.token?.role !== "ADMIN"
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
@@ -14,10 +14,10 @@ export default withAuth(
       (req.nextUrl.pathname.startsWith("/bienvenido") ||
         req.nextUrl.pathname.startsWith("/finalizado") ||
         req.nextUrl.pathname.startsWith("/estado")) &&
-      req.nextauth.token?.role !== "USER"
+      //req.nextauth.token?.role !== "USER"
     ) {
       return NextResponse.rewrite(new URL('/admin', req.url))
-    }
+    }*/
   },
   {
     callbacks: {

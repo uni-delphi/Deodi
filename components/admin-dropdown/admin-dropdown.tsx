@@ -42,7 +42,7 @@ export default function AdminDropDown({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>¡Hola {session.user.name}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {session.user.role === "ADMIN" && (
+        {/*session.user.role === "ADMIN" && (
           <>
             <DropdownMenuItem>
               <Link href={"/admin"} className="cursor-pointer w-[100%]">
@@ -56,7 +56,7 @@ export default function AdminDropDown({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
-        )}
+        )*/}
         <Button
           onClick={() =>
             signOut({

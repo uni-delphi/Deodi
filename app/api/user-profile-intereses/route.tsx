@@ -1,11 +1,9 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth.config";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export async function GET(req: Request) {
-  // 1️⃣ Obtener sesión de NextAuth
-  const session = await getServerSession(authOptions);
-  if (!session) {
+export async function GET(req: NextRequest) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
@@ -15,8 +13,8 @@ export async function GET(req: Request) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": session.csrfToken,
-        Cookie: `${session.sessionName}=${session.sessid}`,
+        "X-CSRF-Token": token.csrfToken as string,
+        Cookie: `${token.sessionName}=${token.sessid}`,
       },
     }
   );
@@ -30,23 +28,22 @@ export async function GET(req: Request) {
   return NextResponse.json(fileData);
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
-    // 1️⃣ Obtener sesión de NextAuth
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-    }
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
 
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const updateProfileRes = await fetch(
-      `${process.env.BASE_URL}/api/node/${session.user.field_user_perfildeodi.und[0].target_id}.json`,
+      `${process.env.BASE_URL}/api/node/${token.field_user_perfildeodi}.json`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": session.csrfToken,
-          Cookie: `${session.sessionName}=${session.sessid}`,
+          "X-CSRF-Token": token.csrfToken as string,
+          Cookie: `${token.sessionName}=${token.sessid}`,
         },
         body: JSON.stringify({
           field_perfildeodi_intereses: {
