@@ -35,6 +35,23 @@ function ExperienciaPage() {
     }
   }, [data]);
 
+  const generateContentMutation = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch("/api/user-competencias", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Competencias generadas correctamente" });
+    },
+    onError: () =>
+      toast({ title: "Error al generar competencias", variant: "destructive" }),
+  });
+
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
       const res = await fetch("/api/user-profile", {
@@ -45,10 +62,12 @@ function ExperienciaPage() {
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      //queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      // Disparar segunda mutación con lo que necesites pasarle
+      generateContentMutation.mutate({ profileData: variables });
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
     onSettled: () => {
@@ -90,7 +109,7 @@ function ExperienciaPage() {
 
   const updateField = (nid: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item))
+      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item)),
     );
   };
 
@@ -165,7 +184,7 @@ function ExperienciaPage() {
                         updateField(
                           exp.nid,
                           "responsabilidades_empresa",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       placeholder="Responsabilidad"
