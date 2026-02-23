@@ -41,12 +41,6 @@ export function MobileMenu({
             action: () => redirect('/dashboard/cargar-cv')
         },
         {
-            id: "conductual",
-            label: "Cargar Conductual",
-            icon: Brain,
-            action: () => console.log("Cargar Conductual clicked")
-        },
-        {
             id: "prompts",
             label: "Cargar Prompts",
             icon: Brain,
@@ -75,7 +69,7 @@ export function MobileMenu({
 
     return (
         <>
-            <div className="lg:hidden w-full h-16 bg-white fixed top-0 left-0 border-b border-gray-200 px-4 z-50 flex items-center justify-between">
+            <div className="lg:hidden w-full h-16 bg-white fixed top-0 left-0 border-b border-gray-200 px-8 z-50 flex items-center justify-between">
                 <Link href="/perfil" className="flex items-center">
                     <Image
                         src="/deodi-logo.webp"
@@ -131,7 +125,7 @@ export function MobileMenu({
                             })}
                         </nav>
                         <div className="p-4">
-                            <div className="flex items-center px-4 py-3 mb-4 rounded-lg bg-gray-50">
+                            <div className="hidden md:flex items-center px-4 py-3 mb-4 rounded-lg bg-gray-50">
                                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purpleDeodi mr-3">
                                     <User className="w-4 h-4 text-white" />
                                 </div>
