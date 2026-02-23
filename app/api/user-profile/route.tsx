@@ -137,16 +137,12 @@ export async function POST(req: Request) {
 
     if (!createdUserRes.ok) {
       const errorData = await createdUserRes.json();
-      console.log("🚀 ~ POST ~ errorData:", errorData);
-
       return NextResponse.json({
         error: "Error al crear el perfil",
         details: errorData,
-        status: createdUserRes.status,
+        status: false,
       });
     } else {
-      console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
-
       return NextResponse.json({
         message: "Perfil creado correctamente",
         status: createdUserRes.status,
