@@ -13,13 +13,7 @@ interface SidebarProps {
   onSectionChange?: (section: string) => void;
 }
 
-export function Sidebar({
-  activeSection = "perfil",
-  onSectionChange,
-}: SidebarProps) {
-  const [isProfileHovered, setIsProfileHovered] = useState(false);
-
-  const menuItems = [
+const menuItems = [
     {
       id: "/dashboard/formacion",
       label: "Formación",
@@ -33,6 +27,14 @@ export function Sidebar({
       hasDropdown: false,
     },
   ];
+
+export function Sidebar({
+  activeSection = "perfil",
+  onSectionChange,
+}: SidebarProps) {
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
+
+  
 
   const handleProfileMouseEnter = () => setIsProfileHovered(true);
   const handleProfileMouseLeave = () => setIsProfileHovered(false);

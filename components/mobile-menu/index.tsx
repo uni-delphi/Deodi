@@ -22,16 +22,31 @@ interface MobileSidebarProps {
     onSectionChange?: (section: string) => void;
 }
 
+const menuItems = [
+    {
+      id: "/dashboard/formacion",
+      label: "Formación",
+      icon: GraduationCap,
+      hasDropdown: false,
+    },
+    {
+      id: "/dashboard/selector-de-programas",
+      label: "Trayectos",
+      icon: Briefcase,
+      hasDropdown: false,
+    },
+  ];
+
 export function MobileMenu({
     activeSection = "perfil",
     onSectionChange
 }: MobileSidebarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const menuItems = [
+    /*const menuItems = [
         { id: "formacion", label: "Formación", icon: GraduationCap },
         { id: "ofertas", label: "Ofertas", icon: Briefcase },
-    ];
+    ];*/
 
     const profileItems = [
         {
@@ -108,8 +123,9 @@ export function MobileMenu({
                                 const isActive = activeSection === item.id;
 
                                 return (
-                                    <button
+                                    <Link
                                         key={item.id}
+                                        href={item.id}
                                         onClick={() => handleSectionClick(item.id)}
                                         className={cn(
                                             "flex items-center w-full px-4 py-3 rounded-lg transition-colors duration-200 mb-2",
@@ -120,7 +136,7 @@ export function MobileMenu({
                                     >
                                         <Icon className="h-5 w-5 mr-3" />
                                         <span className="font-medium">{item.label}</span>
-                                    </button>
+                                    </Link>
                                 );
                             })}
                         </nav>
