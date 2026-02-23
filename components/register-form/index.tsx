@@ -30,32 +30,32 @@ import {
 } from "@/lib/validations/register-form"; // Ajusta la ruta según donde guardes el archivo
 
 const PROVINCIAS = [
-  { value: "Córdoba (4065)", label: "Córdoba" },
-  { value: "Buenos Aires (4066)", label: "Buenos Aires" },
-  { value: "Santa Fe (4048)", label: "Santa Fe" },
-  { value: "Mendoza (4056)", label: "Mendoza" },
-  { value: "Tucumán (4051)", label: "Tucumán" },
-  { value: "Salta (4064)", label: "Salta" },
-  { value: "Jujuy (4059)", label: "Jujuy" },
-  { value: "Chaco (4052)", label: "Chaco" },
-  { value: "Formosa (4053)", label: "Formosa" },
-  { value: "Misiones (4063)", label: "Misiones" },
-  { value: "Entre Ríos (4057)", label: "Entre Ríos" },
-  { value: "Corrientes (4062)", label: "Corrientes" },
-  { value: "San Luis (4047)", label: "San Luis" },
-  { value: "La Rioja (4049)", label: "La Rioja" },
-  { value: "Catamarca (4050)", label: "Catamarca" },
-  { value: "San Juan (4058)", label: "San Juan" },
-  { value: "Neuquén (4046)", label: "Neuquén" },
-  { value: "Río Negro (4061)", label: "Río Negro" },
-  { value: "Chubut (4055)", label: "Chubut" },
-  { value: "Santa Cruz (4054)", label: "Santa Cruz" },
+  { value: "Córdoba (14)", label: "Córdoba" },
+  { value: "Buenos Aires (06)", label: "Buenos Aires" },
+  { value: "Santa Fe (82)", label: "Santa Fe" },
+  { value: "Mendoza (50)", label: "Mendoza" },
+  { value: "Tucumán (90)", label: "Tucumán" },
+  { value: "Salta (66)", label: "Salta" },
+  { value: "Jujuy (38)", label: "Jujuy" },
+  { value: "Chaco (22)", label: "Chaco" },
+  { value: "Formosa (34)", label: "Formosa" },
+  { value: "Misiones (54)", label: "Misiones" },
+  { value: "Entre Ríos (30)", label: "Entre Ríos" },
+  { value: "Corrientes (18)", label: "Corrientes" },
+  { value: "San Luis (74)", label: "San Luis" },
+  { value: "La Rioja (46)", label: "La Rioja" },
+  { value: "Catamarca (10)", label: "Catamarca" },
+  { value: "San Juan (70)", label: "San Juan" },
+  { value: "Neuquén (58)", label: "Neuquén" },
+  { value: "Río Negro (62)", label: "Río Negro" },
+  { value: "Chubut (26)", label: "Chubut" },
+  { value: "Santa Cruz (78)", label: "Santa Cruz" },
   {
-    value: "Tierra del Fuego, Antártida e Islas del Atlántico Sur (4068)",
+    value: "Tierra del Fuego, Antártida e Islas del Atlántico Sur (94)",
     label: "Tierra del Fuego",
   },
   {
-    value: "Ciudad Autónoma de Buenos Aires (4045)",
+    value: "Ciudad Autónoma de Buenos Aires (02)",
     label: "Ciudad Autónoma de Buenos Aires",
   },
   { value: "La Pampa (4067)", label: "La Pampa" },
@@ -127,8 +127,8 @@ export default function RegisterForm() {
   const mutation = useMutation({
     mutationFn: createNewUser,
     onSuccess: (res) => {
-      console.log("🚀 ~ RegisterForm ~ res:", res)
-      
+      console.log("🚀 ~ RegisterForm ~ res:", res);
+
       if (res.status) {
         toast({
           title:
@@ -273,88 +273,64 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <CitySelector
-              value={formData.locality}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, locality: value }));
-                if (errors.locality) {
-                  setErrors({ ...errors, locality: undefined });
-                }
-              }}
-              label="Localidad"
-              placeholder="Selecciona una localidad"
-              searchPlaceholder="Busca tu ciudad..."
-            />
-            {errors.locality && (
-              <p className="text-sm text-red-500">{errors.locality}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="state">Provincia</Label>
-            <Select
-              value={formData.state}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, state: value }));
-                if (errors.state) {
-                  setErrors({ ...errors, state: undefined });
-                }
-              }}
-            >
-              <SelectTrigger
-                id="state"
-                className={`w-full ${errors.state ? "border-red-500" : ""}`}
+          <div className="flex gap-4">
+            <div className="w-1/2 space-y-2">
+              <Label htmlFor="state">Provincia</Label>
+              <Select
+                value={formData.state}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, state: value }));
+                  if (errors.state) {
+                    setErrors({ ...errors, state: undefined });
+                  }
+                }}
               >
-                <SelectValue placeholder="Selecciona una provincia" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  {PROVINCIAS.sort((a, b) =>
-                    a.label.localeCompare(b.label),
-                  ).map((provincia) => (
-                    <SelectItem key={provincia.value} value={provincia.value}>
-                      {provincia.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.state && (
-              <p className="text-sm text-red-500">{errors.state}</p>
-            )}
-          </div>
+                <SelectTrigger
+                  id="state"
+                  className={`w-full ${errors.state ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder="Selecciona una provincia" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {PROVINCIAS.sort((a, b) =>
+                      a.label.localeCompare(b.label),
+                    ).map((provincia) => (
+                      <SelectItem key={provincia.value} value={provincia.value}>
+                        {provincia.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.state && (
+                <p className="text-sm text-red-500">{errors.state}</p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            {/*<Label htmlFor="country">País</Label>
-            <Select
-              value={formData.country}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, country: value }))
-              }
-            >
-              <SelectTrigger id="country" className="w-full">
-                <SelectValue placeholder="Selecciona un país" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectGroup>
-                  <SelectItem value="mexico">México</SelectItem>
-                  <SelectItem value="argentina">Argentina</SelectItem>
-                  <SelectItem value="colombia">Colombia</SelectItem>
-                  <SelectItem value="chile">Chile</SelectItem>
-                  <SelectItem value="peru">Perú</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Input
-              id="country"
-              name="country"
-              type="text"
-              placeholder="Argentina"
-              value={formData.country}
-              onChange={handleChange}
-              required
-            />*/}
+            <div className="w-1/2 space-y-2">
+              <CitySelector
+                value={formData.locality}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({ ...prev, locality: value }));
+                  if (errors.locality) {
+                    setErrors({ ...errors, locality: undefined });
+                  }
+                }}
+                label="Localidad"
+                placeholder="Selecciona una localidad"
+                searchPlaceholder="Busca tu ciudad..."
+                disabled={!formData.state}
+                provinciaId={
+                  formData.state
+                    ? formData.state.match(/\((\d+)\)/)?.[1]
+                    : undefined
+                }
+              />
+              {errors.locality && (
+                <p className="text-sm text-red-500">{errors.locality}</p>
+              )}
+            </div>
           </div>
 
           <div className="flex gap-4">
@@ -363,7 +339,11 @@ export default function RegisterForm() {
               <Select
                 value={formData.trabaja}
                 onValueChange={(value) => {
-                  setFormData((prev) => ({ ...prev, trabaja: value }));
+                  setFormData((prev) => ({
+                    ...prev,
+                    trabaja: value,
+                    trabaja_local: value === "No" ? "No" : prev.trabaja_local,
+                  }));
                   if (errors.trabaja) {
                     setErrors({ ...errors, trabaja: undefined });
                   }
@@ -405,6 +385,7 @@ export default function RegisterForm() {
                     setErrors({ ...errors, trabaja_local: undefined });
                   }
                 }}
+                disabled={formData.trabaja !== "Si"}
               >
                 <SelectTrigger
                   id="trabaja_local"
@@ -433,27 +414,36 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <CitySelector
-              value={formData.localidad_trabajo}
-              onValueChange={(value) => {
-                setFormData((prev) => ({ ...prev, localidad_trabajo: value }));
-                if (errors.localidad_trabajo) {
-                  setErrors({ ...errors, localidad_trabajo: undefined });
-                }
-              }}
-              label="Localidad de trabajo"
-              placeholder="Selecciona una localidad"
-              searchPlaceholder="Busca tu ciudad..."
-            />
-            {errors.localidad_trabajo && (
-              <p className="text-sm text-red-500">{errors.localidad_trabajo}</p>
-            )}
-          </div>
+          {formData.trabaja === "Si" && formData.trabaja_local === "No" && (
+            <div className="space-y-2">
+              <CitySelector
+                value={formData.localidad_trabajo}
+                onValueChange={(value) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    localidad_trabajo: value,
+                  }));
+                  if (errors.localidad_trabajo) {
+                    setErrors({ ...errors, localidad_trabajo: undefined });
+                  }
+                }}
+                label="Localidad de trabajo"
+                placeholder="Selecciona una localidad"
+                searchPlaceholder="Busca tu ciudad..."
+              />
+              {errors.localidad_trabajo && (
+                <p className="text-sm text-red-500">
+                  {errors.localidad_trabajo}
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="flex gap-4">
             <div className="w-1/2 space-y-2">
-              <Label htmlFor="satisface_nbi">Satisface NBI</Label>
+              <Label htmlFor="satisface_nbi">
+                Satisface necesidades básicas
+              </Label>
               <Select
                 value={formData.satisface_nbi}
                 onValueChange={(value) => {

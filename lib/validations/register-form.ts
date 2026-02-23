@@ -12,8 +12,8 @@ export const registerSchema = z.object({
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   confirmPassword: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   trabaja: z.string().min(1, "Debes seleccionar una opción"),
-  trabaja_local: z.string().min(1, "Debes seleccionar una opción"),
-  localidad_trabajo: z.string().min(1, "Debes seleccionar una localidad de trabajo"),
+  trabaja_local: z.string().optional(),
+  localidad_trabajo: z.string().optional(),
   satisface_nbi: z.string().min(1, "Debes seleccionar una opción"),
   sexo: z.string().min(1, "Debes seleccionar una opción"),
 }).refine((data) => data.password === data.confirmPassword, {
