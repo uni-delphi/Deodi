@@ -95,7 +95,7 @@ export async function POST(req: Request) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
+          name: email,
           pass: password,
           mail: email,
           field_user_nombre: {
@@ -135,20 +135,23 @@ export async function POST(req: Request) {
       },
     );
 
-    console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
     if (!createdUserRes.ok) {
       const errorData = await createdUserRes.json();
+      console.log("🚀 ~ POST ~ errorData:", errorData);
+
       return NextResponse.json({
         error: "Error al crear el perfil",
         details: errorData,
         status: createdUserRes.status,
       });
-    }
+    } else {
+      console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
 
-    return NextResponse.json({
-      message: "Perfil creado correctamente",
-      status: createdUserRes.status,
-    });
+      return NextResponse.json({
+        message: "Perfil creado correctamente",
+        status: createdUserRes.status,
+      });
+    }
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },

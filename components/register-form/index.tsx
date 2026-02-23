@@ -127,7 +127,7 @@ export default function RegisterForm() {
   const mutation = useMutation({
     mutationFn: createNewUser,
     onSuccess: (res) => {
-      console.log("🚀 ~ RegisterForm ~ res:", res);
+      //console.log("🚀 ~ RegisterForm ~ res:", res);
 
       if (res.status) {
         toast({
@@ -159,10 +159,7 @@ export default function RegisterForm() {
     setErrors({});
 
     try {
-      // Validar con Zod
       const validatedData = registerSchema.parse(formData);
-
-      // Si la validación es exitosa, enviar datos
       mutation.mutate(validatedData);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -193,7 +190,6 @@ export default function RegisterForm() {
       [name]: value,
     });
 
-    // Limpiar error del campo cuando el usuario empieza a escribir
     if (errors[name as keyof RegisterFormData]) {
       setErrors({
         ...errors,
