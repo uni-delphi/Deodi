@@ -22,7 +22,8 @@ interface CitySelectorProps {
   error?: string
   minSearchLength?: number
   debounceMs?: number
-  provinciaId?: string
+  provinciaId?: string;
+  disabled?: boolean 
 }
 
 export function CitySelector({
@@ -35,6 +36,7 @@ export function CitySelector({
   minSearchLength = 2,
   debounceMs = 300,
   provinciaId,
+  disabled = false,
 }: CitySelectorProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [cities, setCities] = useState<City[]>([])
@@ -136,6 +138,7 @@ export function CitySelector({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
+            disabled={disabled}
           />
         </div>
         
@@ -166,9 +169,9 @@ export function CitySelector({
                         <MapPin className="h-4 w-4 text-muted-foreground shrink-0" />
                         <div className="flex-1 min-w-0">
                           <span className="font-medium">{city.label}</span>
-                          <span className="text-xs text-muted-foreground ml-2">
+                          {/*<span className="text-xs text-muted-foreground ml-2">
                             ({city.nid})
-                          </span>
+                          </span>*/}
                         </div>
                         {isSelected && (
                           <Check className="h-4 w-4 text-primary shrink-0" />
