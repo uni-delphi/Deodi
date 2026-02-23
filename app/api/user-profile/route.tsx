@@ -95,7 +95,7 @@ export async function POST(req: Request) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
+          name: email,
           pass: password,
           mail: email,
           field_user_nombre: {
@@ -135,7 +135,6 @@ export async function POST(req: Request) {
       },
     );
 
-    console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
     if (!createdUserRes.ok) {
       const errorData = await createdUserRes.json();
       return NextResponse.json({
@@ -144,6 +143,7 @@ export async function POST(req: Request) {
         status: createdUserRes.status,
       });
     }
+    //console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
 
     return NextResponse.json({
       message: "Perfil creado correctamente",
