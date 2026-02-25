@@ -30,7 +30,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  // 👈 NextRequest
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
@@ -69,7 +68,7 @@ export async function PUT(req: NextRequest) {
         },
       },
     );
-    console.log("🚀 ~ PUT ~ fileRes:", fileRes)
+    
     if (!fileRes.ok || !fileRes.status) {
       return NextResponse.json({
         error: "Error al obtener el archivo",

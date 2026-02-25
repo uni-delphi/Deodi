@@ -1,3 +1,4 @@
+
 import { CareerDetail } from "./carrer-detail";
 import { BubbleItem } from "./page";
 
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export const CareerDetailSheet: React.FC<Props> = ({ career, onClose }) => {
+  if (!career) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />
