@@ -1,13 +1,19 @@
-"use client"
+"use client";
 
-import { useState, useCallback } from "react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Upload, FileText, X, CheckCircle } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Upload, FileText, X, CheckCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export function CVUpload() {
   const [dragActive, setDragActive] = useState(false);
@@ -16,33 +22,53 @@ export function CVUpload() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const generateContentMutation = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch("/api/user-competencias", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Competencias generadas correctamente" });
+    },
+    onError: () =>
+      toast({ title: "Error al generar competencias", variant: "destructive" }),
+  });
+
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
-      
-      const formData = new FormData()
+      const formData = new FormData();
       formData.append("field_perfildeodi_cv", file);
       formData.append("field_perfildeodi_ejecutar_ia", "1");
       formData.append("title", file.name);
       formData.append("body", file.name);
 
-      const res = await fetch("/api/upload-node", { method: "POST", body: formData });
-      
+      const res = await fetch("/api/upload-node", {
+        method: "POST",
+        body: formData,
+      });
+
       if (!res.ok) {
-        const text = await res.text()
-        throw new Error("Error subiendo el CV. " + text)
+        const text = await res.text();
+        throw new Error("Error subiendo el CV. " + text);
       }
-      
+
       return res.json();
     },
-    onSuccess: async () => {
+    onSuccess: async (data, variables) => {
       toast({
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
-      });      
+      });
 
       // Invalidar y esperar a que se refresquen los datos
-      //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
+      generateContentMutation.mutate({ profileData: variables });
       
+      //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
       // Navegar solo después de que los datos estén actualizados
       router.push("/dashboard/validar-cv");
     },
@@ -50,57 +76,66 @@ export function CVUpload() {
       toast({
         title: "Error",
         description: error.message,
-      })
-    }
+      });
+    },
   });
 
   const handleDrag = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true)
+      setDragActive(true);
     } else if (e.type === "dragleave") {
-      setDragActive(false)
+      setDragActive(false);
     }
-  }, [])
+  }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0]
-      if (droppedFile.type === "application/pdf" || droppedFile.name.endsWith(".pdf")) {
-        setFile(droppedFile)
-      } else {
-        toast({
-          title: "Archivo inválido",
-          description: "Solo se permiten archivos PDF.",
-        })
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const droppedFile = e.dataTransfer.files[0];
+        if (
+          droppedFile.type === "application/pdf" ||
+          droppedFile.name.endsWith(".pdf")
+        ) {
+          setFile(droppedFile);
+        } else {
+          toast({
+            title: "Archivo inválido",
+            description: "Solo se permiten archivos PDF.",
+          });
+        }
       }
-    }
-  }, [toast])
+    },
+    [toast],
+  );
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0]
-      if (selectedFile.type === "application/pdf" || selectedFile.name.endsWith(".pdf")) {
-        setFile(selectedFile)
+      const selectedFile = e.target.files[0];
+      if (
+        selectedFile.type === "application/pdf" ||
+        selectedFile.name.endsWith(".pdf")
+      ) {
+        setFile(selectedFile);
       } else {
         toast({
           title: "Archivo inválido",
           description: "Solo se permiten archivos PDF.",
-        })
+        });
       }
     }
-  }
+  };
 
   const handleUpload = () => {
-    if (file) uploadMutation.mutate(file)
-  }
+    if (file) uploadMutation.mutate(file);
+  };
 
-  const removeFile = () => setFile(null)
+  const removeFile = () => setFile(null);
 
   return (
     <div className="space-y-6">
@@ -129,12 +164,23 @@ export function CVUpload() {
               onDrop={handleDrop}
             >
               <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-lg font-medium mb-2 opacity-90">Arrastra tu CV aquí</p>
+              <p className="text-lg font-medium mb-2 opacity-90">
+                Arrastra tu CV aquí
+              </p>
               <p className="text-muted-foreground mb-4 opacity-90">o</p>
-              <Button variant="default" className="border border-white bg-purpleDeodi text-white hover:border-purpleDeodi hover:text-purpleDeodi" asChild>
+              <Button
+                variant="default"
+                className="border border-white bg-purpleDeodi text-white hover:border-purpleDeodi hover:text-purpleDeodi"
+                asChild
+              >
                 <label className="cursor-pointer">
                   <span>Seleccionar archivo</span>
-                  <input type="file" accept=".pdf" onChange={handleFileSelect} className="hidden" />
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
                 </label>
               </Button>
               <p className="text-sm text-muted-foreground opacity-90 mt-2">
@@ -154,7 +200,9 @@ export function CVUpload() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {uploadMutation.isSuccess && <CheckCircle className="h-5 w-5 text-green-500" />}
+                  {uploadMutation.isSuccess && (
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -189,12 +237,14 @@ export function CVUpload() {
               )}
 
               {uploadMutation.isError && (
-                <p className="text-sm text-red-500">Error al subir el archivo</p>
+                <p className="text-sm text-red-500">
+                  Error al subir el archivo
+                </p>
               )}
             </div>
           )}
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

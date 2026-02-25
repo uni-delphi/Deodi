@@ -7,15 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Briefcase,
   GraduationCap,
-  Star,
-  Heart,
   Trash2,
   Pencil,
 } from "lucide-react";
@@ -41,23 +37,6 @@ export default function FormacionPage() {
     }
   }, [data]);
 
-  const generateContentMutation = useMutation({
-    mutationFn: async (payload: any) => {
-      const res = await fetch("/api/user-competencias", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    onSuccess: () => {
-      toast({ title: "Competencias generadas correctamente" });
-    },
-    onError: () =>
-      toast({ title: "Error al generar competencias", variant: "destructive" }),
-  });
-
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
       const res = await fetch("/api/user-profile", {
@@ -68,12 +47,11 @@ export default function FormacionPage() {
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
-    onSuccess: (data, variables) => {
+    onSuccess: async (data, variables) => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      // Disparar segunda mutación con lo que necesites pasarle
-      generateContentMutation.mutate({ profileData: variables });
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      
+      await queryClient.refetchQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
   });
