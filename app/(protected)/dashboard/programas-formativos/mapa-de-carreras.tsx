@@ -38,8 +38,6 @@ export const CareerBubbleMap: React.FC<Props> = () => {
     if (data?.body?.und?.[0]?.value) {
       const parsed = JSON.parse(data.field_perfildeodi_match.und[0].value);
       const cleaned = parsed.map(cleanKeys);
-      //console.log("🚀 ~ CareerBubbleMap ~ cleaned:", cleaned);
-
       setEditedData(cleaned);
     }
   }, [data]);
@@ -147,7 +145,7 @@ export const CareerBubbleMap: React.FC<Props> = () => {
           <div className="text-gray-600 text-sm p-4">
             Programas de aprendizaje basados en…
           </div>
-          <div className="text-2xl mt-1">💼🎓💕</div>
+          <div className="mt-1">💼🎓💕</div>
         </div>
       </div>
       {selectedCareer && (
