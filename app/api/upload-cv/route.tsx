@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   if (!title || !bodyValue) {
     return NextResponse.json(
       { error: "Faltan campos obligatorios" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         const text = await fileRes.text();
         return NextResponse.json(
           { error: "Error subiendo archivo" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -63,64 +63,88 @@ export async function POST(req: NextRequest) {
 
     // 5️⃣ Asignar archivo al nodo si existe
     if (fid) {
-      const putRes = await fetch(`${process.env.BASE_URL}/api/node/${token.field_user_perfildeodi}.json`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token.csrfToken as string,
-          Cookie: `${token.sessionName}=${token.sessid}`,
+      const putRes = await fetch(
+        `${process.env.BASE_URL}/api/node/${token.field_user_perfildeodi}.json`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": token.csrfToken as string,
+            Cookie: `${token.sessionName}=${token.sessid}`,
+          },
+          body: JSON.stringify({
+            field_perfildeodi_cv: {
+              und: [
+                {
+                  fid,
+                  alt: file?.name ?? "",
+                  title: file?.name ?? "",
+                },
+              ],
+            },
+            field_perfildeodi_ejecutar_ia: {
+              und: [
+                {
+                  value: ejecutarIA ?? "0",
+                },
+              ],
+            },
+          }),
         },
-        body: JSON.stringify({
-          field_perfildeodi_cv: {
-            und: [
-              {
-                fid,
-                alt: file?.name ?? "",
-                title: file?.name ?? "",
-              },
-            ],
-          },
-          field_perfildeodi_ejecutar_ia: {
-            und: [
-              {
-                value: ejecutarIA ?? "0",
-              },
-            ],
-          },
-        }),
-      });
+      );
 
       if (!putRes.ok) {
         const text = await putRes.text();
         return NextResponse.json(
           { error: "Error asignando archivo al nodo", details: text },
-          { status: 500 }
+          { status: 500 },
         );
       }
-      
+
       const dada = await putRes.json();
-      const aiAnalyzeRes = await fetch(`${process.env.BASE_URL}/perfildeodi/analizar?nid=${token.field_user_perfildeodi}`, {
-        method: "POST",
-        headers: {  
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token.csrfToken as string,
-          Cookie: `${token.sessionName}=${token.sessid}`,
+      const aiAnalyzeRes = await fetch(
+        `${process.env.BASE_URL}/perfildeodi/analizar?nid=${token.field_user_perfildeodi}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": token.csrfToken as string,
+            Cookie: `${token.sessionName}=${token.sessid}`,
+          },
         },
-      });
+      );
 
       if (!aiAnalyzeRes.ok) {
         const text = await aiAnalyzeRes.text();
-        return NextResponse.json( 
+        return NextResponse.json(
           { error: "Error iniciando análisis IA", details: text },
-          { status: 500 }
+          { status: 500 },
         );
+      }
+      const fileRes = await fetch(
+        `${process.env.BASE_URL}/perfildeodi/analizar-competencias?nid=${token.field_user_perfildeodi}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": token.csrfToken as string,
+            Cookie: `${token.sessionName}=${token.sessid}`,
+          },
+        },
+      );
+      
+      if (!fileRes.ok || !fileRes.status) {
+        return NextResponse.json({
+          error: "Error al obtener el archivo",
+          status: fileRes.status,
+        });
       }
       return NextResponse.json({ isSuccess: true, fid, dada });
     }
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

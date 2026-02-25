@@ -134,10 +134,11 @@ export default function RegisterForm() {
           title:
             "Usuario creado correctamente enviamos un correo de confirmación",
         });
+        router.push("/acceso");
       } else {
         toast({
           title: "Error",
-          description: res.error || "Error al crear el usuario",
+          description: res.error || "Error al crear el usuario, contactese con el administrador",
         });
       }
     },
@@ -149,7 +150,7 @@ export default function RegisterForm() {
     },
     onSettled: () => {
       setIsLoading(false);
-      router.push("/acceso");
+      
     },
   });
 

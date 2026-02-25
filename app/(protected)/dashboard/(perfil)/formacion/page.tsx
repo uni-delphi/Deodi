@@ -7,15 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Briefcase,
   GraduationCap,
-  Star,
-  Heart,
   Trash2,
   Pencil,
 } from "lucide-react";
@@ -25,7 +21,7 @@ import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
 import { cleanKeys } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
-function FormacionPage() {
+export default function FormacionPage() {
   const { toast } = useToast();
   const { data, isLoading } = useUserProfile();
   const queryClient = useQueryClient();
@@ -51,10 +47,11 @@ function FormacionPage() {
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: async (data, variables) => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      
+      await queryClient.refetchQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
   });
@@ -93,7 +90,7 @@ function FormacionPage() {
 
   const updateField = (nid: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item))
+      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item)),
     );
   };
 
@@ -167,7 +164,7 @@ function FormacionPage() {
                         updateField(
                           edu.nid,
                           "institucion_educacion",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       placeholder="Institución"
@@ -210,5 +207,3 @@ function FormacionPage() {
     </Card>
   );
 }
-
-export default FormacionPage;

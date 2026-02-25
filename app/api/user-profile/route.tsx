@@ -58,6 +58,24 @@ export async function PUT(req: NextRequest) {
         }),
       },
     );
+    const fileRes = await fetch(
+      `${process.env.BASE_URL}/perfildeodi/analizar-competencias?nid=${token.field_user_perfildeodi}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": token.csrfToken as string,
+          Cookie: `${token.sessionName}=${token.sessid}`,
+        },
+      },
+    );
+    console.log("🚀 ~ PUT ~ fileRes:", fileRes)
+    if (!fileRes.ok || !fileRes.status) {
+      return NextResponse.json({
+        error: "Error al obtener el archivo",
+        status: fileRes.status,
+      });
+    }
 
     return NextResponse.json({ message: "Perfil actualizado correctamente." });
   } catch (error) {
@@ -68,8 +86,13 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+    if (!token) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
     const {
       name,
       lastName,
@@ -137,15 +160,30 @@ export async function POST(req: Request) {
 
     if (!createdUserRes.ok) {
       const errorData = await createdUserRes.json();
-      console.log("🚀 ~ POST ~ errorData:", errorData);
-
       return NextResponse.json({
         error: "Error al crear el perfil",
         details: errorData,
-        status: createdUserRes.status,
+        status: false,
       });
     } else {
-      console.log("🚀 ~ POST ~ createdUserRes:", createdUserRes);
+      const fileRes = await fetch(
+        `${process.env.BASE_URL}/perfildeodi/analizar-competencias?nid=${token.field_user_perfildeodi}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": token.csrfToken as string,
+            Cookie: `${token.sessionName}=${token.sessid}`,
+          },
+        },
+      );
+      console.log("🚀 ~ POST ~ fileRes:", fileRes)
+      if (!fileRes.ok || !fileRes.status) {
+        return NextResponse.json({
+          error: "Error al obtener el archivo",
+          status: fileRes.status,
+        });
+      }
 
       return NextResponse.json({
         message: "Perfil creado correctamente",

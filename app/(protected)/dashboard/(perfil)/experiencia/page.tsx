@@ -7,8 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Briefcase, Trash2, Pencil } from "lucide-react";
@@ -45,10 +44,11 @@ function ExperienciaPage() {
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      //queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
     onSettled: () => {
@@ -90,7 +90,7 @@ function ExperienciaPage() {
 
   const updateField = (nid: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item))
+      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item)),
     );
   };
 
@@ -165,7 +165,7 @@ function ExperienciaPage() {
                         updateField(
                           exp.nid,
                           "responsabilidades_empresa",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       placeholder="Responsabilidad"
