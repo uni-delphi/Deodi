@@ -39,22 +39,28 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
             key={course.id_trayecto}
             className="p-4 rounded-xl border border-gray-300 bg-gray-50 space-y-4 shadow"
           >
-            <div className="font-medium text-purpleDeodi">{course.nombre}</div>
+            <div className="font-medium leading-5 text-purpleDeodi">{course.nombre}</div>
             <div>
-              <p className="text-sm text-gray-800">{course.descripcion}</p>
+              <p className="text-xs text-gray-800 text-pretty">{course.descripcion}</p>
             </div>
             <div className="text-sm text-gray-500">
-              <ul className="flex gap-4 justify-between">
-                <li className="flex gap-2 items-start">
+              <ul className="flex flex-col">
+                <li className="flex gap-4 items-center">
                   <Clock className="w-4 h-4" />{" "}
-                  {Math.floor(course.carga_horaria_total)} hs
+                  <p className="text-xs min-w-40">Carga horaria</p>
+                  <p className="font-semibold">
+                    {Math.floor(course.carga_horaria_total)} hs
+                  </p>
                 </li>
-                <li className="flex gap-2 items-start">
+                <li className="flex gap-4 items-center">
                   <GraduationCap className="w-4 h-4" />{" "}
-                  {course.creditos_academicos}
+                  <p className="text-xs min-w-40">Créditos académicos</p>
+                  <p className="font-semibold">{course.creditos_academicos}</p>
                 </li>
-                <li className="flex gap-2 items-start">
-                  <CalendarDays className="w-4 h-4" /> {course.duracion_semanas}
+                <li className="flex gap-4 items-center">
+                  <CalendarDays className="w-4 h-4" />
+                  <p className="text-xs min-w-40">Duración semanas</p>
+                  <p className="font-semibold">{course.duracion_semanas}</p>
                 </li>
               </ul>
             </div>

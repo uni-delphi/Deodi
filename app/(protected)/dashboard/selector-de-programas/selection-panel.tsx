@@ -33,7 +33,7 @@ export const SelectionPanel: React.FC = () => {
         "
         />
         <div className="relative flex flex-col items-center z-10 px-6">
-          <p className="text-gray-500 mb-6 text-balance">Buscar trayectos.</p>
+          <p className="text-gray-500 mb-6 text-balance">Buscar trayectos</p>
           <p className="hidden text-gray-500 mb-6 text-balance">Buscar trayectos en base a ...</p>
 
           <div className="hidden space-y-4 w-full max-w-xs">
