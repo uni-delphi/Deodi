@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
+
 import { BubbleItem, BubbleType } from "./page";
 import { CareerDetail } from "./carrer-detail";
 import { MobileCareerList } from "./mobile-career-list";
 import { CareerDetailSheet } from "./career-detail-sheet";
 import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
 import { cleanKeys } from "@/lib/utils";
-import { random } from "gsap-trial/src/all";
 
 interface PositionedBubble extends BubbleItem {
   x: number;

@@ -8,6 +8,7 @@ export interface Course {
   id_trayecto: string;
   nombre: string;
   descripcion: string;
+  link: string;
   carga_horaria_total: number;
   creditos_academicos: number;
   duracion_semanas: number;

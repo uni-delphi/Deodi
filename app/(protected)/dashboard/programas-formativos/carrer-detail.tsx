@@ -1,6 +1,10 @@
 import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { BubbleItem } from "./page";
 import { CalendarDays, Clock, GraduationCap, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CareerDetailProps {
   career: BubbleItem;
@@ -11,8 +15,29 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
   career,
   onClose,
 }) => {
+  if (!career) return null;
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
   const totalHours =
     career.trayectos?.reduce((acc, c) => acc + c.carga_horaria_total, 0) ?? 0;
+
+  const mutation = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch("/api/update-ruta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    },
+    onSuccess: async (data, variables) => {
+      
+      //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
+    },
+    onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
+  });
 
   return (
     <>
@@ -39,9 +64,25 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
             key={course.id_trayecto}
             className="p-4 rounded-xl border border-gray-300 bg-gray-50 space-y-4 shadow"
           >
-            <div className="font-medium leading-5 text-purpleDeodi">{course.nombre}</div>
+            <div className="font-medium leading-5 text-purpleDeodi">
+              {course.nombre}
+            </div>
             <div>
-              <p className="text-xs text-gray-800 text-pretty">{course.descripcion}</p>
+              <p className="text-xs text-gray-800 text-pretty">
+                {course.descripcion}
+              </p>
+            </div>
+            <div>
+              <Button
+                variant="default"
+                size="sm"
+                className="p-0 text-left overflow-hidden w-full h-auto"
+                onClick={() => mutation.mutate(course)}
+              >
+                <span className="truncate text-xs text-purpleDeodi">
+                  {course.link}
+                </span>
+              </Button>
             </div>
             <div className="text-sm text-gray-500">
               <ul className="flex flex-col">
