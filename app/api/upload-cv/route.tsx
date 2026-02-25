@@ -132,7 +132,6 @@ export async function POST(req: NextRequest) {
           },
         },
       );
-      console.log("🚀 ~ POST ~ fileRes/cv-upload:", fileRes)
       
       if (!fileRes.ok || !fileRes.status) {
         return NextResponse.json({

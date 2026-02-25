@@ -7,7 +7,10 @@ export type BubbleType = "database" | "ai" | "design";
 export interface Course {
   id_trayecto: string;
   nombre: string;
-  durationHours: number;
+  descripcion: string;
+  carga_horaria_total: number;
+  creditos_academicos: number;
+  duracion_semanas: number;
 }
 export interface BubbleItem {
   nombre_ruta: string;
@@ -17,8 +20,6 @@ export interface BubbleItem {
 }
 
 export default function Example() {
-  
-
   /*const bubbles: BubbleItem[] = [
     {
       label: "Project Manager",

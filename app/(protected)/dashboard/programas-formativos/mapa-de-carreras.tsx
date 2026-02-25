@@ -162,12 +162,7 @@ export const CareerBubbleMap: React.FC<Props> = () => {
             onClick={() => setSelectedCareer(null)}
           ></div>
           <aside
-            className="
-                                    absolute right-0 top-0 h-full w-[380px]
-                                    bg-white border-l shadow-2xl
-                                    p-6 flex flex-col
-                                    transition-all duration-700
-                                    "
+            className="absolute right-0 top-0 h-full w-[380px] bg-white border-l border-gray-300 shadow p-6 flex flex-col transition-all duration-700"
           >
             <CareerDetail
               career={selectedCareer}
