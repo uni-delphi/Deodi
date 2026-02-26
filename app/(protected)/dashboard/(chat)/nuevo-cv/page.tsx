@@ -1,6 +1,9 @@
 "use client";
-import React from "react";
+
 import { PromptPanel } from "@/components/prompt-panel/prompt-panel";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface PromptPanelProps {
   prompt: string;
@@ -65,9 +68,66 @@ Primero preguntá el ítem 1.
 `,
 };
 
-function page() {
-  const handleSubmit = (tabId: string) => {
-    console.log(`Submitted from ${tabId}`);
+interface Usuario {
+  apellido: string | null;
+  nacimiento: string | null;
+  localidad: string | null;
+  nombre: string | null;
+  pais: string | null;
+  provincia: string | null;
+  competencias: string | null;
+  cv: string | null;
+  intereses: string | null;
+  match: string | null;
+  "experiencia-formacion": string | null;
+}
+
+function formatPromptData(usuario: Usuario) {
+  return tabsData.fullPrompt
+    .replace("[ruta-json]", JSON.stringify(usuario))
+    .replace(
+      "[ruta-json-experiencia]",
+      JSON.stringify(usuario["experiencia-formacion"] || []),
+    )
+    .replace(
+      "[ruta-json-formacion]",
+      JSON.stringify(usuario["experiencia-formacion"] || "[]"),
+    )
+    .replace("[ruta-json-intereses]", JSON.stringify(usuario.intereses || []));
+}
+
+export const fetchPromptData = async () => {
+  const res = await fetch("/api/prompt-data");
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error("Error fetching prompt data: " + text);
+  }
+  return res.json();
+};
+
+function CVPage() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["prompt-data"],
+    queryFn: fetchPromptData,
+  });
+  const [fullPrompt, setFullPrompt] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      const formattedData = formatPromptData(data.usuarios[0].usuario);
+      setFullPrompt(formattedData);
+    }
+  }, [data]);
+
+  const handleSubmit = async () => {
+    try {
+      await navigator.clipboard.writeText(fullPrompt || "");
+      alert("¡Texto copiado!");
+    } catch (err) {
+      console.error("Error al copiar: ", err);
+    }
   };
 
   return (
@@ -75,10 +135,10 @@ function page() {
       <PromptPanel
         prompt={tabsData.prompt}
         description={tabsData.description}
-        onSubmit={() => handleSubmit(tabsData.id)}
+        onSubmit={handleSubmit}
       />
     </div>
   );
 }
 
-export default page;
+export default CVPage;
