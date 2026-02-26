@@ -28,8 +28,10 @@ function ExperienciaPage() {
   // Cargar datos del backend
   useEffect(() => {
     if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
+      const parsed = JSON.parse(data.body.und[0].value) || [];
+      console.log("🚀 ~ ExperienciaPage ~ data:", data)
+      
+      const cleaned = parsed?.map(cleanKeys);
       setEditedData(cleaned);
     }
   }, [data]);

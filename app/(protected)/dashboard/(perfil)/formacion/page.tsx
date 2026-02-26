@@ -31,7 +31,7 @@ export default function FormacionPage() {
   // Cargar datos del backend
   useEffect(() => {
     if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
+      const parsed = JSON.parse(data.body.und[0].value) || [];
       const cleaned = parsed.map(cleanKeys);
       setEditedData(cleaned);
     }

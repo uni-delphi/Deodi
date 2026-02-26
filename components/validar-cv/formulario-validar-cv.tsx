@@ -43,7 +43,7 @@ export default function ValidarCVPage() {
     refreshProfile();
     if (data?.body?.und?.[0]?.value) {
       try {
-        const parsed = JSON.parse(data.body.und[0].value);
+        const parsed = JSON.parse(data.body.und[0].value) || [];
         const cleaned = parsed.map(cleanKeys);
         setEditedData(cleaned);
       } catch (error) {
