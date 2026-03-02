@@ -33,8 +33,9 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
       return res.json();
     },
     onSuccess: async (data, variables) => {
+      if(data.error) return toast({ title: "Error al guardar", variant: "destructive" });
       
-      //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
+      window.open(variables.link);
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
   });
@@ -72,18 +73,7 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
                 {course.descripcion}
               </p>
             </div>
-            <div>
-              <Button
-                variant="default"
-                size="sm"
-                className="p-0 text-left overflow-hidden w-full h-auto"
-                onClick={() => mutation.mutate(course)}
-              >
-                <span className="truncate text-xs text-purpleDeodi">
-                  {course.link}
-                </span>
-              </Button>
-            </div>
+            
             <div className="text-sm text-gray-500">
               <ul className="flex flex-col">
                 <li className="flex gap-4 items-center">
@@ -104,6 +94,20 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
                   <p className="font-semibold">{course.duracion_semanas}</p>
                 </li>
               </ul>
+            </div>
+
+            <div>
+              <Button
+                variant="default"
+                size="sm"
+                className="p-0 text-left overflow-hidden w-full h-auto"
+                onClick={() => mutation.mutate(course)}
+              >
+                <span className="truncate text-xs text-purpleDeodi">
+                  {/*course.link*/}
+                  Ver más
+                </span>
+              </Button>
             </div>
           </div>
         ))}
