@@ -98,12 +98,12 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
 
             <div>
               <Button
-                variant="default"
-                size="sm"
-                className="p-0 text-left overflow-hidden w-full h-auto"
+                variant="outline"
+                size="lg"
+                className="overflow-hidden w-full bg-purpleDeodi text-white hover:text-purpleDeodi border-purpleDeodi"
                 onClick={() => mutation.mutate(course)}
               >
-                <span className="truncate text-xs text-purpleDeodi">
+                <span className="">
                   {/*course.link*/}
                   Ver más
                 </span>
