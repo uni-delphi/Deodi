@@ -9,7 +9,8 @@ import {
     FileText,
     Brain,
     LogOut,
-    User
+    User,
+    Bot
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -58,7 +59,7 @@ export function MobileMenu({
         {
             id: "prompts",
             label: "Cargar Prompts",
-            icon: Brain,
+            icon: Bot,
             action: () => redirect('/dashboard/nuevo-cv')
         },
         {

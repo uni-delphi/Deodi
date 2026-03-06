@@ -70,6 +70,8 @@ export function ProfileHeader({
   useEffect(() => {
     if (data) {
       const serverAvatarUrl = `https://apideodi.cloud/app/sites/default/files/${data?.field_perfildeodi_testvocacional?.und?.[0]?.filename}`;
+      console.log("🚀 ~ ProfileHeader ~ data:", data)
+      
       setProfile((prev) => ({
         ...prev,
         name: data.name || prev.name,

@@ -1,4 +1,4 @@
-import { Session, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth.config";
 import { redirect } from "next/navigation";
 import { SelectionPanel } from "./selection-panel";
@@ -10,8 +10,7 @@ export default async function TrayectosPage() {
 
     return (
         <main className="flex-1 p-8">
-            <SelectionPanel
-            />
+            <SelectionPanel />
         </main>
     );
 }
