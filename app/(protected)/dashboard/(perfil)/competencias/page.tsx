@@ -27,6 +27,7 @@ import { useState, useEffect } from "react";
 
 function CompetenciasPage() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const { data, isLoading } = useUserProfile();
 
   const [editedData, setEditedData] = useState<string | null>(null);
