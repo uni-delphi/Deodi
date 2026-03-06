@@ -6,8 +6,7 @@ import {
     Briefcase,
     Menu,
     X,
-    FileText,
-    Brain,
+    FileText,    
     LogOut,
     User,
     Bot
@@ -43,11 +42,6 @@ export function MobileMenu({
     onSectionChange
 }: MobileSidebarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    /*const menuItems = [
-        { id: "formacion", label: "Formación", icon: GraduationCap },
-        { id: "ofertas", label: "Ofertas", icon: Briefcase },
-    ];*/
 
     const profileItems = [
         {
