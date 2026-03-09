@@ -33,7 +33,7 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
       return res.json();
     },
     onSuccess: async (data, variables) => {
-      if(data.error) return toast({ title: "Error al guardar", variant: "destructive" });
+      if(data.error) toast({ title: "Error al guardar", variant: "destructive" });
       
       window.open(variables.link);
     },

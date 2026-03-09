@@ -48,7 +48,7 @@ function InteresesComponent() {
   useEffect(() => {
     refreshProfile();
 
-    if (data?.field_perfildeodi_intereses?.und?.[0]?.value) {
+    if (data?.field_perfildeodi_intereses?.und?.[0]?.value && interesesData) {
       const parsed = JSON.parse(data.field_perfildeodi_intereses.und[0].value);
       parsed.forEach((selectedItem: any) => {
         interesesData.intereses.find(
@@ -56,9 +56,9 @@ function InteresesComponent() {
         ).selected = true;
       });
 
-      setSelectedInterests(parsed || []);
+      setSelectedInterests(parsed);
     }
-  }, []);
+  }, [data]);
 
   // Mutación para guardar
   const mutation = useMutation({
@@ -99,7 +99,6 @@ function InteresesComponent() {
   };
 
   const handleSave = () => {
-    console.log("selectedInterests", selectedInterests);
     mutation.mutate(selectedInterests);
     refreshIntereses();
   };

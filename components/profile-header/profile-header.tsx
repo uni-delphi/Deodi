@@ -54,7 +54,7 @@ export function ProfileHeader({
   avatarUrl,
 }: ProfileData) {
   const { data, isLoading, isError } = useUserProfile();
-  
+
   const [profile, setProfile] = useState<ProfileData>({
     name: name || "Nombre",
     email: email || "usuario@ejemplo.com",
@@ -62,7 +62,7 @@ export function ProfileHeader({
     lastName: lastName || "Apellido",
     avatarUrl: avatarUrl || "",
   });
-  
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,8 +70,8 @@ export function ProfileHeader({
   useEffect(() => {
     if (data) {
       const serverAvatarUrl = `https://apideodi.cloud/app/sites/default/files/${data?.field_perfildeodi_testvocacional?.und?.[0]?.filename}`;
-      console.log("🚀 ~ ProfileHeader ~ data:", data)
-      
+      console.log("🚀 ~ ProfileHeader ~ data:", data);
+
       setProfile((prev) => ({
         ...prev,
         name: data.name || prev.name,
@@ -136,21 +136,23 @@ export function ProfileHeader({
   const displayUrl = previewUrl || profile.avatarUrl;
 
   return (
-    <Card className="w-full">
+    <Card className="w-full relative overflow-hidden">
       <CardContent className="pt-6">
         <div className="flex flex-col items-center gap-4">
           {/* Avatar con overlay de edición */}
           <div className="relative group">
             <Avatar className="size-24 select-none">
               {displayUrl && (
-                <AvatarImage 
-                  src={displayUrl} 
+                <AvatarImage
+                  src={displayUrl}
                   alt={profile.name}
                   className="object-cover"
                 />
               )}
               <AvatarFallback className="text-xl bg-gray-200">
-                {displayUrl ? null : getInitials(profile.name, profile.lastName)}
+                {displayUrl
+                  ? null
+                  : getInitials(profile.name, profile.lastName)}
               </AvatarFallback>
             </Avatar>
 

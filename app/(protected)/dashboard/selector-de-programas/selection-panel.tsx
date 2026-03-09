@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export const SelectionPanel: React.FC = () => {
@@ -32,13 +32,13 @@ export const SelectionPanel: React.FC = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      console.log("🚀 ~ generateContentMutation ~ data, variables:", data, variables);
-
-
-      toast({ title: "Competencias generadas correctamente" });
+      console.log("🚀 ~ generateContentMutation ~ onSuccess:");
+      router.push("/dashboard/programas-formativos");
     },
-    onError: () =>
-      toast({ title: "Error al generar competencias", variant: "destructive" }),
+    onError: () => {
+      console.log("🚀 ~ generateContentMutation ~ onError:");
+      router.push("/dashboard/programas-formativos");
+    },
   });
 
   const generateMutation = useMutation({
@@ -52,17 +52,21 @@ export const SelectionPanel: React.FC = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      
-      if(true) {
+      if (true) {
         generateContentMutation.mutate(true);
       }
 
       toast({ title: "Competencias generadas correctamente" });
+      redirect("/dashboard/programas-formativos");
     },
     onError: (err) => {
-      console.log("🚀 ~ SelectionPanel ~ err:", err)
+      console.log("🚀 ~ SelectionPanel ~ err:", err);
       generateContentMutation.mutate(true);
-      return toast({ title: "Error al generar competencias", variant: "destructive" });
+      redirect("/dashboard/programas-formativos");
+      return toast({
+        title: "Error al generar competencias",
+        variant: "destructive",
+      });
     },
   });
 
@@ -135,7 +139,7 @@ export const SelectionPanel: React.FC = () => {
             //disabled={isPending}
             className="my-4 bg-purpleDeodi transition-all duration-300 text-white border  border-purpleDeodi  hover:text-purpleDeodi"
             onClick={() => generateContentMutation.mutate(true)}
-           // onClick={() => generateMutation.mutate(true)}
+            // onClick={() => generateMutation.mutate(true)}
           >
             Aplicar
           </Button>
