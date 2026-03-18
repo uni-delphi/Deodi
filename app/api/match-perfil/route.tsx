@@ -29,7 +29,6 @@ export async function GET(req: NextRequest) {
   }
 
   const fileData = await fileRes.json();
-  console.log("🚀 ~ GET ~ fileData:", fileData)
   
   return NextResponse.json(fileData);
 }
