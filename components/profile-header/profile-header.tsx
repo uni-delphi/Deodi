@@ -7,7 +7,8 @@ import { Camera, Loader2, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
+import { useUserProfileUidBased } from "@/lib/hooks/user/useUserProfileUidBased";
 import Image from "next/image";
 
 interface ProfileData {
@@ -53,8 +54,13 @@ export function ProfileHeader({
   description,
   avatarUrl,
 }: ProfileData) {
-  const { data, isLoading, isError } = useUserProfile();
-  
+  const { data, isLoading, isError } = useUserProfileNidBased();
+  const {
+    data: perfilInfo,
+    isLoading: infoLoading,
+    isError: infoError,
+  } = useUserProfileUidBased();
+
   const [profile, setProfile] = useState<ProfileData>({
     name: name || "Nombre",
     email: email || "usuario@ejemplo.com",
@@ -62,7 +68,7 @@ export function ProfileHeader({
     lastName: lastName || "Apellido",
     avatarUrl: avatarUrl || "",
   });
-  
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,7 +83,13 @@ export function ProfileHeader({
         avatarUrl: serverAvatarUrl,
       }));
     }
-  }, [data]); // Solo depende de 'data'
+  }, [data]);
+
+  useEffect(() => {
+    console.log("🚀 ~ ProfileHeader ~ perfilInfo:", perfilInfo);
+    if (perfilInfo) {
+    }
+  }, [perfilInfo]);
 
   const mutation = useMutation({
     mutationFn: uploadAvatar,
@@ -134,21 +146,26 @@ export function ProfileHeader({
   const displayUrl = previewUrl || profile.avatarUrl;
 
   return (
-    <Card className="w-full">
+    <Card className="w-full relative overflow-hidden">
       <CardContent className="pt-6">
         <div className="flex flex-col items-center gap-4">
           {/* Avatar con overlay de edición */}
           <div className="relative group">
             <Avatar className="size-24 select-none">
               {displayUrl && (
-                <AvatarImage 
-                  src={displayUrl} 
-                  alt={profile.name}
+                <AvatarImage
+                  src={displayUrl}
+                  alt={`${perfilInfo?.field_user_nombre} ${perfilInfo?.field_user_apellido}`}
                   className="object-cover"
                 />
               )}
               <AvatarFallback className="text-xl bg-gray-200">
-                {displayUrl ? null : getInitials(profile.name, profile.lastName)}
+                {displayUrl
+                  ? null
+                  : getInitials(
+                      perfilInfo?.field_user_nombre,
+                      perfilInfo?.field_user_apellido,
+                    )}
               </AvatarFallback>
             </Avatar>
 
@@ -164,7 +181,7 @@ export function ProfileHeader({
               type="button"
               size="icon"
               variant="secondary"
-              className="absolute -bottom-1 -right-1 size-8 rounded-full shadow-md bg-white"
+              className="transition-all duration-300 ease-in-out absolute -bottom-1 -right-1 size-8 rounded-full shadow-md bg-white hover:text-white hover:bg-purpleDeodi"
               onClick={handleButtonClick}
               disabled={mutation.isPending}
               aria-label="Cambiar foto de perfil"
@@ -186,7 +203,7 @@ export function ProfileHeader({
           {/* Información del usuario */}
           <div className="flex flex-col items-center gap-1 text-center">
             <h2 className="text-xl font-semibold">
-              {profile.name} {profile.lastName}
+              {perfilInfo?.field_user_nombre} {perfilInfo?.field_user_apellido}
             </h2>
             <p className="text-sm text-muted-foreground">{profile.email}</p>
           </div>

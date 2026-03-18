@@ -1,6 +1,6 @@
 "use client";
 
-import { GraduationCap, Briefcase } from "lucide-react";
+import { GraduationCap, Briefcase, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Image from "next/image";
@@ -26,6 +26,12 @@ const menuItems = [
       icon: Briefcase,
       hasDropdown: false,
     },
+    {
+      id: "/dashboard/nuevo-cv",
+      label: "Chat",
+      icon: Bot,
+      hasDropdown: false,
+    }
   ];
 
 export function Sidebar({

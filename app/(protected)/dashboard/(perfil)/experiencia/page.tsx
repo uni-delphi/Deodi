@@ -13,13 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Briefcase, Trash2, Pencil } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 function ExperienciaPage() {
   const { toast } = useToast();
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading } = useUserProfileNidBased();
   const queryClient = useQueryClient();
 
   const [editedData, setEditedData] = useState<any[]>([]);

@@ -21,13 +21,14 @@ import {
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 function CompetenciasPage() {
   const { toast } = useToast();
-  const { data, isLoading } = useUserProfile();
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useUserProfileNidBased();
 
   const [editedData, setEditedData] = useState<string | null>(null);
   const [editingTab, setEditingTab] = useState<string | null>(null);
@@ -63,52 +64,6 @@ function CompetenciasPage() {
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
   });
-
-  // === Handlers ===
-  /*const handleEdit = (tab: string) => setEditingTab(tab);
-
-  const handleCancel = () => {
-    if (data?.body?.und?.[0]?.value) {
-      const parsed = JSON.parse(data.body.und[0].value);
-      const cleaned = parsed.map(cleanKeys);
-      setEditedData(cleaned);
-    }
-    setEditingTab(null);
-  };
-
-  const handleSave = () => mutation.mutate(editedData);
-
-  const handleAdd = (type: string) => {
-    const newItem: any = {
-      nid: Date.now(),
-      empresa: type === "experiencia" ? "" : "Nulo",
-      empresa_anos: "",
-      responsabilidades_empresa: "",
-      titulo_obtenido: "",
-      institucion_educacion: "",
-      formacion_ano: "",
-      _nuevo: true, // para saber que fue agregado localmente
-    };
-    setEditedData((prev) => [...prev, newItem]);
-  };
-
-  const handleDelete = (nid: number) => {
-    setEditedData((prev) => prev.filter((item) => item.nid !== nid));
-  };
-
-  const updateField = (index: number, key: string, value: string) => {
-    setEditedData((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)),
-    );
-  };*/
-
-  // === Datos estáticos ===
-  const competencias = [
-    "Comunicación efectiva",
-    "Liderazgo",
-    "Trabajo en equipo",
-    "Resolución de problemas",
-  ];
 
   return (
     <Card>

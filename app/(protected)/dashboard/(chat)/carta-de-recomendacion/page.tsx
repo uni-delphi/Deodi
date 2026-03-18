@@ -1,6 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PromptPanel } from "@/components/prompt-panel/prompt-panel";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+
+interface Usuario {
+  apellido: string | null;
+  nacimiento: string | null;
+  localidad: string | null;
+  nombre: string | null;
+  pais: string | null;
+  provincia: string | null;
+  competencias: string | null;
+  cv: string | null;
+  intereses: string | null;
+  match: string | null;
+  "experiencia-formacion": string | null;
+}
 
 const tabsData = {
   id: "tab2",
@@ -46,18 +62,55 @@ Primero preguntá el ítem 1.
 `,
 };
 
-function page() {
-  const handleSubmit = (tabId: string) => {
-    console.log(`Submitted from ${tabId}`);
-    // Aquí puedes agregar la lógica de submit
+function formatPromptData(usuario: Usuario) {
+  const parsedUsuario = {
+    ...usuario,
+    "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]!),
+    "match": JSON.parse(usuario["match"]!),
   };
 
+  return tabsData.fullPrompt.replace("[json]", JSON.stringify(parsedUsuario));
+}
+
+export const fetchPromptData = async () => {
+  const res = await fetch("/api/prompt-data");
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error("Error fetching prompt data: " + text);
+  }
+  return res.json();
+};
+
+function page() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["prompt-data"],
+    queryFn: fetchPromptData,
+  });
+  const [fullPrompt, setFullPrompt] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      const formattedData = formatPromptData(data.usuarios[0].usuario);
+      setFullPrompt(formattedData);
+    }
+  }, [data]);
+
+  const handleSubmit = async () => {
+    try {
+      await navigator.clipboard.writeText(fullPrompt || "");
+      toast({ title: "El prompt fue copiado exitosamente!" });
+    } catch (err) {
+      console.error("Error al copiar: ", err);
+    }
+  };
   return (
     <div className="rounded-xl border border-gray-300 p-4 shadow">
       <PromptPanel
         prompt={tabsData.prompt}
         description={tabsData.description}
-        onSubmit={() => handleSubmit(tabsData.id)}
+        onSubmit={handleSubmit}
       />
     </div>
   );

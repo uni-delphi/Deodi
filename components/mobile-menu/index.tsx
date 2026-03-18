@@ -6,10 +6,10 @@ import {
     Briefcase,
     Menu,
     X,
-    FileText,
-    Brain,
+    FileText,    
     LogOut,
-    User
+    User,
+    Bot
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -43,11 +43,6 @@ export function MobileMenu({
 }: MobileSidebarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    /*const menuItems = [
-        { id: "formacion", label: "Formación", icon: GraduationCap },
-        { id: "ofertas", label: "Ofertas", icon: Briefcase },
-    ];*/
-
     const profileItems = [
         {
             id: "cv",
@@ -58,7 +53,7 @@ export function MobileMenu({
         {
             id: "prompts",
             label: "Cargar Prompts",
-            icon: Brain,
+            icon: Bot,
             action: () => redirect('/dashboard/nuevo-cv')
         },
         {

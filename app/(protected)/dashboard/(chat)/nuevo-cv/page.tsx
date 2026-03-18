@@ -83,17 +83,27 @@ interface Usuario {
 }
 
 function formatPromptData(usuario: Usuario) {
+  const parsedUsuario = {
+    ...usuario,
+    "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]!),
+    match: JSON.parse(usuario["match"]!),
+    //"intereses": JSON.parse(usuario.intereses!),
+  };
+
   return tabsData.fullPrompt
-    .replace("[ruta-json]", JSON.stringify(usuario))
+    .replace("[ruta-json]", JSON.stringify(parsedUsuario))
     .replace(
       "[ruta-json-experiencia]",
-      JSON.stringify(usuario["experiencia-formacion"] || []),
+      JSON.stringify(parsedUsuario["experiencia-formacion"] || []),
     )
     .replace(
       "[ruta-json-formacion]",
-      JSON.stringify(usuario["experiencia-formacion"] || "[]"),
+      JSON.stringify(parsedUsuario["experiencia-formacion"] || []),
     )
-    .replace("[ruta-json-intereses]", JSON.stringify(usuario.intereses || []));
+    .replace(
+      "[ruta-json-intereses]",
+      JSON.stringify(parsedUsuario.intereses || []),
+    );
 }
 
 export const fetchPromptData = async () => {
@@ -124,7 +134,7 @@ function CVPage() {
   const handleSubmit = async () => {
     try {
       await navigator.clipboard.writeText(fullPrompt || "");
-      alert("¡Texto copiado!");
+      toast({ title: "El prompt fue copiado exitosamente!" });
     } catch (err) {
       console.error("Error al copiar: ", err);
     }

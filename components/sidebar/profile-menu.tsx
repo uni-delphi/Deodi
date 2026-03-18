@@ -1,6 +1,6 @@
 "use client";
 
-import { User, FileText, Brain, LogOut } from "lucide-react";
+import { User, FileText, LogOut, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import { redirect, usePathname } from 'next/navigation'
@@ -21,7 +21,7 @@ export function ProfileMenu({ isOpen = false }: ProfileMenuProps) {
         {
             id: "prompts",
             label: "Cargar Prompts",
-            icon: Brain,
+            icon: Bot,
             action: () => redirect('/dashboard/nuevo-cv')
         },
         {

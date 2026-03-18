@@ -1,15 +1,32 @@
 "use client";
 import React from "react";
 import { PromptPanel } from "@/components/prompt-panel/prompt-panel";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
+interface Usuario {
+  apellido: string | null;
+  nacimiento: string | null;
+  localidad: string | null;
+  nombre: string | null;
+  pais: string | null;
+  provincia: string | null;
+  competencias: string | null;
+  cv: string | null;
+  intereses: string | null;
+  match: string | null;
+  "experiencia-formacion": string | null;
+}
 
 const tabsData = {
-  id: "tab3",
-  title: "Asistente de Programación",
-  prompt:
-    "ROL\nActuás como “Deodi” asistente virtual en empleabilidad del modelo Campus Norte UNC. Sos un coach de carrera con enfoque informacional: ayudás a comprender un campo profesional a partir de los trayectos seleccionados por el usuario. Tu objetivo NO es escribir CV ni carta, sino explicar “qué se hace” en ese campo, cómo es el trabajo real y qué caminos de exploración tiene sentido abrir.\n",
-  description:
-    "Deodi toma los trayectos seleccionados y los convierte en una exploración clara del campo de acción: describe qué actividades se realizan, qué responsabilidades son habituales, qué herramientas se usan y en qué contextos se trabaja, facilitando entender roles posibles y escenarios reales.",
-  fullPrompt: `ROL
+    id: "tab3",
+    title: "Asistente de Programación",
+    prompt:
+      "ROL\nActuás como “Deodi” asistente virtual en empleabilidad del modelo Campus Norte UNC. Sos un coach de carrera con enfoque informacional: ayudás a comprender un campo profesional a partir de los trayectos seleccionados por el usuario. Tu objetivo NO es escribir CV ni carta, sino explicar “qué se hace” en ese campo, cómo es el trabajo real y qué caminos de exploración tiene sentido abrir.\n",
+    description:
+      "Deodi toma los trayectos seleccionados y los convierte en una exploración clara del campo de acción: describe qué actividades se realizan, qué responsabilidades son habituales, qué herramientas se usan y en qué contextos se trabaja, facilitando entender roles posibles y escenarios reales.",
+    fullPrompt: `ROL
 Actuás como “Deodi” asistente virtual en empleabilidad del modelo Campus Norte UNC. Sos un coach de carrera con enfoque informacional: ayudás a comprender un campo profesional a partir de los trayectos seleccionados por el usuario. Tu objetivo NO es escribir CV ni carta, sino explicar “qué se hace” en ese campo, cómo es el trabajo real y qué caminos de exploración tiene sentido abrir.
 
 PRINCIPIOS (Campus Norte + Deodi)
@@ -65,12 +82,49 @@ Cerrá con un mensaje breve, optimista y orientado a la exploración del siguien
 COMENZÁ AHORA
 Primero preguntá el ítem 1.
 `,
+  };
+
+function formatPromptData(usuario: Usuario) {
+  const parsedUsuario = {
+    ...usuario,
+    "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]!),
+    "match": JSON.parse(usuario["match"]!),
+  };
+  return tabsData.fullPrompt.replace("[json]", JSON.stringify(parsedUsuario));
+}
+
+export const fetchPromptData = async () => {
+  const res = await fetch("/api/prompt-data");
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error("Error fetching prompt data: " + text);
+  }
+  return res.json();
 };
 
 function page() {
-  const handleSubmit = (tabId: string) => {
-    console.log(`Submitted from ${tabId}`);
-    // Aquí puedes agregar la lógica de submit
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["prompt-data"],
+    queryFn: fetchPromptData,
+  });
+  const [fullPrompt, setFullPrompt] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      const formattedData = formatPromptData(data.usuarios[0].usuario);
+      setFullPrompt(formattedData);
+    }
+  }, [data]);
+
+  const handleSubmit = async () => {
+    try {
+      await navigator.clipboard.writeText(fullPrompt || "");
+      toast({ title: "El prompt fue copiado exitosamente!" });
+    } catch (err) {
+      console.error("Error al copiar: ", err);
+    }
   };
 
   return (
@@ -78,7 +132,7 @@ function page() {
       <PromptPanel
         prompt={tabsData.prompt}
         description={tabsData.description}
-        onSubmit={() => handleSubmit(tabsData.id)}
+        onSubmit={handleSubmit}
       />
     </div>
   );
