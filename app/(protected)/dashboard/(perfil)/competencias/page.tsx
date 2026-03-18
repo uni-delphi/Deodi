@@ -21,14 +21,14 @@ import {
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 function CompetenciasPage() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading } = useUserProfileNidBased();
 
   const [editedData, setEditedData] = useState<string | null>(null);
   const [editingTab, setEditingTab] = useState<string | null>(null);

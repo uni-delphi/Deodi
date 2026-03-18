@@ -17,13 +17,13 @@ import {
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 export default function FormacionPage() {
   const { toast } = useToast();
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading } = useUserProfileNidBased();
   const queryClient = useQueryClient();
   const [editedData, setEditedData] = useState<any[]>([]);
   const [editingTab, setEditingTab] = useState<string | null>(null);

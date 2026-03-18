@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +29,7 @@ interface CVItem {
 }
 
 export default function ValidarCVPage() {
-  const { data, refreshProfile } = useUserProfile();
+  const { data, refreshProfile } = useUserProfileNidBased();
   
   // Estado único para los datos editables
   const [editedData, setEditedData] = useState<CVItem[]>([]);

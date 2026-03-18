@@ -23,7 +23,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { Heart, X, Pencil, Check } from "lucide-react";
@@ -31,7 +31,7 @@ import { useIntereses } from "@/lib/hooks/user/useIntereses";
 
 function InteresesComponent() {
   const { toast } = useToast();
-  const { data, isLoading, refreshProfile } = useUserProfile();
+  const { data, isLoading, refreshProfile } = useUserProfileNidBased();
   const queryClient = useQueryClient();
 
   const {
@@ -58,7 +58,7 @@ function InteresesComponent() {
 
       setSelectedInterests(parsed);
     }
-  }, [data]);
+  }, [data,interesesData]);
 
   // Mutación para guardar
   const mutation = useMutation({

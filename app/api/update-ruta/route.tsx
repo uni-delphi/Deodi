@@ -36,9 +36,8 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { nombre_ruta, id_trayecto, nombre } = body;
-
-    // 3️⃣ Actualizar perfil de usuario (nodo)
+    const { id_trayecto, nombre } = body;
+    // 3️⃣ Crear perfil de ruta (nodo)
     const createNewRutaRes = await fetch(
       `${process.env.BASE_URL}/api/node.json`,
       {
@@ -50,10 +49,10 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           type: "trayecto_consultado",
-          title: nombre_ruta,
+          title: nombre,
           field_trayectos_nid_trayecto: {
             und: [{ value: id_trayecto }],
-          },
+          }
         }),
       },
     );

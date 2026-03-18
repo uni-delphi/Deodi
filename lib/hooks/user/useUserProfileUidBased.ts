@@ -1,12 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function useUserProfile() {
+export function useUserProfileUidBased() {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ["user-profile"],
+    queryKey: ["user-info"],
     queryFn: async () => {
-      const res = await fetch("/api/user-profile");
+      const res = await fetch("/api/user-info");
       if (!res.ok) throw new Error("Error al obtener el perfil del usuario");
       return res.json();
     },
@@ -18,7 +18,7 @@ export function useUserProfile() {
 
   // 👇 función manual para actualizar cuando quieras
   const refreshProfile = () => {
-    queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    queryClient.invalidateQueries({ queryKey: ["user-info"] });
   };
 
   return { ...query, refreshProfile };
