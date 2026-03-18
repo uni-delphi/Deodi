@@ -178,8 +178,7 @@ export async function POST(req: NextRequest) {
             Cookie: `${token.sessionName}=${token.sessid}`,
           },
         },
-      );
-      
+      );      
       if (!fileRes.ok || !fileRes.status) {
         return NextResponse.json({
           error: "Error al obtener el archivo",
