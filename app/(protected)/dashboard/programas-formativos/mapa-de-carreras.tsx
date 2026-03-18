@@ -6,7 +6,7 @@ import { BubbleItem, BubbleType } from "./page";
 import { CareerDetail } from "./carrer-detail";
 import { MobileCareerList } from "./mobile-career-list";
 import { CareerDetailSheet } from "./career-detail-sheet";
-import { useUserProfile } from "@/lib/hooks/user/useUserProfile";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 import { cleanKeys } from "@/lib/utils";
 
 interface PositionedBubble extends BubbleItem {
@@ -32,7 +32,7 @@ export const CareerBubbleMap: React.FC<Props> = () => {
   const [selectedCareer, setSelectedCareer] = useState<BubbleItem | null>(null);
   const [editedData, setEditedData] = useState<any[]>([]);
 
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading } = useUserProfileNidBased();
 
   useEffect(() => {
     if (data?.body?.und?.[0]?.value) {
