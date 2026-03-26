@@ -115,7 +115,7 @@ export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const createNewUser = async (payload: any) => {
-    const res = await fetch("/api/user-profile", {
+    const res = await fetch("/api/user-create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -143,6 +143,8 @@ export default function RegisterForm() {
       }
     },
     onError: (error: Error) => {
+      console.log("🚀 ~ RegisterForm ~ error:", error)
+      
       toast({
         title: "Error",
         description: JSON.stringify(error.message),

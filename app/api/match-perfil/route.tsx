@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function GET(req: NextRequest) {
-  console.log("🚀 ~ GET ~ req:", req)
+  console.log("🚀 ~ GET ~ req:", req.json())
   
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-//match-status
-//match-perfil
+  
+
   const fileRes = await fetch(
     `${process.env.BASE_URL}/match-perfil/${token.field_user_perfildeodi}`,
     {
@@ -28,7 +28,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const fileData = await fileRes.json();
-  
+  const fileData = await fileRes.json();  
   return NextResponse.json(fileData);
 }
