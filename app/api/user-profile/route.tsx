@@ -68,7 +68,7 @@ export async function PUT(req: NextRequest) {
         },
       },
     );
-
+    
     if (!fileRes.ok || !fileRes.status) {
       return NextResponse.json({
         error: "Error al obtener el archivo",
@@ -87,6 +87,11 @@ export async function PUT(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+    if (!token) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
     const {
       name,
       lastName,
@@ -160,14 +165,6 @@ export async function POST(req: NextRequest) {
         status: false,
       });
     } else {
-      const token = await getToken({
-        req,
-        secret: process.env.NEXTAUTH_SECRET,
-      });
-
-      if (!token) {
-        return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-      }
       const fileRes = await fetch(
         `${process.env.BASE_URL}/perfildeodi/analizar-competencias?nid=${token.field_user_perfildeodi}`,
         {
@@ -178,7 +175,8 @@ export async function POST(req: NextRequest) {
             Cookie: `${token.sessionName}=${token.sessid}`,
           },
         },
-      );      
+      );
+      console.log("🚀 ~ POST ~ fileRes:", fileRes)
       if (!fileRes.ok || !fileRes.status) {
         return NextResponse.json({
           error: "Error al obtener el archivo",
