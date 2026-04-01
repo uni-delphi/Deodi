@@ -1,4 +1,4 @@
-import { ChangePasswordForm } from "@/components/password-form/index";
+import { ChangePasswordForm } from "@/components/password-form/password-form";
 
 function Contrasena() {
   return (

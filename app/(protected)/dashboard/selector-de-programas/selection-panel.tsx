@@ -32,16 +32,16 @@ export const SelectionPanel: React.FC = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      console.log("🚀 ~ generateContentMutation ~ onSuccess:");
-      router.push("/dashboard/programas-formativos");
+      //console.log("🚀 ~ SelectionPanel ~ data:", data)
+      //router.push("/dashboard/programas-formativos");
     },
     onError: () => {
       console.log("🚀 ~ generateContentMutation ~ onError:");
-      router.push("/dashboard/programas-formativos");
+      //router.push("/dashboard/programas-formativos");
     },
   });
 
-  const generateMutation = useMutation({
+  /*const generateMutation = useMutation({
     mutationFn: async (payload: any) => {
       const res = await fetch("/api/match-perfil", {
         method: "GET",
@@ -57,18 +57,18 @@ export const SelectionPanel: React.FC = () => {
       }
 
       toast({ title: "Competencias generadas correctamente" });
-      redirect("/dashboard/programas-formativos");
+      //redirect("/dashboard/programas-formativos");
     },
     onError: (err) => {
       console.log("🚀 ~ SelectionPanel ~ err:", err);
       generateContentMutation.mutate(true);
-      redirect("/dashboard/programas-formativos");
+      //redirect("/dashboard/programas-formativos");
       return toast({
         title: "Error al generar competencias",
         variant: "destructive",
       });
     },
-  });
+  });*/
 
   return (
     <div className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm flex items-center justify-center">
