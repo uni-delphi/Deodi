@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": token.csrfToken as string,
-        Cookie: `${token.sessionName}=${token.sessid}`,
+        "Cookie": `${token.sessionToken}`,
       },
     }
   );

@@ -1,8 +1,8 @@
 import LogInForm from "@/components/login-form/login-form";
-import RecoverForm from "@/components/recover-pass-form/recover-form";
+import { ChangePasswordForm } from "@/components/password-form/password-form";
 import { Button } from "@/components/ui/button";
 import VerifyMail from "@/components/verify-mail/verify-mail";
-import { Verify } from "crypto";
+
 import Link from "next/link";
 
 interface VerificarPassProps {
@@ -13,7 +13,9 @@ interface VerificarPassProps {
   }>;
 }
 
-export default async function VerificarPass({ searchParams }: VerificarPassProps) {
+export default async function VerificarPass({
+  searchParams,
+}: VerificarPassProps) {
   const { u, n, t } = await searchParams;
   return (
     <section
@@ -25,11 +27,17 @@ export default async function VerificarPass({ searchParams }: VerificarPassProps
         <div className="p-8 space-y-6">
           <div className="text-center space-y-2">
             <h1 className="font-bold text-3xl text-white">
-              ¡Verifica tu correo!
+              ¡Verifica tu correo!(cambiar esto)
             </h1>
           </div>
           <div className="space-y-4">
+            {/*
             <VerifyMail u={u} n={n} t={t} />
+            cuando este confirmado el token mostrar el
+            formulario para ingresar contraseña
+            enviar el token, uid y la contraseña al put
+            */}
+            <ChangePasswordForm u={u} n={n} t={t}/>
           </div>
           <div className="relative flex items-center justify-center">
             <div className="border-t border-white flex-grow"></div>

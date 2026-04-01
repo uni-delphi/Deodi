@@ -39,6 +39,25 @@ export function CVUpload() {
       toast({ title: "Error al generar competencias", variant: "destructive" }),
   });
 
+  const generateMatch = useMutation({
+      mutationFn: async (payload: any) => {
+        const res = await fetch("/api/match-perfil", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          //body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      },
+      onSuccess: (data, variables) => {
+        
+      },
+      onError: (err) => {
+        console.log("🚀 ~ SelectionPanel ~ err:", err);
+       
+      },
+    });
+
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
       const formData = new FormData();
@@ -67,7 +86,8 @@ export function CVUpload() {
 
       // Invalidar y esperar a que se refresquen los datos
       generateContentMutation.mutate({ profileData: variables });
-      
+      generateMatch.mutate(true);
+
       //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
       // Navegar solo después de que los datos estén actualizados
       router.push("/dashboard/validar-cv");
