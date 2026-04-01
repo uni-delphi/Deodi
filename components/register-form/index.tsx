@@ -142,9 +142,7 @@ export default function RegisterForm() {
         });
       }
     },
-    onError: (error: Error) => {
-      console.log("🚀 ~ RegisterForm ~ error:", error)
-      
+    onError: (error: Error) => {      
       toast({
         title: "Error",
         description: JSON.stringify(error.message),

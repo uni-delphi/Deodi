@@ -7,7 +7,7 @@ import FormularioValidarCV from "@/components/validar-cv/formulario-validar-cv";
 export default async function ValidarCVPage() {
   const session = await getServerSession(authOptions);
     if (!session || !session.user) redirect("/acceso");
-    console.log("sesion data", session)
+    //console.log("sesion data", session)
 
     
   return (

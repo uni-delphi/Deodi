@@ -67,7 +67,6 @@ async function verificarUsuario({
 async function changePassword(
   data: ChangePasswordFormValues & { u?: string; pass_reset_token?: string },
 ) {
-  console.log("🚀 ~ changePassword ~ data:", data);
 
   const response = await fetch("/api/user-verificar", {
     method: "PUT",
@@ -109,8 +108,7 @@ export function ChangePasswordForm({ u, n, t }: VerifyMailProps) {
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationFn: verificarUsuario,
     onSuccess: (data, variables) => {
-      //console.log("Verificación exitosa:", {...data, ...estaData});
-console.log("🚀 ~ onSuccess ~ data:", data);
+      
       // Redirigir, mostrar mensaje, etc.
       mutation.mutate({...data, ...estaData, ...variables});
     },
