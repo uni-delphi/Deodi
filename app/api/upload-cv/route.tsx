@@ -13,9 +13,7 @@ export async function POST(req: NextRequest) {
     | string
     | null;
   const title = formData.get("title") as string;
-  //console.log("🚀 ~ POST ~ title:", title)
   const bodyValue = formData.get("body") as string;
-  //console.log("🚀 ~ POST ~ bodyValue:", bodyValue)
 
   if (!title || !bodyValue) {
     return NextResponse.json(

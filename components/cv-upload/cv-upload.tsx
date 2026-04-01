@@ -86,6 +86,7 @@ export function CVUpload() {
 
       // Invalidar y esperar a que se refresquen los datos
       generateContentMutation.mutate({ profileData: variables });
+      console.log(`🚀 ~ CVUpload ~ { profileData: variables }:`, { profileData: variables })
       generateMatch.mutate(true);
 
       //await queryClient.refetchQueries({ queryKey: ["user-profile"] });
