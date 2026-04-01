@@ -26,17 +26,24 @@ export const SelectionPanel: React.FC = () => {
       const res = await fetch("/api/match-status", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        //body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(await res.text());
       return res.json();
     },
     onSuccess: (data, variables) => {
-      //console.log("🚀 ~ SelectionPanel ~ data:", data)
-      //router.push("/dashboard/programas-formativos");
+      console.log("🚀 ~ SelectionPanel ~ data:", data)
+      if(data.status === "finished"){
+        router.push("/dashboard/programas-formativos");
+      } else {
+        toast({ title: "Generando competencias, esto puede tardar unos segundos..." });
+      }
     },
     onError: () => {
       console.log("🚀 ~ generateContentMutation ~ onError:");
+      toast({
+        title: "Error al generar competencias",
+        variant: "destructive",
+      });
       //router.push("/dashboard/programas-formativos");
     },
   });

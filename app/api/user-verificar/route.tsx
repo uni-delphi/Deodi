@@ -2,31 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function GET(req: NextRequest) {
-  console.log("🚀 ~ GET de validar ~ req:", req);
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-
-  /*const fileRes = await fetch(
-    `${process.env.BASE_URL}/api/node/json-intereses`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": token.csrfToken as string,
-        Cookie: `${token.sessionName}=${token.sessid}`,
-      },
-    }
-  );
-  const fileData = await fileRes.json();
-  if (!fileRes.ok) {
-    return NextResponse.json(
-      { error: "Error al obtener el archivo" },
-      { status: fileRes.status }
-    );
-  }
-  return NextResponse.json(fileData);*/
 }
 
 export async function POST(req: NextRequest) {
@@ -57,8 +36,6 @@ export async function POST(req: NextRequest) {
 
     // ✅ Capturamos la cookie que setea el servidor externo
     const setCookieHeader = response.headers.get("set-cookie");
-    console.log("🚀 ~ POST ~ setCookieHeader:", setCookieHeader);
-
     const nextResponse = NextResponse.json({ ...result, setCookieHeader });
 
     // ✅ La reenviamos al browser para que quede disponible en el cliente
@@ -69,7 +46,7 @@ export async function POST(req: NextRequest) {
     return nextResponse;
   } catch (error) {
     return NextResponse.json(
-      { error: "Error inesperado", details: String(error) },
+      { error: "Error inesperado consulte al administrador", details: String(error) },
       { status: 500 },
     );
   }
@@ -91,24 +68,14 @@ export async function PUT(req: NextRequest) {
     );
 
     const tokenResult = await getHeaderToken.text();
-    console.log("🚀 ~ PUT ~ tokenResult:", tokenResult);
 
     if (!tokenResult) {
       return NextResponse.json({
-        error: "Error inesperado con el token",
+        error: "Error inesperado al obtener el token",
         details: tokenResult,
       });
     }
-    console.log("asss", JSON.stringify({
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `${data.setCookieHeader.split(";")[0]}`,
-        "X-CSRF-Token": tokenResult as string,
-      },
-      body: JSON.stringify({ pass: data.newPassword }),
-    }));
+    
     const getProfileRes = await fetch(
       `${process.env.BASE_URL}/api/user/${data.u}.json?pass-reset-token=${data.pass_reset_token}`,
       {
@@ -127,7 +94,7 @@ export async function PUT(req: NextRequest) {
     if (!result) {
       return NextResponse.json(
         {
-          error: "Error inesperados con la validacion",
+          error: "Error inesperados con la actualización de la contraseña",
           details: result?.statusText,
         },
         { status: result?.status },
@@ -137,7 +104,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
-      { error: "Error inesperadoddd", details: error },
+      { error: "Error inesperado consulte al administrador", details: error },
       { status: 500 },
     );
   }

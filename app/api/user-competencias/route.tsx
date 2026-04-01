@@ -19,9 +19,10 @@ export async function GET(req: NextRequest) {
     },
   );
   if (!fileRes.ok || !fileRes.status) {
-    return NextResponse.json(
-      { error: "Error al obtener el archivo", status: fileRes.status },
-    );
+    return NextResponse.json({
+      error: "Error al obtener las competencias",
+      status: fileRes.status,
+    });
   }
 
   const fileData = await fileRes.json();
