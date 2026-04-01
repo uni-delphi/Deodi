@@ -86,7 +86,6 @@ export function ProfileHeader({
   }, [data]);
 
   useEffect(() => {
-    console.log("🚀 ~ ProfileHeader ~ perfilInfo:", perfilInfo);
     if (perfilInfo) {
     }
   }, [perfilInfo]);

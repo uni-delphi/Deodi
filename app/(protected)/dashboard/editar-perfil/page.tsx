@@ -8,7 +8,7 @@ import FormularioEditarUsuario from "@/components/formulario-editar-usuario";
 export default async function EditarPerfilPage() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) redirect("/acceso");
-  console.log("sesion data en perfil", session);
+  //console.log("sesion data en perfil", session);
   return (
     <main className="flex">
       <div className="max-w-4xl mx-auto">

@@ -8,7 +8,7 @@ import { Sidebar } from "@/components/sidebar/sidebar";
 export default async function ActualizarConductualPage() {
   const session = await getServerSession(authOptions);
     if (!session || !session.user) redirect("/acceso");
-    console.log("sesion data", session)
+    //console.log("sesion data", session)
 
   return (
     <main className="flex">

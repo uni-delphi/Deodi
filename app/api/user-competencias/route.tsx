@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   if (!token) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-
+  
   const fileRes = await fetch(
     `${process.env.BASE_URL}/perfildeodi/analizar-competencias?nid=${token.field_user_perfildeodi}`,
     {
@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
       },
     },
   );
+  
   if (!fileRes.ok || !fileRes.status) {
     return NextResponse.json({
       error: "Error al obtener las competencias",

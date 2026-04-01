@@ -27,7 +27,7 @@ export function CVUpload() {
       const res = await fetch("/api/user-competencias", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        //body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error(await res.text());
       return res.json();
@@ -49,12 +49,9 @@ export function CVUpload() {
         if (!res.ok) throw new Error(await res.text());
         return res.json();
       },
-      onSuccess: (data, variables) => {
-        
-      },
+      onSuccess: (data, variables) => {},
       onError: (err) => {
-        console.log("🚀 ~ SelectionPanel ~ err:", err);
-       
+        console.log("🚀 ~ SelectionPanel ~ err:", err);       
       },
     });
 
@@ -79,6 +76,7 @@ export function CVUpload() {
       return res.json();
     },
     onSuccess: async (data, variables) => {
+      console.log("🚀 ~ CVUpload ~ data:", data)
       toast({
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",
@@ -86,7 +84,6 @@ export function CVUpload() {
 
       // Invalidar y esperar a que se refresquen los datos
       generateContentMutation.mutate({ profileData: variables });
-      console.log(`🚀 ~ CVUpload ~ { profileData: variables }:`, { profileData: variables })
       generateMatch.mutate(true);
 
       //await queryClient.refetchQueries({ queryKey: ["user-profile"] });

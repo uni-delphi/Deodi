@@ -176,7 +176,7 @@ export async function POST(req: NextRequest) {
           },
         },
       );
-      console.log("🚀 ~ POST ~ fileRes:", fileRes)
+      
       if (!fileRes.ok || !fileRes.status) {
         return NextResponse.json({
           error: "Error al obtener el archivo",
