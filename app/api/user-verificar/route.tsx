@@ -85,6 +85,7 @@ export async function PUT(req: NextRequest) {
         method: "GET",
         headers: {
           "Content-Type": "text/plain;charset=UTF-8",
+          Cookie: `${data.setCookieHeader.split(";")[0]}`,
         },
       },
     );

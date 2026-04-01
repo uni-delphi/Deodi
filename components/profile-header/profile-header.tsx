@@ -144,7 +144,15 @@ export function ProfileHeader({
 
   // Determinar qué URL mostrar: preview temporal o URL guardada
   const displayUrl = previewUrl || profile.avatarUrl;
+  const nombre =
+    perfilInfo?.field_user_nombre?.und?.[0]?.value ??
+    perfilInfo?.field_user_nombre ??
+    name;
 
+  const apellido =
+    perfilInfo?.field_user_apellido?.und?.[0]?.value ??
+    perfilInfo?.field_user_apellido ??
+    lastName;
   return (
     <Card className="w-full relative overflow-hidden">
       <CardContent className="pt-6">
@@ -155,7 +163,7 @@ export function ProfileHeader({
               {displayUrl && (
                 <AvatarImage
                   src={displayUrl}
-                  alt={`${perfilInfo?.field_user_nombre} ${perfilInfo?.field_user_apellido}`}
+                  alt={`${nombre} ${apellido}`}
                   className="object-cover"
                 />
               )}
@@ -163,8 +171,8 @@ export function ProfileHeader({
                 {displayUrl
                   ? null
                   : getInitials(
-                      perfilInfo?.field_user_nombre,
-                      perfilInfo?.field_user_apellido,
+                      nombre,
+                      apellido,
                     )}
               </AvatarFallback>
             </Avatar>
@@ -203,7 +211,7 @@ export function ProfileHeader({
           {/* Información del usuario */}
           <div className="flex flex-col items-center gap-1 text-center">
             <h2 className="text-xl font-semibold">
-              {perfilInfo?.field_user_nombre} {perfilInfo?.field_user_apellido}
+              {nombre} {apellido}
             </h2>
             <p className="text-sm text-muted-foreground">{profile.email}</p>
           </div>

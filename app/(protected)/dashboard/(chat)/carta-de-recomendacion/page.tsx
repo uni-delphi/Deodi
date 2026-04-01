@@ -65,8 +65,8 @@ Primero preguntá el ítem 1.
 function formatPromptData(usuario: Usuario) {
   const parsedUsuario = {
     ...usuario,
-    "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]!),
-    "match": JSON.parse(usuario["match"]!),
+    "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]! || "[]"),
+    "match": JSON.parse(usuario["match"]! || "[]"),
   };
 
   return tabsData.fullPrompt.replace("[json]", JSON.stringify(parsedUsuario));
