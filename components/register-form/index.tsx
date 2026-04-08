@@ -100,8 +100,6 @@ export default function RegisterForm() {
     state: "",
     country: "Argentina (64)",
     birthDate: "",
-    password: "",
-    confirmPassword: "",
     trabaja: "",
     trabaja_local: "",
     localidad_trabajo: "",
@@ -510,7 +508,7 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          <div className="flex gap-4">
+          {/*<div className="flex gap-4 hidden">
             <div className="w-1/2 space-y-2">
               <Label htmlFor="password">Contraseña</Label>
               <Input
@@ -542,7 +540,7 @@ export default function RegisterForm() {
                 <p className="text-sm text-red-500">{errors.confirmPassword}</p>
               )}
             </div>
-          </div>
+          </div>*/}
 
           <Button
             type="submit"
@@ -557,7 +555,7 @@ export default function RegisterForm() {
             className="transition-all duration-300 w-full font-semibold py-3 px-6 rounded-lg"
             href="/acceso"
           >
-            ¡Ingresá acá!
+            ¡Ya tenés una cuenta? Iniciá sesión aquí!
           </Link>
         </div>
       </CardContent>
