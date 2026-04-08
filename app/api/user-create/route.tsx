@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
     if (!createdUserRes.ok) {
       const errorData = await createdUserRes.json();
       return NextResponse.json({
-        error: "Error al crear el perfil",
+        error: "Error al crear el perfil. Si ya tiene una cuenta, intente iniciar sesión.",
         details: errorData,
         status: false,
       });

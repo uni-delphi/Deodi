@@ -27,16 +27,10 @@ export default async function VerificarPass({
         <div className="p-8 space-y-6">
           <div className="text-center space-y-2">
             <h1 className="font-bold text-3xl text-white">
-              ¡Verifica tu correo!(cambiar esto)
+              ¡Definí tu contraseña!
             </h1>
           </div>
           <div className="space-y-4">
-            {/*
-            <VerifyMail u={u} n={n} t={t} />
-            cuando este confirmado el token mostrar el
-            formulario para ingresar contraseña
-            enviar el token, uid y la contraseña al put
-            */}
             <ChangePasswordForm u={u} n={n} t={t}/>
           </div>
           <div className="relative flex items-center justify-center">

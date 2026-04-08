@@ -74,11 +74,14 @@ function CompetenciasPage() {
         <CardDescription>Competencias técnicas y profesionales</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-2">
-        {editedData?.split("\n").map((c, i) => (
-          <Badge key={i} variant="default">
-            {c}
-          </Badge>
-        ))}
+        {editedData
+          ?.split("\n")
+          .filter((c) => c.trim() !== "")
+          .map((c, i) => (
+            <Badge key={i} variant="default" className="w-full">
+              {c}
+            </Badge>
+          ))}
       </CardContent>
     </Card>
   );

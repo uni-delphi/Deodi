@@ -31,7 +31,6 @@ export const SelectionPanel: React.FC = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      console.log("🚀 ~ SelectionPanel ~ data:", data)
       if(data.status === "finished"){
         router.push("/dashboard/programas-formativos");
       } else {
@@ -39,7 +38,6 @@ export const SelectionPanel: React.FC = () => {
       }
     },
     onError: () => {
-      console.log("🚀 ~ generateContentMutation ~ onError:");
       toast({
         title: "Error al generar competencias",
         variant: "destructive",

@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 const changePasswordSchema = z
   .object({
@@ -102,7 +103,7 @@ export function ChangePasswordForm({ u, n, t }: VerifyMailProps) {
 
   const mutation = useMutation({
     mutationFn: changePassword,
-    onSuccess: () => reset(),
+    onSuccess: () => redirect("/acceso"),
   });
 
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
@@ -129,7 +130,7 @@ export function ChangePasswordForm({ u, n, t }: VerifyMailProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Lock className="size-5" />
-          Cambiar contraseña
+          Definir contraseña
         </CardTitle>
         <CardDescription>
           Ingresa una contraseña segura para proteger tu cuenta. Asegúrate de

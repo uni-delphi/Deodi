@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 
@@ -30,7 +32,7 @@ interface CVItem {
 
 export default function ValidarCVPage() {
   const { data, refreshProfile } = useUserProfileNidBased();
-  
+
   // Estado único para los datos editables
   const [editedData, setEditedData] = useState<CVItem[]>([]);
   const [editingTab, setEditingTab] = useState<string | null>(null);
@@ -55,12 +57,12 @@ export default function ValidarCVPage() {
   // Filtrar experiencias y estudios con useMemo
   const experiencias = useMemo(
     () => editedData.filter((d) => d.empresa !== "Nulo"),
-    [editedData]
+    [editedData],
   );
 
   const estudios = useMemo(
     () => editedData.filter((d) => d.empresa === "Nulo"),
-    [editedData]
+    [editedData],
   );
 
   // Handlers con useCallback
@@ -91,7 +93,7 @@ export default function ValidarCVPage() {
 
   const updateField = useCallback((nid: number, key: string, value: string) => {
     setEditedData((prev) =>
-      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item))
+      prev.map((item) => (item.nid === nid ? { ...item, [key]: value } : item)),
     );
   }, []);
 
@@ -158,11 +160,7 @@ export default function ValidarCVPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="nombre">Nombre</Label>
-                <Input
-                  id="nombre"
-                  value={data?.name ?? ""}
-                  disabled={true}
-                />
+                <Input id="nombre" value={data?.name ?? ""} disabled={true} />
               </div>
               <div>
                 <Label htmlFor="apellido">Apellido</Label>
@@ -220,6 +218,7 @@ export default function ValidarCVPage() {
                 </CardTitle>
                 <CardDescription>Historial profesional</CardDescription>
               </div>
+
               {!isEditing && (
                 <Button
                   onClick={() => handleEdit("experiencia")}
@@ -280,7 +279,7 @@ export default function ValidarCVPage() {
                             updateField(
                               exp.nid,
                               "responsabilidades_empresa",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           placeholder="Cargo o responsabilidades"
@@ -390,7 +389,7 @@ export default function ValidarCVPage() {
                             updateField(
                               edu.nid,
                               "titulo_obtenido",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           placeholder="Ej: Licenciatura en Sistemas"
@@ -408,7 +407,7 @@ export default function ValidarCVPage() {
                             updateField(
                               edu.nid,
                               "institucion_educacion",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           placeholder="Nombre de la institución"
@@ -426,7 +425,7 @@ export default function ValidarCVPage() {
                             updateField(
                               edu.nid,
                               "formacion_ano",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           placeholder="Ej: 2020"
@@ -469,9 +468,7 @@ export default function ValidarCVPage() {
                 <CheckCircle className="h-5 w-5 text-purpleDeodi" />
                 Idiomas
               </CardTitle>
-              <CardDescription>
-                Idiomas y nivel de competencia
-              </CardDescription>
+              <CardDescription>Idiomas y nivel de competencia</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -488,6 +485,15 @@ export default function ValidarCVPage() {
             </CardContent>
           </Card>
         )}
+
+        <div className="py-10 text-center">
+          <Link
+            href="./experiencia"
+            className="text-white border-solid w-full font-semibold py-3 px-6 rounded-lg bg-purpleDeodi hover:bg-purpleDeodi/90 transition-all duration-300 "
+          >
+            Finalizar
+          </Link>
+        </div>
       </div>
     </div>
   );

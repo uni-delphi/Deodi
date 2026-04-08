@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,8 +30,6 @@ function ExperienciaPage() {
   useEffect(() => {
     if (data?.body?.und?.[0]?.value) {
       const parsed = JSON.parse(data.body.und[0].value) || [];
-      console.log("🚀 ~ ExperienciaPage ~ data:", data)
-      
       const cleaned = parsed?.map(cleanKeys);
       setEditedData(cleaned);
     }
@@ -49,7 +48,7 @@ function ExperienciaPage() {
     onSuccess: (data, variables) => {
       toast({ title: "Perfil actualizado correctamente" });
       setEditingTab(null);
-      
+
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
     onError: () => toast({ title: "Error al guardar", variant: "destructive" }),
@@ -103,18 +102,27 @@ function ExperienciaPage() {
           <span className="flex items-center gap-2 text-2xl">
             <Briefcase className="h-6 w-6" /> Experiencia Laboral
           </span>
+
           {editingTab === "experiencia" ? (
             <div className="space-x-2">
+              <Link href="./cargar-cv" className="text-sm">
+                Cargar cv
+              </Link>
               <Button onClick={handleSave}>Guardar</Button>
               <Button variant="outline" onClick={handleCancel}>
                 Cancelar
               </Button>
             </div>
           ) : (
-            <Button onClick={() => handleEdit("experiencia")}>
-              Editar
-              <Pencil className="mx-2 p-1" />
-            </Button>
+            <div className="space-x-2">
+              <Link href="./cargar-cv" className="text-sm ">
+                Cargar cv
+              </Link>
+              <Button onClick={() => handleEdit("experiencia")}>
+                Cargar experiencia
+                <Pencil className="mx-2 p-1" />
+              </Button>
+            </div>
           )}
         </CardTitle>
         <CardDescription>
