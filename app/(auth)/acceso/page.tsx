@@ -49,6 +49,18 @@ export default async function LogIn() {
               </Link>
             </Button>
           </div>
+          <div className="text-center space-y-4">
+            <Button
+              type="button"
+              size="lg"
+              className="w-full underline text-white font-semibold py-3 px-6 transition-all duration-300  transform hover:scale-105"
+              asChild
+            >
+              <Link href={"/validacion/recuperar"}>
+                Recuperar contraseña
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
