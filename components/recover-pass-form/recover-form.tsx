@@ -145,7 +145,7 @@ export default function RecoverForm() {
                   Cargando...
                 </>
               ) : (
-                "Ingresar"
+                "Enviar"
               )}
             </Button>)}
             {/* <GoogleLoginButton /> */}
