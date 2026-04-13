@@ -1,11 +1,13 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useUserProfileNidBased } from "@/lib/hooks/user/useUserProfileNidBased";
 
 export const SelectionPanel: React.FC = () => {
   const { toast } = useToast();
@@ -16,6 +18,14 @@ export const SelectionPanel: React.FC = () => {
     interests: true,
   });
   const [enabled, setEnabled] = useState(false);
+
+  const { data, isLoading } = useUserProfileNidBased();
+
+  useEffect(() => {
+    if (data) {
+      setEnabled(data.field_perfildeodi_match.und.length > 0 );
+    }
+  }, [data]);
 
   const toggle = (key: keyof typeof options) => {
     setOptions({ ...options, [key]: !options[key] });
@@ -31,10 +41,12 @@ export const SelectionPanel: React.FC = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      if(data.status === "finished"){
+      if (data.status === "finished") {
         router.push("/dashboard/programas-formativos");
       } else {
-        toast({ title: "Generando competencias, esto puede tardar unos segundos..." });
+        toast({
+          title: "Generando competencias, esto puede tardar unos segundos...",
+        });
       }
     },
     onError: () => {
@@ -93,7 +105,7 @@ export const SelectionPanel: React.FC = () => {
         "
         />
         <div className="relative flex flex-col items-center z-10 px-6">
-          <p className="text-gray-500 mb-6 text-balance">Buscar trayectos</p>
+          <p className="text-gray-500 mb-6 text-balance">{enabled ? "Explorar los programas sugeridos" : "Buscar trayectos"}</p>
           <p className="hidden text-gray-500 mb-6 text-balance">
             Buscar trayectos en base a ...
           </p>
@@ -146,7 +158,7 @@ export const SelectionPanel: React.FC = () => {
             onClick={() => generateContentMutation.mutate(true)}
             // onClick={() => generateMutation.mutate(true)}
           >
-            Aplicar
+            {enabled ? "Ver programas" : "Aplicar"}
           </Button>
           <Button variant="link" className="hidden text-xs px-2" asChild>
             <Link href="/dashboard/perfil">Cancelar</Link>

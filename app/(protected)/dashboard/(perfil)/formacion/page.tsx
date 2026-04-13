@@ -110,7 +110,7 @@ export default function FormacionPage() {
             </div>
           ) : (
             <Button onClick={() => handleEdit("estudios")}>
-              Editar <Pencil className="mx-2 p-1" />
+              Cargar formación <Pencil className="mx-2 p-1" />
             </Button>
           )}
         </CardTitle>

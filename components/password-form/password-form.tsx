@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const changePasswordSchema = z
   .object({
@@ -85,6 +85,7 @@ async function changePassword(
 }
 
 export function ChangePasswordForm({ u, n, t }: VerifyMailProps) {
+  const router = useRouter();
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [estaData, setEstaData] = React.useState<{
@@ -103,7 +104,9 @@ export function ChangePasswordForm({ u, n, t }: VerifyMailProps) {
 
   const mutation = useMutation({
     mutationFn: changePassword,
-    onSuccess: () => redirect("/acceso"),
+    onSuccess: () => {
+      router.push(`/acceso`);
+    },
   });
 
   const { mutate, isPending, isSuccess, isError, error } = useMutation({

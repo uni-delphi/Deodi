@@ -133,7 +133,7 @@ function InteresesComponent() {
             onClick={() => (isEditing ? handleCancel() : setIsEditing(true))}
             className="flex items-center"
           >
-            {isEditing ? "Cancelar" : "Editar"}
+            {isEditing ? "Cancelar" : "Cargar intereses"}
             {isEditing ? "" : <Pencil className="mx-2 p-1" />}
           </Button>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +27,7 @@ import { TUser } from "@/types/user";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import GoogleLoginButton from "../google-login-button/google-login-button";
+import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
@@ -34,6 +35,27 @@ const formSchema = z.object({
     message: "La contraseña es requerida",
   }),*/
 });
+
+type RecoverPasswordFormValues = z.infer<typeof formSchema>;
+
+async function recoverPassword(
+  data: RecoverPasswordFormValues & { u?: string; pass_reset_token?: string },
+) {
+
+  const response = await fetch("/api/user-recuperar", {
+    method: "PUT",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Error al cambiar la contraseña");
+  }
+
+  return response.json();
+}
 
 export default function RecoverForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,27 +70,30 @@ export default function RecoverForm() {
     },
   });
 
+  const mutation = useMutation({
+      mutationFn: recoverPassword,
+      onSuccess: (data) => {
+        console.log("🚀 ~ RecoverForm ~ data:", data)
+        setIsLoading(false);
+        toast({
+          title: "Éxito",
+          description: "Se ha enviado un correo para recuperar tu contraseña",
+        });
+        router.push(`/acceso`);
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Error",
+          description: error.message || "Ocurrió un error al recuperar la contraseña",
+          variant: "destructive",
+        });
+      }
+    });
+  
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    const resp = /*await signIn("credentials", {
-      email: values.email,
-      redirect: false,
-    });*/ null;
-
-    if (resp === false) {
-      setIsLoading(false);
-      return toast({
-        variant: "destructive",
-        title: "Password o email son incorrectos.",
-      });
-    }
-    setIsLoading(false);
-    setInputHidden(true);
-    return toast({
-      variant: "default",
-      title: "Password o email son correctos.",
-    });
-    //router.push(`/dashboard/experiencia`);
+    mutation.mutate(values);    
   }
 
   return (
@@ -120,7 +145,7 @@ export default function RecoverForm() {
                   Cargando...
                 </>
               ) : (
-                "Ingresar"
+                "Enviar"
               )}
             </Button>)}
             {/* <GoogleLoginButton /> */}

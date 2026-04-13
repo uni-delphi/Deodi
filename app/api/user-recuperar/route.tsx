@@ -16,13 +16,13 @@ export async function GET(req: NextRequest) {
         "X-CSRF-Token": token.csrfToken as string,
         Cookie: `${token.sessionName}=${token.sessid}`,
       },
-    }
+    },
   );
   const fileData = await fileRes.json();
   if (!fileRes.ok) {
     return NextResponse.json(
       { error: "Error al obtener el archivo" },
-      { status: fileRes.status }
+      { status: fileRes.status },
     );
   }
   return NextResponse.json(fileData);
@@ -30,31 +30,20 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
+    const data = await req.json();
 
     // 3️⃣ Actualizar perfil de usuario (nodo)
     const updateProfileRes = await fetch(
-      `${process.env.BASE_URL}/api/node/${token.field_user_perfildeodi}.json`,
+      `${process.env.BASE_URL}/api/user/request_new_password.json`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": token.csrfToken as string,
-          Cookie: `${token.sessionName}=${token.sessid}`,
         },
         body: JSON.stringify({
-          field_perfildeodi_intereses: {
-            und: [
-              {
-                value: JSON.stringify(await req.json()),
-              },
-            ],
-          },
+          name: data.email,
         }),
-      }
+      },
     );
 
     // 4️⃣ Devolver datos del perfil actualizado
@@ -62,7 +51,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
