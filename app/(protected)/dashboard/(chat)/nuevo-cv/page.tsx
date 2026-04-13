@@ -86,7 +86,7 @@ function formatPromptData(usuario: Usuario) {
   const parsedUsuario = {
     ...usuario,
     "experiencia-formacion": JSON.parse(usuario["experiencia-formacion"]! || "[]"),
-    match: JSON.parse(usuario["match"]! || "[]"),
+    //match: JSON.parse(usuario["match"]! || "[]"),
     //"intereses": JSON.parse(usuario.intereses!),
   };
 
