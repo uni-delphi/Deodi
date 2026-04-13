@@ -46,20 +46,15 @@ export default function ValidarCVPage() {
   useEffect(() => {
     refreshProfile();
     if (data?.body?.und?.[0]?.value) {
-      console.log("🚀 ~ ValidarCVPage ~ data:", data)
-      console.log("🚀 ~ ValidarCVPage ~ uidData:", uidData)
-
       try {
         const parsed = JSON.parse(data.body.und[0].value) || [];
-        const cleaned = parsed.map(cleanKeys);
-        
-        
+        const cleaned = parsed.map(cleanKeys);        
         setEditedData(cleaned);
       } catch (error) {
         console.error("Error parsing CV data:", error);
       }
     }
-  }, [data]);
+  }, [data, uidData]);
 
   // Filtrar experiencias y estudios con useMemo
   const experiencias = useMemo(
