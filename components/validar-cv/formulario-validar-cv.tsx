@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Edit3, Save, X, Plus, Trash2 } from "lucide-react";
 import { cleanKeys } from "@/lib/utils";
+import { useUserProfileUidBased } from "@/lib/hooks/user/useUserProfileUidBased";
 
 interface CVItem {
   nid: number;
@@ -32,6 +33,7 @@ interface CVItem {
 
 export default function ValidarCVPage() {
   const { data, refreshProfile } = useUserProfileNidBased();
+  const { data: uidData, refreshProfile: uidRefreshProfile } = useUserProfileUidBased();
 
   // Estado único para los datos editables
   const [editedData, setEditedData] = useState<CVItem[]>([]);
@@ -44,9 +46,14 @@ export default function ValidarCVPage() {
   useEffect(() => {
     refreshProfile();
     if (data?.body?.und?.[0]?.value) {
+      console.log("🚀 ~ ValidarCVPage ~ data:", data)
+      console.log("🚀 ~ ValidarCVPage ~ uidData:", uidData)
+
       try {
         const parsed = JSON.parse(data.body.und[0].value) || [];
         const cleaned = parsed.map(cleanKeys);
+        
+        
         setEditedData(cleaned);
       } catch (error) {
         console.error("Error parsing CV data:", error);
@@ -85,6 +92,7 @@ export default function ValidarCVPage() {
         console.error("Error reverting CV data:", error);
       }
     }
+    console.log("Edición cancelada", data);
   }, [data]);
 
   const handleEdit = useCallback((tab: string) => {
@@ -139,7 +147,7 @@ export default function ValidarCVPage() {
                 </Button>
               </>
             ) : (
-              <Button onClick={() => handleEdit("general")} className="gap-2">
+              <Button onClick={() => handleEdit("general")} className="hidden gap-2">
                 <Edit3 className="h-4 w-4" />
                 Editar
               </Button>
@@ -160,13 +168,13 @@ export default function ValidarCVPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="nombre">Nombre</Label>
-                <Input id="nombre" value={data?.name ?? ""} disabled={true} />
+                <Input id="nombre" value={uidData?.field_user_nombre.und[0]?.value ?? ""} disabled={true} />
               </div>
               <div>
                 <Label htmlFor="apellido">Apellido</Label>
                 <Input
                   id="apellido"
-                  value={data?.personalInfo?.apellido ?? ""}
+                  value={uidData?.field_user_apellido.und[0]?.value ?? ""}
                   disabled={true}
                 />
               </div>
@@ -175,31 +183,7 @@ export default function ValidarCVPage() {
                 <Input
                   id="email"
                   type="email"
-                  value={data?.personalInfo?.email ?? ""}
-                  disabled={true}
-                />
-              </div>
-              <div>
-                <Label htmlFor="telefono">Teléfono</Label>
-                <Input
-                  id="telefono"
-                  value={data?.personalInfo?.telefono ?? ""}
-                  disabled={true}
-                />
-              </div>
-              <div>
-                <Label htmlFor="direccion">Dirección</Label>
-                <Input
-                  id="direccion"
-                  value={data?.personalInfo?.direccion ?? ""}
-                  disabled={true}
-                />
-              </div>
-              <div>
-                <Label htmlFor="linkedin">LinkedIn</Label>
-                <Input
-                  id="linkedin"
-                  value={data?.personalInfo?.linkedin ?? ""}
+                  value={data?.name ?? ""}
                   disabled={true}
                 />
               </div>
