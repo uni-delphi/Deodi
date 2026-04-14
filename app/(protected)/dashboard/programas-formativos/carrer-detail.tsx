@@ -59,7 +59,7 @@ export const CareerDetail: React.FC<CareerDetailProps> = ({
         </button>
       </div>
 
-      <div className="space-y-4 flex-1 overflow-y-auto select-none">
+      <div className="space-y-4 flex-1 overflow-y-auto select-none overscroll-contain">
         {career.trayectos?.map((course) => (
           <div
             key={course.id_trayecto}

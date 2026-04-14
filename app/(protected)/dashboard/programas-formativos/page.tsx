@@ -25,7 +25,7 @@ export default function ProgramasFormativosPage() {
   return (
     <div>
       <CareerBubbleMap />
-      <div className="flex justify-center fixed bottom-10 left-2/4">
+      <div className="hidden flex justify-center fixed bottom-10 left-2/4">
         <Button
           type="button"
           size="lg"
