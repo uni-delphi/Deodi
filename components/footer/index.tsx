@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react"
+import { Instagram, Linkedin, Wallpaper } from "lucide-react"
 
 export function Footer() {
   return (
@@ -15,7 +15,7 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="space-y-4">
+          <div className="hidden space-y-4">
             <h4 className="font-semibold">Producto</h4>
             <ul className="space-y-2 text-sm">
               <li>
@@ -36,7 +36,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="space-y-4">
+          <div className="hidden space-y-4">
             <h4 className="font-semibold">Empresa</h4>
             <ul className="space-y-2 text-sm">
               <li>
@@ -57,7 +57,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="space-y-4">
+          <div className="hidden space-y-4">
             <h4 className="font-semibold">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
@@ -81,23 +81,18 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-gray-300 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2025 Deodi. Todos los derechos reservados.</p>
+          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} - Deodi es una herramienta de Campus Norte UNC diseñada por Tomás Sánchez Soria</p>
 
           <div className="flex items-center gap-4">
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              <Facebook className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              <Twitter className="w-5 h-5" />
-            </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link target="_blank" href="⁠https://instagram.com/campusnorteunc" className="text-muted-foreground hover:text-foreground transition-colors">
               <Instagram className="w-5 h-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link target="_blank" href="https://www.linkedin.com/company/campus-norte-unc/posts/?feedView=all" className="text-muted-foreground hover:text-foreground transition-colors">
               <Linkedin className="w-5 h-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              <Mail className="w-5 h-5" />
+            <Link target="_blank" href="https://campusnorte.unc.edu.ar" className="text-muted-foreground hover:text-foreground transition-colors">
+         
+              <Wallpaper className="w-5 h-5" />
             </Link>
           </div>
         </div>

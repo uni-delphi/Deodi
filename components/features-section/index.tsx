@@ -13,7 +13,7 @@ interface FeaturesSectionProps {
 
 export function FeaturesSection({ features, title, description }: FeaturesSectionProps) {
   return (
-    <section className="py-24 px-4 bg-secondary/30">
+    <section id="como-funciona" className="py-24 px-4 bg-secondary/30">
       <div className="container mx-auto">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-balance">{title}</h2>

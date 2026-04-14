@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -41,12 +42,13 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               className="text-lg px-8 py-6 bg-transparent"
+              onClick={()=> window.scrollTo({ top: document.getElementById("como-funciona")?.offsetTop, behavior: "smooth" })}
             >
               Conocé más
             </Button>
           </div>
 
-          <div className="pt-8 overflow-hidden">
+          <div className="hidden pt-8 overflow-hidden">
             <Image
               src="/modern-dashboard-interface-with-charts-and-student.jpg"
               alt="Dashboard preview"
