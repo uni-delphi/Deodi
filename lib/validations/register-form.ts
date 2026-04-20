@@ -1,5 +1,21 @@
 import { z } from "zod";
 
+export type RegisterFormData = {
+  name: string;
+  lastName: string;
+  email: string;
+  locality: string;
+  state: string;
+  country: string;
+  birthDate: string;
+  trabaja: string;
+  trabaja_local?: string;
+  localidad_trabajo?: string;
+  satisface_nbi: string;
+  sexo: string;
+  aceptaTerminos: boolean;
+};
+
 // Schema de validación con Zod
 export const registerSchema = z
   .object({
@@ -15,8 +31,12 @@ export const registerSchema = z
     localidad_trabajo: z.string().optional(),
     satisface_nbi: z.string().min(1, "Debes seleccionar una opción"),
     sexo: z.string().min(1, "Debes seleccionar una opción"),
+    aceptaTerminos: z.literal(true, {
+      errorMap: () => ({ message: "Debés aceptar los términos y condiciones" }),
+    }),
   })
   .superRefine((data, ctx) => {
+    
     // Si trabaja = "Si", trabaja_local es obligatorio
     if (data.trabaja === "Si" && !data.trabaja_local) {
       ctx.addIssue({
@@ -40,4 +60,5 @@ export const registerSchema = z
     }
   });
 
-export type RegisterFormData = z.infer<typeof registerSchema>;
+// Tipo del resultado validado (aceptaTerminos es true literal)
+export type RegisterFormOutput = z.infer<typeof registerSchema>;

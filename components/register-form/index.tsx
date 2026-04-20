@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { useRouter } from "next/navigation";
 
@@ -27,7 +28,8 @@ import { z } from "zod";
 import {
   registerSchema,
   type RegisterFormData,
-} from "@/lib/validations/register-form"; // Ajusta la ruta según donde guardes el archivo
+  type RegisterFormOutput,
+} from "@/lib/validations/register-form";
 
 const PROVINCIAS = [
   { value: "Córdoba (14)", label: "Córdoba" },
@@ -105,6 +107,7 @@ export default function RegisterForm() {
     localidad_trabajo: "",
     satisface_nbi: "",
     sexo: "",
+    aceptaTerminos: false,
   });
   const [errors, setErrors] = useState<
     Partial<Record<keyof RegisterFormData, string>>
@@ -136,11 +139,13 @@ export default function RegisterForm() {
       } else {
         toast({
           title: "Error",
-          description: res.error || "Error al crear el usuario, contactese con el administrador",
+          description:
+            res.error ||
+            "Error al crear el usuario, contactese con el administrador",
         });
       }
     },
-    onError: (error: Error) => {      
+    onError: (error: Error) => {
       toast({
         title: "Error",
         description: JSON.stringify(error.message),
@@ -148,7 +153,6 @@ export default function RegisterForm() {
     },
     onSettled: () => {
       setIsLoading(false);
-      
     },
   });
 
@@ -158,7 +162,9 @@ export default function RegisterForm() {
     setErrors({});
 
     try {
-      const validatedData = registerSchema.parse(formData);
+      const validatedData = registerSchema.parse(
+        formData,
+      ) as RegisterFormOutput;
       mutation.mutate(validatedData);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -188,6 +194,27 @@ export default function RegisterForm() {
       ...formData,
       [name]: value,
     });
+
+    if (name === "birthDate" && value) {
+      const birth = new Date(value);
+      const today = new Date();
+      const age =
+        today.getFullYear() -
+        birth.getFullYear() -
+        (today <
+        new Date(today.getFullYear(), birth.getMonth(), birth.getDate())
+          ? 1
+          : 0);
+      if (age < 18) {
+        setErrors((prev) => ({
+          ...prev,
+          birthDate: "Debés ser mayor de 18 años para registrarte",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, birthDate: undefined }));
+      }
+      return; // evita el clear genérico de abajo
+    }
 
     if (errors[name as keyof RegisterFormData]) {
       setErrors({
@@ -506,6 +533,37 @@ export default function RegisterForm() {
                 <p className="text-sm text-red-500">{errors.sexo}</p>
               )}
             </div>
+          </div>
+
+          {/* Checkbox — agregar antes del <Button type="submit"> */}
+          <div className="space-y-2">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="aceptaTerminos"
+                checked={formData.aceptaTerminos}
+                onCheckedChange={(checked) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    aceptaTerminos: checked === true,
+                  }));
+                  if (errors.aceptaTerminos) {
+                    setErrors({ ...errors, aceptaTerminos: undefined });
+                  }
+                }}
+                className={errors.aceptaTerminos ? "border-red-500" : ""}
+              />
+              <Label
+                htmlFor="aceptaTerminos"
+                className="text-sm leading-relaxed cursor-pointer font-normal"
+              >
+                He leído y acepto los Términos y Condiciones y la Política de
+                Privacidad. Si soy menor de 18 años, declaro contar con la
+                autorización de mis padres o tutores.
+              </Label>
+            </div>
+            {errors.aceptaTerminos && (
+              <p className="text-sm text-red-500">{errors.aceptaTerminos}</p>
+            )}
           </div>
 
           {/*<div className="flex gap-4 hidden">
