@@ -147,3 +147,14 @@
 .animate-slide-up {
     animation: slide-up 0.35s ease-out;
 }
+
+/* Oculta el ícono de calendario en todos los browsers */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: white;
+  fill: white;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  color: white;
+  fill: white;
+}
