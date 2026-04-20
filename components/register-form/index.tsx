@@ -550,7 +550,7 @@ export default function RegisterForm() {
                     setErrors({ ...errors, aceptaTerminos: undefined });
                   }
                 }}
-                className={errors.aceptaTerminos ? "border-red-500" : ""}
+                className={errors.aceptaTerminos ? "border-red-500" : "border-white" }
               />
               <Label
                 htmlFor="aceptaTerminos"
