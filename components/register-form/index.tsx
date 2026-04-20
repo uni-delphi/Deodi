@@ -287,7 +287,7 @@ export default function RegisterForm() {
                 type="date"
                 value={formData.birthDate}
                 onChange={handleChange}
-                className={`text-white ${errors.birthDate ? "border-red-500" : ""}`}
+                className={`[&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:bg-white [&::-webkit-calendar-picker-indicator]:rounded ${errors.birthDate ? "border-red-500" : ""}`}
               />
               {errors.birthDate && (
                 <p className="text-sm text-red-500">{errors.birthDate}</p>
