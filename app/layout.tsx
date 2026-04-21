@@ -18,6 +18,8 @@ import {
 
 import { Analytics } from "@vercel/analytics/react";
 import { RootProvider } from "@/lib/providers/RootProvider";
+import { Header } from "@/components/header/header";
+import { Footer } from "@/components/footer";
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const nunito = Nunito({
@@ -51,7 +53,11 @@ export default async function RootLayout({
   return (
     <html lang={SITE_LANG}>
       <body className={nunito.className}>
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          <Header />
+          {children}
+          <Footer />
+        </RootProvider>
         {/*<SessionProvider session={session}>          
           {children}
         </SessionProvider>*/}

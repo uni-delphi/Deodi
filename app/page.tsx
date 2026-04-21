@@ -9,7 +9,7 @@ import { Header } from "@/components/header/header";
 export default function HomePage() {
   return (
     <>
-      <Header />
+      
       <main className="min-h-screen bg-background">
         <HeroSection />
         <FeaturesSection
@@ -75,7 +75,7 @@ export default function HomePage() {
           textButton="Conocé más sobre el plan"
           link="https://campusnorte.unc.edu.ar/extension/plan-de-fortalecimiento-del-talento-para-la-empleabilidad-y-el-desarrollo-local/"
         />
-        <Footer />
+        
       </main>
     </>
   );
