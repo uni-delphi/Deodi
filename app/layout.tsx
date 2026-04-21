@@ -54,9 +54,7 @@ export default async function RootLayout({
     <html lang={SITE_LANG}>
       <body className={nunito.className}>
         <RootProvider>
-          <Header />
           {children}
-          <Footer />
         </RootProvider>
         {/*<SessionProvider session={session}>          
           {children}
