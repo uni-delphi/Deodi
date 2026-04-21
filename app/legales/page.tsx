@@ -1,7 +1,4 @@
 "use client";
-import Link from "next/link";
-import React from "react";
-import { text } from "stream/consumers";
 import ScrollToTopButton from "@/components/scroll-to-top-btn/scroll-to-top";
 import { useGlobal } from "@/lib/store";
 import { Button } from "@/components/ui/button";
