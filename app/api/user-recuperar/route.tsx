@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(fileData);
 }
 
-export async function PUT(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
 
