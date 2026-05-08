@@ -76,7 +76,6 @@ export function CVUpload() {
       return res.json();
     },
     onSuccess: async (data, variables) => {
-      console.log("🚀 ~ CVUpload ~ data:", data)
       toast({
         title: "Éxito",
         description: "Tu CV fue subido correctamente.",

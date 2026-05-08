@@ -73,7 +73,6 @@ export default function RecoverForm() {
   const mutation = useMutation({
       mutationFn: recoverPassword,
       onSuccess: (data) => {
-        console.log("🚀 ~ RecoverForm ~ data:", data)
         setIsLoading(false);
         toast({
           title: "Éxito",

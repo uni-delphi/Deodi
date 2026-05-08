@@ -90,7 +90,6 @@ export async function PUT(req: NextRequest) {
     );
 
     const result = await getProfileRes.json();
-
     if (!result) {
       return NextResponse.json(
         {
