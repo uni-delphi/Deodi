@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(fileData);
 }
 
-export async function PUT(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
 
@@ -36,7 +36,7 @@ export async function PUT(req: NextRequest) {
     const updateProfileRes = await fetch(
       `${process.env.BASE_URL}/api/user/request_new_password.json`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -46,8 +46,18 @@ export async function PUT(req: NextRequest) {
       },
     );
 
-    // 4️⃣ Devolver datos del perfil actualizado
-    return NextResponse.json({ message: "Perfil actualizado correctamente" });
+    if (!updateProfileRes.ok) {
+      return NextResponse.json(
+        { error: "Error al verificar el usuario" },
+        { status: updateProfileRes.status },
+      );
+    }
+    if (updateProfileRes.ok) {
+      // 4️⃣ Devolver datos del perfil actualizado
+      return NextResponse.json({ message: "Perfil actualizado correctamente" });
+    } else {
+      return NextResponse.json({ message: "Algo fallo" });
+    }
   } catch (error) {
     return NextResponse.json(
       { error: "Error inesperado", details: error },

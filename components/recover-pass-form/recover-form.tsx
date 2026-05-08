@@ -43,7 +43,7 @@ async function recoverPassword(
 ) {
 
   const response = await fetch("/api/user-recuperar", {
-    method: "PUT",
+    method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
