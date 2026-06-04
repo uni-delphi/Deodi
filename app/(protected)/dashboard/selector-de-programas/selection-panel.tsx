@@ -23,7 +23,7 @@ export const SelectionPanel: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setEnabled(data.field_perfildeodi_match.und.length > 0 );
+      setEnabled(data.field_perfildeodi_match?.und?.length > 0 );
     }
   }, [data]);
 
