@@ -15,6 +15,8 @@ import {
   SITE_URL,
 } from "@/lib/constants";
 //import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from '@next/third-parties/google'
+
 
 import { Analytics } from "@vercel/analytics/react";
 import { RootProvider } from "@/lib/providers/RootProvider";
@@ -52,19 +54,13 @@ export default async function RootLayout({
 
   return (
     <html lang={SITE_LANG}>
+      <GoogleTagManager gtmId="G-8R0G1GLS8R" />
       <body className={nunito.className}>
         <RootProvider>
           {children}
         </RootProvider>
-        {/*<SessionProvider session={session}>          
-          {children}
-        </SessionProvider>*/}
-        {/*IS_PROD && GOOGLE_ANALYTICS_ID && (
-          <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} />
-        )*/}
         <Toaster />
         <Analytics />
-        {/* <SpeedInsights/> */}
       </body>
     </html>
   );
